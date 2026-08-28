@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Commander - HOTEL SANA</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.panier-liste { background: #fff8f0; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 2px dashed #c89b3c; }
+.article-panier { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #ddd; }
+.btn-qte { background: #2E8B57; color: white; border: none; width: 25px; height: 25px; border-radius: 50%; cursor: pointer; font-weight: bold; }
+.btn-supprimer { background: red; color: white; border: none; padding: 3px 8px; border-radius: 5px; cursor: pointer; font-size: 12px; }
+.ajout-perso { background: #e8f5e9; padding: 15px; border-radius: 8px; margin: 15px 0; }
+.ajout-perso input { width: 60%; padding: 10px; margin-right: 5px; }
+.ajout-perso button { padding: 10px 15px; background: #2E8B57; color: white; border: none; border-radius: 8px; cursor: pointer; }
+</style>
+</head>
+<body>
+<header class="navbar">
+  <div class="logo"><a href="index.html" style="color:white; text-decoration:none;">HOTEL SANA</a></div>
+</header>
+
+<div class="bloc-commande" style="margin: 100px auto;">
+  <h3>📱 Commander, Payer et Envoyer au Réceptionniste</h3>
+  <p class="alerte-non-remboursable">⚠️ IMPORTANT : Après paiement, la commande n'est NI ANNULABLE NI REMBOURSABLE si vous ne venez pas.</p>
+
+  <!-- PANIER -->
+  <div id="panier" class="panier-liste">
+    <h4>Votre Panier</h4>
+    <div id="liste-articles">Aucun article</div>
+    <h4 style="text-align:right; margin-top:15px;">Total: <span id="total-panier">0</span> FCFA</h4>
+  </div>
+
+  <!-- AJOUTER UN PLAT PERSO -->
+  <div class="ajout-perso">
+    <h4>➕ Commander un plat hors menu</h4>
+    <input type="text" id="plat-perso-nom" placeholder="Ex: Igname pilé + sauce claire">
+    <input type="number" id="plat-perso-prix" placeholder="Prix FCFA" style="width:120px;">
+    <button type="button" onclick="ajouterPlatPerso()">Ajouter</button>
+  </div>
+
+  <form id="commande-form">
+    <div class="form-groupe"><label>Votre Nom Complet *</label><input type="text" id="cmd-nom" required></div>
+    <div class="form-groupe"><label>Numéro de Téléphone *</label><input type="tel" id="cmd-tel" required></div>
+    <div class="form-groupe"><label>Adresse de Livraison / Table</label><input type="text" id="cmd-adresse"></div>
+
+    <!-- CHAMPS CACHÉS POUR ENVOYER -->
+    <textarea id="cmd-details" style="display:none;" required></textarea>
+    <input type="number" id="cmd-montant" style="display:none;" required>
+
+    <div class="form-groupe"><label>Mode de Paiement *</label>
+      <div class="choix-paiement">
+        <label><input type="radio" name="cmd-paiement" value="50" checked> Payer 50% Acompte</label>
+        <label><input type="radio" name="cmd-paiement" value="100"> Payer 100% Totalité</label>
+      </div>
+    </div>
+    <button type="button" onclick="payerCommande()" class="btn-commander">PAYER ET ENVOYER LA COMMANDE</button>
+  </form>
+  <div id="cmd-confirme" class="message-ok cache"><h4>✅ Paiement reçu!</h4><p>Votre commande a été envoyée au réceptionniste.</p></div>
+</div>
+
+<script src="https://cdn.cinetpay.com/seamless/main.js"></script>
+<script>
+let panier = JSON.parse(localStorage.getItem('panierSana')) || [];
+
+// PRE-SELECTION DEPUIS URL QUAND ON CLIQUE SUR UN PLAT DU MENU
+const urlParams = new URLSearchParams(window.location.search);
+let plat = urlParams.get('plat');
+let prix = urlParams.get('prix');
+if(plat && prix){
+  ajouterAuPanier(plat, parseInt(prix));
+}
+
+function ajouterAuPanier(nom, prix){
+  let existant = panier.find(item => item.nom === nom && item.prix === prix);
+  if(existant){
+    existant.qte += 1;
+  } else {
+    panier.push({nom: nom, prix: prix, qte: 1});
+  }
+  afficherPanier();
+}
+
+function ajouterPlatPerso(){
+  let nom = document.getElementById('plat-perso-nom').value;
+  let prix = parseInt(document.getElementById('plat-perso-prix').value);
+  if(!nom ||!prix || prix <= 0) return alert("Veuillez mettre le nom et le prix du plat");
+  ajouterAuPanier(nom, prix);
+  document.getElementById('plat-perso-nom').value = "";
+  document.getElementById('plat-perso-prix').value = "";
+}
+
+function changerQte(index, action){
+  if(action === 'plus') panier[index].qte += 1;
+  if(action === 'moins'){
+    panier[index].qte -= 1;
+    if(panier[index].qte <= 0) panier.splice(index, 1);
+  }
+  afficherPanier();
+}
+
+function afficherPanier(){
+  let liste = document.getElementById('liste-articles');
+  let total = 0;
+  if(panier.length === 0){
+    liste.innerHTML = "Aucun article";
+  } else {
+    liste.innerHTML = panier.map((item, index) => {
+      total += item.prix * item.qte;
+      return `
+      <div class="article-panier">
+        <span>${item.nom} - ${item.prix.toLocaleString()} FCFA</span>
+        <div>
+          <button type="button" class="btn-qte" onclick="changerQte(${index}, 'moins')">-</button>
+          <b style="margin:0 8px;">${item.qte}</b>
+          <button type="button" class="btn-qte" onclick="changerQte(${index}, 'plus')">+</button>
+          <button type="button" class="btn-supprimer" onclick="changerQte(${index}, 'moins')">X</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('total-panier').innerText = total.toLocaleString();
+
+  // REMPLIR LES CHAMPS CACHÉS
+  let details = panier.map(item => `${item.qte}x ${item.nom} = ${(item.prix * item.qte).toLocaleString()} FCFA`).join('\n');
+  document.getElementById('cmd-details').value = details;
+  document.getElementById('cmd-montant').value = total;
+}
+
+function payerCommande(){
+  if(panier.length === 0) return alert("Votre panier est vide");
+  let nom = document.getElementById('cmd-nom').value;
+  let tel = document.getElementById('cmd-tel').value;
+  let details = document.getElementById('cmd-details').value;
+  let montant = parseInt(document.getElementById('cmd-montant').value);
+  let typePaiement = document.querySelector('input[name="cmd-paiement"]:checked').value;
+
+  if(!nom ||!tel){ return alert("Veuillez remplir Nom et Téléphone *"); }
+
+  let montantAPayer = typePaiement === "50"? Math.round(montant * 0.5) : montant;
+  let transaction_id = 'SANA-CMD-' + Date.now();
+
+  CinetPay.setConfig({ apikey: 'VOTRE_APIKEY_ICI', site_id: 'VOTRE_SITE_ID_ICI', mode: 'PRODUCTION' });
+  CinetPay.getCheckout({ transaction_id: transaction_id, amount: montantAPayer, currency: 'XOF', channels: 'ALL', description: `Commande Hotel SANA - ${nom}`, customer_name: nom, customer_phone_number: tel });
+
+  CinetPay.waitResponse(function(data) {
+    if (data.status == "ACCEPTED") {
+      let textePaiement = typePaiement === "50"? "Acompte 50%" : "Total 100%";
+      let message = `NOUVELLE COMMANDE PAYEE HOTEL SANA%0AID: ${transaction_id}%0ANom: ${nom}%0ATel: ${tel}%0A----------COMMANDE----------%0A${details}%0A----------TOTAL: ${montant.toLocaleString()} FCFA----------%0AMontant Payé: ${montantAPayer.toLocaleString()} FCFA / ${textePaiement}%0AStatut: PAYE - NON REMBOURSABLE`;
+      window.open(`https://wa.me/2250710066132?text=${message}`, '_blank');
+      document.getElementById('cmd-confirme').classList.remove('cache');
+      panier = []; afficherPanier();
+    } else { alert("Paiement annulé ou échoué"); }
+  });
+}
+localStorage.removeItem('panierSana'); // vider le panier après paiement
+</script>
+</body>
+</html>

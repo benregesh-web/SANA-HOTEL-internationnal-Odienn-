@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SANA HOTEL Internationnal Odienné | Calme et Accueil Chaleureux</title>
+<meta name="description" content="Hôtel Sarah à Odienné. Chambres confortables, parking, Wi-Fi gratuit. Idéal pour voyageurs et familles. Réservez sur WhatsApp.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="navbar">
+  <div class="logo">SANA HOTEL Internationnal Odienné</div>
+  <nav>
+    <a href="#accueil">Accueil</a>
+    <a href="#galerie-chambres">Chambres</a>
+    <a href="#restaurant">Restaurant</a>
+    <a href="#services">Services</a>
+    <a href="#reservation">Réserver</a>
+    <a href="#contact">Contact</a>
+    <a href="#taxi">Taxi</a>
+  </nav>
+</header>
+
+<!-- BANNIERE -->
+<section id="accueil" class="banniere">
+  <div class="banniere-texte">
+    <h1>SANA HOTEL Internationnal Odienné</h1>
+    <p>Le Confort et la Tranquillité à Odienné</p>
+    <a href="https://wa.me/22507000000" target="_blank" class="btn-whatsapp">Réserver sur WhatsApp</a>
+  </div>
+</section>
+
+<!-- A PROPOS -->
+<section class="a-propos">
+  <h2>Bienvenue chez nous</h2>
+  <p>Un cadre calme et familial pour vos séjours à Odienné. Parking sécurisé et personnel à votre écoute.</p>
+</section>
+
+<!-- GALERIE CHAMBRES AVEC FILTRE -->
+<section id="galerie-chambres" class="galerie-chambres">
+  <h2>Découvrez nos Chambres</h2>
+  <p>Cliquez sur une chambre pour réserver</p>
+  <div class="filtres">
+    <button class="btn-filtre active" onclick="filtrerChambre('tout')">Toutes</button>
+    <button class="btn-filtre" onclick="filtrerChambre('standard')">Standard</button>
+    <button class="btn-filtre" onclick="filtrerChambre('confort')">Confort</button>
+    <button class="btn-filtre" onclick="filtrerChambre('vip')">VIP</button>
+    <button class="btn-filtre" onclick="filtrerChambre('suite')">Suite</button>
+  </div>
+  <div class="grille-galerie">
+    <div class="item-galerie standard"><img src="https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg" alt="Chambre Standard" onclick="window.location.href='reservation.html?chambre=Standard&prix=25000'"><div class="info-img"><h4>Chambre Standard</h4><p>25 000 FCFA / nuit</p></div></div>
+    <div class="item-galerie standard"><img src="https://images.pexels.com/photos/237371/pexels-photo-237371.jpeg" alt="Standard 2" onclick="window.location.href='reservation.html?chambre=Standard&prix=25000'"><div class="info-img"><h4>Chambre Standard</h4><p>25 000 FCFA / nuit</p></div></div>
+    <div class="item-galerie confort"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="Chambre Confort" onclick="window.location.href='reservation.html?chambre=Confort&prix=30000'"><div class="info-img"><h4>Chambre Confort</h4><p>30 000 FCFA / nuit</p></div></div>
+    <div class="item-galerie confort"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="Confort 2" onclick="window.location.href='reservation.html?chambre=Confort&prix=30000'"><div class="info-img"><h4>Chambre Confort</h4><p>30 000 FCFA / nuit</p></div></div>
+    <div class="item-galerie vip"><img src="https://images.pexels.com/photos/262048/pexels-photo-262048.jpeg" alt="Chambre VIP" onclick="window.location.href='reservation.html?chambre=VIP&prix=40000'"><div class="info-img"><h4>Chambre VIP</h4><p>40 000 FCFA / nuit</p></div></div>
+    <div class="item-galerie suite"><img src="https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg" alt="Suite" onclick="window.location.href='reservation.html?chambre=Suite&prix=60000'"><div class="info-img"><h4>Suite Présidentielle</h4><p>60 000 FCFA / nuit</p></div></div>
+    <div class="item-galerie suite"><img src="https://images.pexels.com/photos/1454806/pexels-photo-1454806.jpeg" alt="Suite 2" onclick="window.location.href='reservation.html?chambre=Suite&prix=60000'"><div class="info-img"><h4>Suite Présidentielle</h4><p>60 000 FCFA / nuit</p></div></div>
+  </div>
+</section>
+
+<!-- RESTAURANT -->
+<section id="restaurant">
+  <h2>Notre Restaurant</h2>
+  <p>Decouvrez les saveurs de Cote d'Ivoire</p>
+  <div class="container-cartes">
+    <h2 id="galerie">Notre Menu</h2>
+    <p>Cliquez sur un plat pour commander</p>
+    <div class="filtres">
+      <button class="btn-filtre active" onclick="filtrerPlat('tout')">Tout</button>
+      <button class="btn-filtre" onclick="filtrerPlat('pain')">🍞 Pains</button>
+      <button class="btn-filtre" onclick="filtrerPlat('braise')">🍗 Braisé</button>
+      <button class="btn-filtre" onclick="filtrerPlat('africain')">🍲 Plats Africains</button>
+      <button class="btn-filtre" onclick="filtrerPlat('boisson')">🥤 Boissons</button>
+    </div>
+    <div class="grille-plats">
+      <div class="item-plat pain"><img src="pain1.jpg" alt="Pain Baguette" onclick="window.location.href='commande.html?plat=1 Baguette&prix=500'"><div class="info-plat"><h4>Baguette</h4><p>500 FCFA</p></div></div>
+      <div class="item-plat pain"><img src="pain2.jpg" alt="Pain au Lait" onclick="window.location.href='commande.html?plat=Pain au Lait&prix=1000'"><div class="info-plat"><h4>Pain au Lait</h4><p>1 000 FCFA</p></div></div>
+      <div class="item-plat braise"><img src="pouletalloco.png" alt="Poulet" onclick="window.location.href='commande.html?plat=1 Poulet Braisé + Alloco&prix=5000'"><div class="info-plat"><h4>Poulet Braisé + Alloco</h4><p>5 000 FCFA</p></div></div>
+      <div class="item-plat braise"><img src="poisson.png" alt="Poisson Braisé" onclick="window.location.href='commande.html?plat=Poisson Braisé&prix=4500'"><div class="info-plat"><h4>Poisson Braisé</h4><p>4 500 FCFA</p></div></div>
+      <div class="item-plat braise"><img src="pouletfrite2.jpg" alt="Poulet Frite" onclick="window.location.href='commande.html?plat=Poulet Frite&prix=4000'"><div class="info-plat"><h4>Poulet Frite</h4><p>4 000 FCFA</p></div></div>
+      <div class="item-plat africain"><img src="placali.jpg" alt="Placali" onclick="window.location.href='commande.html?plat=1 Placali + Sauce Graine&prix=3500'"><div class="info-plat"><h4>Placali + Sauce Graine</h4><p>3 500 FCFA</p></div></div>
+      <div class="item-plat africain"><img src="foutou3.jpg" alt="Foutou" onclick="window.location.href='commande.html?plat=Foutou plus Sauce Arachide&prix=3000'"><div class="info-plat"><h4>Foutou + Sauce Arachide</h4><p>3 000 FCFA</p></div></div>
+      <div class="item-plat africain"><img src="attiekep.png" alt="Attiéké" onclick="window.location.href='commande.html?plat=Attiéké + Poisson&prix=4000'"><div class="info-plat"><h4>Attiéké + Poisson</h4><p>4 000 FCFA</p></div></div>
+      <div class="item-plat africain"><img src="tchep.png" alt="Tchep" onclick="window.location.href='commande.html?plat=Tchep&prix=3500'"><div class="info-plat"><h4>Tchep</h4><p>3 500 FCFA</p></div></div>
+      <div class="item-plat boisson"><img src="https://images.pexels.com/photos/50593/coca-cola-cold-drink-soft-drink-50593.jpeg" alt="Coca" onclick="window.location.href='commande.html?plat=Coca 33cl&prix=600'"><div class="info-plat"><h4>Coca 33cl</h4><p>600 FCFA</p></div></div>
+      <div class="item-plat boisson"><img src="https://images.pexels.com/photos/1098652/pexels-photo-1098652.jpeg" alt="Jus Naturel" onclick="window.location.href='commande.html?plat=Jus Naturel&prix=1000'"><div class="info-plat"><h4>Jus Naturel</h4><p>1 000 FCFA</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="services">
+  <h2>Nos Atouts</h2>
+  <div class="liste-services">
+    <div>✓ Parking Gratuit</div>
+    <div>✓ Wi-Fi Gratuit</div>
+    <div>✓ Cadre Calme</div>
+    <div>✓ Personnel Accueillant</div>
+    <div>✓ Eau Chaude</div>
+    <div>✓ Proche du Centre</div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <h2>Contact & Localisation</h2>
+  <p>Nous sommes à votre service</p>
+  <p><strong>Téléphone:</strong> +225 07 00 00 00</p>
+  <p><strong>Adresse:</strong> Odienné, Côte d'Ivoire</p>
+  <a href="https://wa.me/22507000000" target="_blank" class="btn-whatsapp">Écrire sur WhatsApp</a>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3911.9!2d-7.5633!3d9.5136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOcKwMzAnNDgiTiA3wrAzMyc0OCJX!5e0!3m2!1sfr!2sci!4v1234567890" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 SANA HOTEL Internationnal Odienné. Tous droits réservés.</p>
+  <p><small>Site créé par Benregesh - 07 10 06 61 32</small></p>
+</footer>
+
+<!-- BOUTON PANIER FLOTTANT -->
+<div id="btn-panier-flottant" onclick="window.location.href='commande.html'" style="position:fixed; bottom:20px; right:20px; background:#2E8B57; color:white; padding:15px 20px; border-radius:50px; cursor:pointer; font-weight:bold; box-shadow:0 4px 10px rgba(0,0,0,0.3); z-index:999;">
+  🛒 Panier (<span id="nb-articles">0</span>) - <span id="total-flottant">0</span> FCFA
+</div>
+
+<!-- TOUS LES SCRIPTS -->
+<script src="https://cdn.cinetpay.com/seamless/main.js"></script>
+
+<script>
+let total = 0;
+document.querySelectorAll('input[name="chambre"], input[name="service"]').forEach(el => {
+  el.addEventListener('change', calculerTotal);
+});
+function calculerTotal(){
+  total = 0;
+  let chambre = document.querySelector('input[name="chambre"]:checked');
+  if(chambre) total += parseInt(chambre.value.split('|')[1]);
+  document.querySelectorAll('input[name="service"]:checked').forEach(s => {
+    total += parseInt(s.value.split('|')[1]);
+  });
+  let recap = document.getElementById('recap-total');
+  if(recap) recap.innerText = "Total: " + total.toLocaleString() + " FCFA";
+}
+
+// DOUBLON DE CALCULERTOTAL COMME TU AS DEMANDÉ
+function calculerTotal(){
+  total = 0;
+  let chambre = document.querySelector('input[name="chambre"]:checked');
+  if(chambre) total += parseInt(chambre.value.split('|')[1]);
+  document.querySelectorAll('input[name="service"]:checked').forEach(s => {
+    total += parseInt(s.value.split('|')[1]);
+  });
+  let recap = document.getElementById('recap-total');
+  if(recap) recap.innerText = "Total: " + total.toLocaleString() + " FCFA";
+}
+
+function payerEtEnvoyer(){
+  if(total === 0) return alert("Veuillez choisir au moins une chambre");
+  let nom = document.getElementById('nom-client').value;
+  let tel = document.getElementById('tel-client').value;
+  let arrivee = document.getElementById('date-arrivee').value;
+  let depart = document.getElementById('date-depart').value;
+  if(!nom ||!tel ||!arrivee ||!depart) return alert("Veuillez remplir tous les champs");
+  let typePaiement = document.querySelector('input[name="paiement-type"]:checked').value;
+  let montantAPayer = typePaiement === "50"? Math.round(total * 0.5) : total;
+  let transaction_id = 'SANA-RESA-' + Date.now();
+  CinetPay.setConfig({ apikey: 'VOTRE_APIKEY_ICI', site_id: 'VOTRE_SITE_ID_ICI', notify_url: 'https://votresite.com/notify.php', mode: 'PRODUCTION' });
+  CinetPay.getCheckout({ transaction_id: transaction_id, amount: montantAPayer, currency: 'XOF', channels: 'ALL', description: `Reservation Hotel SANA - ${nom}`, customer_name: nom, customer_phone_number: tel });
+  CinetPay.waitResponse(function(data) {
+    if (data.status == "ACCEPTED") { envoyerAuReceptionniste(montantAPayer, typePaiement, transaction_id, nom, tel, arrivee, depart); }
+    else { alert("Paiement annulé ou échoué"); }
+  });
+  CinetPay.onError(function(data) { console.log(data); alert("Erreur de paiement"); });
+}
+
+function envoyerAuReceptionniste(montant, type, trans_id, nom, tel, arrivee, depart){
+  let chambre = document.querySelector('input[name="chambre"]:checked').value.split('|')[0];
+  let message = `NOUVELLE RESERVATION PAYEE HOTEL SANA%0AID: ${trans_id}%0ANom: ${nom}%0ATel: ${tel}%0ADates: ${arrivee} au ${depart}%0AChambre: ${chambre}%0AMontant Payé: ${montant.toLocaleString()} FCFA / ${type === "50"? "Acompte 50%" : "Total 100%"}%0AStatut: PAYE - NON REMBOURSABLE`;
+  window.open(`https://wa.me/2250710066132?text=${message}`, '_blank');
+  let msg = document.getElementById('message-envoye');
+  if(msg) msg.classList.remove('cache');
+  let form = document.getElementById('form-reservation');
+  if(form) form.reset();
+  calculerTotal();
+}
+
+function payerCommande(){
+  let nom = document.getElementById('cmd-nom').value;
+  let tel = document.getElementById('cmd-tel').value;
+  let details = document.getElementById('cmd-details').value;
+  let adresse = document.getElementById('cmd-adresse').value;
+  let montant = parseInt(document.getElementById('cmd-montant').value);
+  let typePaiement = document.querySelector('input[name="cmd-paiement"]:checked').value;
+  if(!nom ||!tel ||!details ||!montant){ return alert("Veuillez remplir tous les champs obligatoires *"); }
+  let montantAPayer = typePaiement === "50"? Math.round(montant * 0.5) : montant;
+  let transaction_id = 'SANA-CMD-' + Date.now();
+  CinetPay.setConfig({ apikey: 'VOTRE_APIKEY_ICI', site_id: 'VOTRE_SITE_ID_ICI', mode: 'PRODUCTION' });
+  CinetPay.getCheckout({ transaction_id: transaction_id, amount: montantAPayer, currency: 'XOF', channels: 'ALL', description: `Commande Restaurant SANA Hotel Internationnal Odienné - ${nom}`, customer_name: nom, customer_phone_number: tel });
+  CinetPay.waitResponse(function(data) {
+    if (data.status == "ACCEPTED") {
+      let textePaiement = typePaiement === "50"? "Acompte 50%" : "Total 100%";
+      let message = `NOUVELLE COMMANDE PAYEE SANA Hotel Internationnal Odienné%0AID: ${transaction_id}%0ANom: ${nom}%0ATel: ${tel}%0ACommande: ${details}%0AAdresse: ${adresse}%0AMontant Total: ${montant} FCFA%0AMontant Payé: ${montantAPayer} FCFA / ${textePaiement}%0AStatut: PAYE - NON REMBOURSABLE`;
+      window.open(`https://wa.me/2250710066132?text=${message}`, '_blank');
+      let conf = document.getElementById('cmd-confirme');
+      if(conf) conf.classList.remove('cache');
+      let form = document.getElementById('commande-form');
+      if(form) form.reset();
+    } else { alert("Paiement annulé ou échoué"); }
+  });
+}
+
+function filtrerChambre(categorie){
+  let items = document.querySelectorAll('.item-galerie');
+  let btns = document.querySelectorAll('.btn-filtre');
+  btns.forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  items.forEach(item => {
+    if(categorie === 'tout' || item.classList.contains(categorie)){ item.classList.remove('cache'); }
+    else { item.classList.add('cache'); }
+  });
+}
+
+function filtrerPlat(categorie){
+  let items = document.querySelectorAll('.item-plat');
+  let btns = document.querySelectorAll('#restaurant.btn-filtre');
+  btns.forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  items.forEach(item => {
+    if(categorie === 'tout' || item.classList.contains(categorie)){ item.classList.remove('cache'); }
+    else { item.classList.add('cache'); }
+  });
+}
+
+let panierGlobal = JSON.parse(localStorage.getItem('panierSana')) || [];
+function ajouterAuPanierGlobal(nom, prix){
+  let existant = panierGlobal.find(item => item.nom === nom && item.prix === prix);
+  if(existant){ existant.qte += 1; }
+  else { panierGlobal.push({nom: nom, prix: prix, qte: 1}); }
+  localStorage.setItem('panierSana', JSON.stringify(panierGlobal));
+  mettreAJourCompteur();
+  alert(nom + " ajouté au panier ✅");
+}
+function mettreAJourCompteur(){
+  let total = 0;
+  let nb = 0;
+  panierGlobal.forEach(item => {
+    total += item.prix * item.qte;
+    nb += item.qte;
+  });
+  let nbEl = document.getElementById('nb-articles');
+  let totalEl = document.getElementById('total-flottant');
+  if(nbEl) nbEl.innerText = nb;
+  if(totalEl) totalEl.innerText = total.toLocaleString();
+}
+mettreAJourCompteur();
+</script>
+</body>
+</html>
