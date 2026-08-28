@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu Restaurant - HOTEL SANA internationnal Odienné</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">HOTEL SANA internationnal Odienné</div>
+ 
+</header>
+
+<section id="restaurant">
+  <h2>Notre Restaurant</h2>
+  <p>Decouvrez les saveurs de Cote d'Ivoire</p>
+  <div class="container-cartes">
+    <h2>Notre Menu</h2>
+    <p>Cliquez sur un plat pour commander</p>
+    <div class="filtres">
+      <button class="btn-filtre active" onclick="filtrerPlat('tout')">Tout</button>
+      <button class="btn-filtre" onclick="filtrerPlat('pain')">🍞 Pains</button>
+      <button class="btn-filtre" onclick="filtrerPlat('braise')">🍗 Braisé</button>
+      <button class="btn-filtre" onclick="filtrerPlat('africain')">🍲 Plats Africains</button>
+      <button class="btn-filtre" onclick="filtrerPlat('boisson')">🥤 Boissons</button>
+    </div>
+    <div class="grille-plats">
+      <!-- Colle ici toutes tes .item-plat -->
+        <div class="item-plat pain"><img src="pain1.jpg" alt="Pain Baguette" onclick="window.location.href='commande.html?plat=1 Baguette&prix=500'"><div class="info-plat"><h4>Baguette</h4><p>500 FCFA</p></div></div>
+      <div class="item-plat pain"><img src="pain2.jpg" alt="Pain au Lait" onclick="window.location.href='commande.html?plat=Pain au Lait&prix=1000'"><div class="info-plat"><h4>Pain au Lait</h4><p>1 000 FCFA</p></div></div>
+      <div class="item-plat braise"><img src="pouletalloco.png" alt="Poulet" onclick="window.location.href='commande.html?plat=1 Poulet Braisé + Alloco&prix=5000'"><div class="info-plat"><h4>Poulet Braisé + Alloco</h4><p>5 000 FCFA</p></div></div>
+      <div class="item-plat braise"><img src="poisson.png" alt="Poisson Braisé" onclick="window.location.href='commande.html?plat=Poisson Braisé&prix=4500'"><div class="info-plat"><h4>Poisson Braisé</h4><p>4 500 FCFA</p></div></div>
+      <div class="item-plat braise"><img src="pouletfrite2.jpg" alt="Poulet Frite" onclick="window.location.href='commande.html?plat=Poulet Frite&prix=4000'"><div class="info-plat"><h4>Poulet Frite</h4><p>4 000 FCFA</p></div></div>
+      <div class="item-plat africain"><img src="placali.jpg" alt="Placali" onclick="window.location.href='commande.html?plat=1 Placali + Sauce Graine&prix=3500'"><div class="info-plat"><h4>Placali + Sauce Graine</h4><p>3 500 FCFA</p></div></div>
+      <div class="item-plat africain"><img src="foutou3.jpg" alt="Foutou" onclick="window.location.href='commande.html?plat=Foutou plus Sauce Arachide&prix=3000'"><div class="info-plat"><h4>Foutou + Sauce Arachide</h4><p>3 000 FCFA</p></div></div>
+      <div class="item-plat africain"><img src="attiekep.png" alt="Attiéké" onclick="window.location.href='commande.html?plat=Attiéké + Poisson&prix=4000'"><div class="info-plat"><h4>Attiéké + Poisson</h4><p>4 000 FCFA</p></div></div>
+      <div class="item-plat africain"><img src="tchep.png" alt="Tchep" onclick="window.location.href='commande.html?plat=Tchep&prix=3500'"><div class="info-plat"><h4>Tchep</h4><p>3 500 FCFA</p></div></div>
+      <div class="item-plat boisson"><img src="https://images.pexels.com/photos/50593/coca-cola-cold-drink-soft-drink-50593.jpeg" alt="Coca" onclick="window.location.href='commande.html?plat=Coca 33cl&prix=600'"><div class="info-plat"><h4>Coca 33cl</h4><p>600 FCFA</p></div></div>
+      <div class="item-plat boisson"><img src="https://images.pexels.com/photos/1098652/pexels-photo-1098652.jpeg" alt="Jus Naturel" onclick="window.location.href='commande.html?plat=Jus Naturel&prix=1000'"><div class="info-plat"><h4>Jus Naturel</h4><p>1 000 FCFA</p></div></div>
+    </div>
+  </div>
+</section>
+
+<footer><p>© 2026 HOTEL SANA internationnal Odienné</p></footer>
+
+<script>
+function filtrerPlat(categorie){
+  let items = document.querySelectorAll('.item-plat');
+  let btns = document.querySelectorAll('.btn-filtre');
+  btns.forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  items.forEach(item => {
+    if(categorie === 'tout' || item.classList.contains(categorie)){ item.classList.remove('cache'); }
+    else { item.classList.add('cache'); }
+  });
+}
+
+function toggleMenu(){
+  document.getElementById('menu-nav').classList.toggle('show');
+}
+
+
+</script>
+</body>
+</html>

@@ -12,12 +12,17 @@
 <!-- HEADER -->
 <header class="navbar">
   <div class="logo">SANA HOTEL Internationnal Odienné</div>
-  <nav>
-    <a href="#accueil">Accueil</a>
-    <a href="#galerie-chambres">Chambres</a>
-    <a href="#restaurant">Restaurant</a>
+
+    <button class="btn-menu" onclick="toggleMenu()">☰</button>
+  
+  <nav id="menu-nav" >
+
+    <a href="index.html">Accueil</a>
+    <a href="galerie.html">Chambres</a>
+    <a href="menu.html">Restaurant</a>
     <a href="#services">Services</a>
-    <a href="#reservation">Réserver</a>
+    <a href="reservation.html">Réserver</a>
+    <a href="commande.html">Commander</a>
     <a href="#contact">Contact</a>
     <a href="#taxi">Taxi</a>
   </nav>
@@ -38,56 +43,10 @@
   <p>Un cadre calme et familial pour vos séjours à Odienné. Parking sécurisé et personnel à votre écoute.</p>
 </section>
 
-<!-- GALERIE CHAMBRES AVEC FILTRE -->
-<section id="galerie-chambres" class="galerie-chambres">
-  <h2>Découvrez nos Chambres</h2>
-  <p>Cliquez sur une chambre pour réserver</p>
-  <div class="filtres">
-    <button class="btn-filtre active" onclick="filtrerChambre('tout')">Toutes</button>
-    <button class="btn-filtre" onclick="filtrerChambre('standard')">Standard</button>
-    <button class="btn-filtre" onclick="filtrerChambre('confort')">Confort</button>
-    <button class="btn-filtre" onclick="filtrerChambre('vip')">VIP</button>
-    <button class="btn-filtre" onclick="filtrerChambre('suite')">Suite</button>
-  </div>
-  <div class="grille-galerie">
-    <div class="item-galerie standard"><img src="https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg" alt="Chambre Standard" onclick="window.location.href='reservation.html?chambre=Standard&prix=25000'"><div class="info-img"><h4>Chambre Standard</h4><p>25 000 FCFA / nuit</p></div></div>
-    <div class="item-galerie standard"><img src="https://images.pexels.com/photos/237371/pexels-photo-237371.jpeg" alt="Standard 2" onclick="window.location.href='reservation.html?chambre=Standard&prix=25000'"><div class="info-img"><h4>Chambre Standard</h4><p>25 000 FCFA / nuit</p></div></div>
-    <div class="item-galerie confort"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="Chambre Confort" onclick="window.location.href='reservation.html?chambre=Confort&prix=30000'"><div class="info-img"><h4>Chambre Confort</h4><p>30 000 FCFA / nuit</p></div></div>
-    <div class="item-galerie confort"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="Confort 2" onclick="window.location.href='reservation.html?chambre=Confort&prix=30000'"><div class="info-img"><h4>Chambre Confort</h4><p>30 000 FCFA / nuit</p></div></div>
-    <div class="item-galerie vip"><img src="https://images.pexels.com/photos/262048/pexels-photo-262048.jpeg" alt="Chambre VIP" onclick="window.location.href='reservation.html?chambre=VIP&prix=40000'"><div class="info-img"><h4>Chambre VIP</h4><p>40 000 FCFA / nuit</p></div></div>
-    <div class="item-galerie suite"><img src="https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg" alt="Suite" onclick="window.location.href='reservation.html?chambre=Suite&prix=60000'"><div class="info-img"><h4>Suite Présidentielle</h4><p>60 000 FCFA / nuit</p></div></div>
-    <div class="item-galerie suite"><img src="https://images.pexels.com/photos/1454806/pexels-photo-1454806.jpeg" alt="Suite 2" onclick="window.location.href='reservation.html?chambre=Suite&prix=60000'"><div class="info-img"><h4>Suite Présidentielle</h4><p>60 000 FCFA / nuit</p></div></div>
-  </div>
-</section>
-
-<!-- RESTAURANT -->
-<section id="restaurant">
-  <h2>Notre Restaurant</h2>
-  <p>Decouvrez les saveurs de Cote d'Ivoire</p>
-  <div class="container-cartes">
-    <h2 id="galerie">Notre Menu</h2>
-    <p>Cliquez sur un plat pour commander</p>
-    <div class="filtres">
-      <button class="btn-filtre active" onclick="filtrerPlat('tout')">Tout</button>
-      <button class="btn-filtre" onclick="filtrerPlat('pain')">🍞 Pains</button>
-      <button class="btn-filtre" onclick="filtrerPlat('braise')">🍗 Braisé</button>
-      <button class="btn-filtre" onclick="filtrerPlat('africain')">🍲 Plats Africains</button>
-      <button class="btn-filtre" onclick="filtrerPlat('boisson')">🥤 Boissons</button>
-    </div>
-    <div class="grille-plats">
-      <div class="item-plat pain"><img src="pain1.jpg" alt="Pain Baguette" onclick="window.location.href='commande.html?plat=1 Baguette&prix=500'"><div class="info-plat"><h4>Baguette</h4><p>500 FCFA</p></div></div>
-      <div class="item-plat pain"><img src="pain2.jpg" alt="Pain au Lait" onclick="window.location.href='commande.html?plat=Pain au Lait&prix=1000'"><div class="info-plat"><h4>Pain au Lait</h4><p>1 000 FCFA</p></div></div>
-      <div class="item-plat braise"><img src="pouletalloco.png" alt="Poulet" onclick="window.location.href='commande.html?plat=1 Poulet Braisé + Alloco&prix=5000'"><div class="info-plat"><h4>Poulet Braisé + Alloco</h4><p>5 000 FCFA</p></div></div>
-      <div class="item-plat braise"><img src="poisson.png" alt="Poisson Braisé" onclick="window.location.href='commande.html?plat=Poisson Braisé&prix=4500'"><div class="info-plat"><h4>Poisson Braisé</h4><p>4 500 FCFA</p></div></div>
-      <div class="item-plat braise"><img src="pouletfrite2.jpg" alt="Poulet Frite" onclick="window.location.href='commande.html?plat=Poulet Frite&prix=4000'"><div class="info-plat"><h4>Poulet Frite</h4><p>4 000 FCFA</p></div></div>
-      <div class="item-plat africain"><img src="placali.jpg" alt="Placali" onclick="window.location.href='commande.html?plat=1 Placali + Sauce Graine&prix=3500'"><div class="info-plat"><h4>Placali + Sauce Graine</h4><p>3 500 FCFA</p></div></div>
-      <div class="item-plat africain"><img src="foutou3.jpg" alt="Foutou" onclick="window.location.href='commande.html?plat=Foutou plus Sauce Arachide&prix=3000'"><div class="info-plat"><h4>Foutou + Sauce Arachide</h4><p>3 000 FCFA</p></div></div>
-      <div class="item-plat africain"><img src="attiekep.png" alt="Attiéké" onclick="window.location.href='commande.html?plat=Attiéké + Poisson&prix=4000'"><div class="info-plat"><h4>Attiéké + Poisson</h4><p>4 000 FCFA</p></div></div>
-      <div class="item-plat africain"><img src="tchep.png" alt="Tchep" onclick="window.location.href='commande.html?plat=Tchep&prix=3500'"><div class="info-plat"><h4>Tchep</h4><p>3 500 FCFA</p></div></div>
-      <div class="item-plat boisson"><img src="https://images.pexels.com/photos/50593/coca-cola-cold-drink-soft-drink-50593.jpeg" alt="Coca" onclick="window.location.href='commande.html?plat=Coca 33cl&prix=600'"><div class="info-plat"><h4>Coca 33cl</h4><p>600 FCFA</p></div></div>
-      <div class="item-plat boisson"><img src="https://images.pexels.com/photos/1098652/pexels-photo-1098652.jpeg" alt="Jus Naturel" onclick="window.location.href='commande.html?plat=Jus Naturel&prix=1000'"><div class="info-plat"><h4>Jus Naturel</h4><p>1 000 FCFA</p></div></div>
-    </div>
-  </div>
+<section class="a-propos">
+  <h2>Découvrez HOTEL SANA internationnal Odienné</h2>
+  <a href="galerie.html" class="btn-whatsapp">Voir nos Chambres</a>
+  <a href="menu.html" class="btn-whatsapp" style="background:#c89b3c;">Voir notre Menu</a>
 </section>
 
 <!-- SERVICES -->
@@ -254,6 +213,12 @@ function mettreAJourCompteur(){
   if(totalEl) totalEl.innerText = total.toLocaleString();
 }
 mettreAJourCompteur();
+
+function toggleMenu(){
+  document.getElementById('menu-nav').classList.toggle('show');
+}
+
+
 </script>
 </body>
 </html>

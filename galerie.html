@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galerie Chambres - HOTEL SANA internationnal Odienné</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">HOTEL SANA internationnal Odienné</div>
+</header>
+
+<section id="galerie-chambres" class="galerie-chambres">
+  <h2>Découvrez nos Chambres</h2>
+  <p>Cliquez sur une chambre pour réserver</p>
+  <div class="filtres">
+    <button class="btn-filtre active" onclick="filtrerChambre('tout')">Toutes</button>
+    <button class="btn-filtre" onclick="filtrerChambre('standard')">Standard</button>
+    <button class="btn-filtre" onclick="filtrerChambre('confort')">Confort</button>
+    <button class="btn-filtre" onclick="filtrerChambre('vip')">VIP</button>
+    <button class="btn-filtre" onclick="filtrerChambre('suite')">Suite</button>
+  </div>
+  <div class="grille-galerie">
+    <!-- Colle ici toutes tes .item-galerie -->
+      <div class="item-galerie standard"><img src="https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg" alt="Chambre Standard" onclick="window.location.href='reservation.html?chambre=Standard&prix=25000'"><div class="info-img"><h4>Chambre Standard</h4><p>25 000 FCFA / nuit</p></div></div>
+    <div class="item-galerie standard"><img src="https://images.pexels.com/photos/237371/pexels-photo-237371.jpeg" alt="Standard 2" onclick="window.location.href='reservation.html?chambre=Standard&prix=25000'"><div class="info-img"><h4>Chambre Standard</h4><p>25 000 FCFA / nuit</p></div></div>
+    <div class="item-galerie confort"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="Chambre Confort" onclick="window.location.href='reservation.html?chambre=Confort&prix=30000'"><div class="info-img"><h4>Chambre Confort</h4><p>30 000 FCFA / nuit</p></div></div>
+    <div class="item-galerie confort"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="Confort 2" onclick="window.location.href='reservation.html?chambre=Confort&prix=30000'"><div class="info-img"><h4>Chambre Confort</h4><p>30 000 FCFA / nuit</p></div></div>
+    <div class="item-galerie vip"><img src="https://images.pexels.com/photos/262048/pexels-photo-262048.jpeg" alt="Chambre VIP" onclick="window.location.href='reservation.html?chambre=VIP&prix=40000'"><div class="info-img"><h4>Chambre VIP</h4><p>40 000 FCFA / nuit</p></div></div>
+    <div class="item-galerie suite"><img src="https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg" alt="Suite" onclick="window.location.href='reservation.html?chambre=Suite&prix=60000'"><div class="info-img"><h4>Suite Présidentielle</h4><p>60 000 FCFA / nuit</p></div></div>
+    <div class="item-galerie suite"><img src="https://images.pexels.com/photos/1454806/pexels-photo-1454806.jpeg" alt="Suite 2" onclick="window.location.href='reservation.html?chambre=Suite&prix=60000'"><div class="info-img"><h4>Suite Présidentielle</h4><p>60 000 FCFA / nuit</p></div></div>
+  </div>
+</section>
+
+<footer><p>© 2026  HOTEL SANA internationnal Odienné</p></footer>
+
+<script>
+function filtrerChambre(categorie){
+  let items = document.querySelectorAll('.item-galerie');
+  let btns = document.querySelectorAll('.btn-filtre');
+  btns.forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  items.forEach(item => {
+    if(categorie === 'tout' || item.classList.contains(categorie)){ item.classList.remove('cache'); }
+    else { item.classList.add('cache'); }
+  });
+}
+
+function toggleMenu(){
+  document.getElementById('menu-nav').classList.toggle('show');
+}
+
+
+</script>
+</body>
+</html>

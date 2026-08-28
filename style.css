@@ -529,3 +529,46 @@ che .form-groupe {
 .item-plat.cache { display: none; }
 
 
+
+/* BOUTON HAMBURGER */
+.btn-menu {
+  display: none; /* caché sur PC */
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* VERSION MOBILE */
+@media(max-width: 768px) { 
+  .navbar {
+    padding: 15px 20px;
+  }
+  
+  .btn-menu {
+    display: block; /* on affiche les 3 traits */
+  }
+
+  .navbar nav {
+    display: none; /* caché par défaut */
+    position: absolute;
+    top: 70px; /* sous la navbar */
+    left: 0;
+    width: 100%;
+    background: #2E8B57;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+
+  .navbar nav.show {
+    display: flex; /* quand on clique ça s'affiche */
+  }
+
+  .navbar nav a {
+    margin: 10px 0;
+    font-size: 18px;
+  }
+}
