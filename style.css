@@ -540,35 +540,91 @@ che .form-groupe {
   cursor: pointer;
 }
 
-/* VERSION MOBILE */
+/* NAVBAR TRANSPARENTE POUR TOUS */
+.navbar {
+  position: fixed; /* reste collée en haut */
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  background: rgba(0, 0, 0, 0.3); /* NOIR TRANSPARENT 30% */
+  backdrop-filter: blur(10px); /* effet vitre flou */
+  -webkit-backdrop-filter: blur(10px); /* pour Safari iPhone */
+  z-index: 1000;
+  transition: background 0.3s;
+}
+
+.logo {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.navbar nav {
+  display: flex;
+  gap: 25px;
+}
+
+.navbar nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.navbar nav a:hover {
+  color: #c89b3c; /* doré au survol */
+}
+
+/* BOUTON HAMBURGER CACHÉ SUR PC */
+.btn-menu {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* VERSION MOBILE SEULEMENT */
 @media(max-width: 768px) { 
   .navbar {
     padding: 15px 20px;
   }
   
   .btn-menu {
-    display: block; /* on affiche les 3 traits */
+    display: block;
   }
 
   .navbar nav {
     display: none; /* caché par défaut */
     position: absolute;
-    top: 70px; /* sous la navbar */
+    top: 70px;
     left: 0;
     width: 100%;
-    background: #2E8B57;
+    background: rgba(0,0,0,0.6); /* un peu plus opaque sur mobile */
+    backdrop-filter: blur(8px);
     flex-direction: column;
     text-align: center;
     padding: 20px 0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
   }
 
   .navbar nav.show {
-    display: flex; /* quand on clique ça s'affiche */
+    display: flex;
   }
 
   .navbar nav a {
     margin: 10px 0;
-    font-size: 18px;
   }
+}
+
+/* IMPORTANT: décale le contenu pour ne pas qu'il passe sous la navbar */
+body {
+  padding-top: 80px; /* hauteur de la navbar */
+}
+.banniere {
+  margin-top: -80px; /* remonte la bannière sous la navbar transparente */
 }
