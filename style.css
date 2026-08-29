@@ -628,3 +628,101 @@ body {
 .banniere {
   margin-top: -80px; /* remonte la bannière sous la navbar transparente */
 }
+
+
+/* BANNIERE PLEIN ECRAN */
+.banniere {
+  height: 90vh; /* 90% de l'écran */
+  background: url('https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* CENTRÉ */
+  text-align: center;
+  color: white;
+  position: relative;
+}
+.banniere::after { /* voile noir pour lire le texte */
+  content: '';
+  position: absolute;
+  top:0; left:0; width:100%; height:100%;
+  background: rgba(0,0,0,0.5);
+}
+.banniere-texte {
+  position: relative;
+  z-index: 2;
+}
+.banniere-texte h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+
+
+/* ACCUEIL STYLE BERGEN HARBOUR */
+.accueil-galerie {
+  background: #111; /* fond noir comme Bergen */
+  color: white;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.accueil-galerie h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+.accueil-galerie p {
+  color: #ccc;
+  margin-bottom: 40px;
+}
+
+.grille-accueil {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 colonnes sur mobile */
+  gap: 8px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.item-accueil img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover; /* recadre bien */
+  border-radius: 4px;
+  transition: 0.3s;
+}
+
+.item-accueil img:hover {
+  opacity: 0.8;
+  transform: scale(1.02);
+}
+
+.btn-accueil {
+  margin-top: 40px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-accueil .btn {
+  background: white;
+  color: black;
+  padding: 12px 25px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+}
+.btn-accueil .btn-or {
+  background: #c89b3c;
+  color: white;
+}
+
+/* VERSION PC : 3 ou 4 colonnes */
+@media(min-width: 768px) {
+  .grille-accueil {
+    grid-template-columns: repeat(4, 1fr); /* 4 colonnes sur PC */
+  }
+  .item-accueil img {
+    height: 250px;
+  }
+}
