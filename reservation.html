@@ -2,53 +2,35 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Réserver - SANA HOTE internationnal Odienné</title>
+<title>Réserver - SANA HOTEL internationnal Odienné</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="navbar">
-  <div class="logo"><a href="index.html" style="color:white; text-decoration:none;">SANA HOTEL internationnal Odienné</a></div>
+<div class="logo"><a href="index.html" style="color:white; text-decoration:none;">SANA HOTEL internationnal Odienné</a></div>
 </header>
 
 <section id="reservation" class="reservation">
 <h2>Réserver votre séjour</h2>
 <p>Choisissez tout. Payez 50% ou 100%. Votre réservation partira direct au réceptionniste.</p>
+
 <form id="form-reservation" class="form-reservation">
-<div class="form-groupe">
-<label>Nom Complet</label>
-<input type="text" id="nom-client" placeholder="Ex: Kouassi Jean" required>
-</div>
-<div class="form-groupe">
-<label>Téléphone</label>
-<input type="tel" id="tel-client" placeholder="07 00 00 00" required>
-</div>
-<div class="form-groupe">
-<label>Date d'arrivée</label>
-<input type="date" id="date-arrivee" required>
-</div>
-<div class="form-groupe">
-<label>Date de départ</label>
-<input type="date" id="date-depart" required>
-</div>
+<div class="form-groupe"><label>Nom Complet</label><input type="text" id="nom-client" placeholder="Ex: Kouassi Jean" required></div>
+<div class="form-groupe"><label>Téléphone</label><input type="tel" id="tel-client" placeholder="07 00 00 00" required></div>
+<div class="form-groupe"><label>Date d'arrivée</label><input type="date" id="date-arrivee" required></div>
+<div class="form-groupe"><label>Date de départ</label><input type="date" id="date-depart" required></div>
+
 <h3>Choisissez votre chambre</h3>
+<div id="stock-chambres" style="background:#eaf8f0; padding:10px; border-radius:5px; margin-bottom:15px; font-size:14px;">Chargement des disponibilités...</div>
 <div class="choix-chambre">
-<label class="option-chambre">
-<input type="radio" name="chambre" value="Standard|25000" required>
-<div> <b>Chambre Standard</b> <br> <span>25 000 FCFA / nuit</span> </div>
-</label>
-<label class="option-chambre">
-<input type="radio" name="chambre" value="Confort|30000">
-<div> <b>Chambre Confort</b> <br> <span>30 000 FCFA / nuit</span> </div>
-</label>
-<label class="option-chambre">
-<input type="radio" name="chambre" value="VIP|40000">
-<div> <b>Chambre VIP</b> <br> <span>40 000 FCFA / nuit</span> </div>
-</label>
-<label class="option-chambre">
-<input type="radio" name="chambre" value="Suite|60000">
-<div> <b>Suite Présidentielle</b> <br> <span>60 000 FCFA / nuit</span> </div>
-</label>
+<label class="option-chambre"><input type="radio" name="chambre" value="Standard 1 Lit|15000"><div><b>Chambre Standard 1 Lit</b><br><span>15 000 FCFA / nuit</span></div></label>
+<label class="option-chambre"><input type="radio" name="chambre" value="Standard 2 Lits|20000"><div><b>Chambre Standard 2 Lits</b><br><span>20 000 FCFA / nuit</span></div></label>
+<label class="option-chambre"><input type="radio" name="chambre" value="Confort 1 Lit|25000"><div><b>Chambre Confort 1 Lit</b><br><span>25 000 FCFA / nuit</span></div></label>
+<label class="option-chambre"><input type="radio" name="chambre" value="Confort 2 Lits|30000"><div><b>Chambre Confort 2 Lits</b><br><span>30 000 FCFA / nuit</span></div></label>
+<label class="option-chambre"><input type="radio" name="chambre" value="VIP|50000"><div><b>Chambre VIP</b><br><span>50 000 FCFA / nuit</span></div></label>
+<label class="option-chambre"><input type="radio" name="chambre" value="Suite|60000"><div><b>Suite Présidentielle</b><br><span>60 000 FCFA / nuit</span></div></label>
 </div>
+
 <h3>Services supplémentaires</h3>
 <div class="services-sup">
 <label><input type="checkbox" name="service" value="Restaurant|5000"> 🍽️ Restaurant 5 000 FCFA</label>
@@ -57,143 +39,95 @@
 <label><input type="checkbox" name="service" value="Massage|10000"> 💆 Massage 10 000 FCFA</label>
 <label><input type="checkbox" name="service" value="Gym|2000"> 🏋️ Gym 2 000 FCFA</label>
 </div>
+
 <div class="bloc-recap">
 <h3>Récapitulatif</h3>
 <p id="recap-total">Total: 0 FCFA</p>
-<div class="choix-paiement">
-<label><input type="radio" name="paiement-type" value="50" checked> Payer 50% Acompte</label>
-<label><input type="radio" name="paiement-type" value="100"> Payer 100% Totalité</label>
-</div>
+<div class="choix-paiement"><label><input type="radio" name="paiement-type" value="50" checked> Payer 50% Acompte</label><label><input type="radio" name="paiement-type" value="100"> Payer 100% Totalité</label></div>
 <p class="alerte">⚠️ Votre réservation ne sera envoyée au réceptionniste qu'après paiement. Non remboursable.</p>
 <button type="button" onclick="payerEtEnvoyer()" class="btn-payer-envoyer">PAYER ET ENVOYER AU RECEPTIONNISTE</button>
 </div>
 </form>
-<div id="message-envoye" class="message-ok cache">
-<h3>✅ Paiement reçu!</h3>
-<p>Votre réservation a été envoyée au réceptionniste. Il vous contactera sur WhatsApp.</p>
-</div>
+
+<div id="message-envoye" class="message-ok cache"><h3>✅ Paiement reçu!</h3><p>Votre réservation a été envoyée au réceptionniste. Il vous contactera sur WhatsApp.</p></div>
 </section>
 
 <script src="https://cdn.cinetpay.com/seamless/main.js"></script>
 <script>
-let total = 0; // GLOBAL pour qu'on puisse l'utiliser partout
-
-// LANCER AU CHARGEMENT + A CHAQUE CHANGEMENT
+let total = 0;
 document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('input[name="chambre"], input[name="service"], #date-arrivee, #date-depart').forEach(el => {
-    el.addEventListener('change', calculerTotal);
-  });
-
-  // PRE-SELECTION DEPUIS URL QUAND ON CLIQUE SUR UNE IMAGE
-  const urlParams = new URLSearchParams(window.location.search);
-  let chambre = urlParams.get('chambre');
-  let prix = urlParams.get('prix');
-  if(chambre && prix){
-    document.querySelectorAll('input[name="chambre"]').forEach(r => {
-      if(r.value.includes(chambre)) {
-        r.checked = true;
-        r.value = chambre + '|' + prix; // on met à jour le prix
-      }
-    });
-  }
-  calculerTotal(); // calcul initial
+document.querySelectorAll('input[name="chambre"], input[name="service"], #date-arrivee, #date-depart').forEach(el => { el.addEventListener('change', calculerTotal); });
+const urlParams = new URLSearchParams(window.location.search);
+let chambre = urlParams.get('chambre');
+let prix = urlParams.get('prix');
+if(chambre && prix){ document.querySelectorAll('input[name="chambre"]').forEach(r => { if(r.value.includes(chambre)) { r.checked = true; r.value = chambre + '|' + prix; } }); }
+calculerTotal();
 });
 
 function calculerTotal(){
-  total = 0;
-
-  // 1. CALCULER LE NOMBRE DE NUITS
-  let arrivee = document.getElementById('date-arrivee').value;
-  let depart = document.getElementById('date-depart').value;
-  let nbNuits = 0;
-
-  if(arrivee && depart){
-    let date1 = new Date(arrivee);
-    let date2 = new Date(depart);
-    let diffTime = date2 - date1;
-    nbNuits = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    if(nbNuits < 1) nbNuits = 1; // minimum 1 nuit
-  }
-
-  // 2. PRIX CHAMBRE * NOMBRE DE NUITS
-  let chambre = document.querySelector('input[name="chambre"]:checked');
-  if(chambre){
-    let prixChambre = parseInt(chambre.value.split('|')[1]);
-    total += prixChambre * nbNuits;
-  }
-
-  // 3. AJOUTER LES SERVICES - Les services ne sont pas multipliés par les nuits
-  document.querySelectorAll('input[name="service"]:checked').forEach(s => {
-    total += parseInt(s.value.split('|')[1]);
-  });
-
-  // 4. AFFICHER
-  let texteNuits = nbNuits > 1? ` pour ${nbNuits} nuits` : '';
-  document.getElementById('recap-total').innerText = "Total: " + total.toLocaleString() + " FCFA" + texteNuits;
+total = 0;
+let arrivee = document.getElementById('date-arrivee').value;
+let depart = document.getElementById('date-depart').value;
+let nbNuits = 0;
+if(arrivee && depart){ let date1 = new Date(arrivee); let date2 = new Date(depart); nbNuits = Math.ceil((date2 - date1) / (1000*60*60*24)); if(nbNuits < 1) nbNuits = 1; }
+let chambre = document.querySelector('input[name="chambre"]:checked');
+if(chambre){ total += parseInt(chambre.value.split('|')[1]) * nbNuits; }
+document.querySelectorAll('input[name="service"]:checked').forEach(s => { total += parseInt(s.value.split('|')[1]); });
+let texteNuits = nbNuits > 1? ` pour ${nbNuits} nuits` : '';
+document.getElementById('recap-total').innerText = "Total: " + total.toLocaleString() + " FCFA" + texteNuits;
 }
 
 function payerEtEnvoyer(){
-  if(total === 0) return alert("Veuillez choisir au moins une chambre et les dates");
-  let nom = document.getElementById('nom-client').value;
-  let tel = document.getElementById('tel-client').value;
-  let arrivee = document.getElementById('date-arrivee').value;
-  let depart = document.getElementById('date-depart').value;
-  if(!nom ||!tel ||!arrivee ||!depart) return alert("Veuillez remplir tous les champs");
+if(total === 0) return alert("Veuillez choisir au moins une chambre et les dates");
+let nom = document.getElementById('nom-client').value;
+let tel = document.getElementById('tel-client').value;
+let arrivee = document.getElementById('date-arrivee').value;
+let depart = document.getElementById('date-depart').value;
+if(!nom ||!tel ||!arrivee ||!depart) return alert("Veuillez remplir tous les champs");
+let typePaiement = document.querySelector('input[name="paiement-type"]:checked').value;
+let montantAPayer = typePaiement === "50"? Math.round(total * 0.5) : total;
+let transaction_id = 'SANA-RESA-' + Date.now();
 
-  let typePaiement = document.querySelector('input[name="paiement-type"]:checked').value;
-  let montantAPayer = typePaiement === "50"? Math.round(total * 0.5) : total;
-  let transaction_id = 'SANA-RESA-' + Date.now();
+// TA VRAIE CLE TEST ICI
+CinetPay.setConfig({
+    apikey: 'VOTRE_APIKEY_ICI',
+    site_id: '445611',
+    notify_url: 'https://sanahotel.ci/notify',
+    mode: 'TEST'
+});
 
-  CinetPay.setConfig({ apikey: 'VOTRE_APIKEY_ICI', site_id: 'VOTRE_SITE_ID_ICI', mode: 'PRODUCTION' });
-
-  CinetPay.getCheckout({
+CinetPay.getCheckout({
     transaction_id: transaction_id,
     amount: montantAPayer,
     currency: 'XOF',
     channels: 'ALL',
-    description: `Reservation Hotel SANA - ${nom} - ${total.toLocaleString()} FCFA Total`,
+    description: `Reservation SANA HOTEL - ${nom} - ${total} FCFA`,
     customer_name: nom,
+    customer_surname: nom,
     customer_phone_number: tel,
-  });
+});
 
-  CinetPay.waitResponse(function(data) {
+CinetPay.waitResponse(function(data) {
     if (data.status == "ACCEPTED") {
-      envoyerAuReceptionniste(montantAPayer, typePaiement, transaction_id, nom, tel, arrivee, depart);
-    } else { alert("Paiement annulé ou échoué"); }
-  });
-
-  CinetPay.onError(function(data) { console.log(data); alert("Erreur de paiement"); });
+        envoyerAuReceptionniste(montantAPayer, typePaiement, transaction_id, nom, tel, arrivee, depart);
+    } else {
+        alert("Paiement annulé ou échoué");
+    }
+});
+CinetPay.onError(function(data) { console.log(data); alert("Erreur de paiement"); });
 }
 
 function envoyerAuReceptionniste(montant, type, trans_id, nom, tel, arrivee, depart){
-  let chambre = document.querySelector('input[name="chambre"]:checked').value.split('|')[0];
-  let prixUnitaire = document.querySelector('input[name="chambre"]:checked').value.split('|')[1];
-  let date1 = new Date(arrivee);
-  let date2 = new Date(depart);
-  let nbNuits = Math.ceil((date2 - date1) / (1000 * 60 * 60 * 24));
-  if(nbNuits < 1) nbNuits = 1;
-
-  let message = `NOUVELLE RESERVATION PAYEE  SANA HOTEL Internationnal Odienné%0A
-ID: ${trans_id}%0A
-Nom: ${nom}%0A
-Tel: ${tel}%0A
-Dates: ${arrivee} au ${depart} soit ${nbNuits} nuits%0A
-Chambre: ${chambre} à ${parseInt(prixUnitaire).toLocaleString()} FCFA/nuit%0A
-Total Séjour: ${total.toLocaleString()} FCFA%0A
-Montant Payé: ${montant.toLocaleString()} FCFA / ${type === "50"? "Acompte 50%" : "Total 100%"}%0A
-Statut: PAYE - NON REMBOURSABLE`;
-
-  window.open(`https://wa.me/2250710066132?text=${message}`, '_blank');
-  document.getElementById('message-envoye').classList.remove('cache');
-  document.getElementById('form-reservation').reset();
-  calculerTotal();
+let chambre = document.querySelector('input[name="chambre"]:checked').value.split('|')[0];
+let prixUnitaire = document.querySelector('input[name="chambre"]:checked').value.split('|')[1];
+let date1 = new Date(arrivee); let date2 = new Date(depart);
+let nbNuits = Math.ceil((date2 - date1) / (1000*60*60*24)); if(nbNuits < 1) nbNuits = 1;
+let message = `NOUVELLE RESERVATION PAYEE SANA HOTEL%0AID: ${trans_id}%0ANom: ${nom}%0ATel: ${tel}%0ADates: ${arrivee} au ${depart} soit ${nbNuits} nuits%0AChambre: ${chambre} à ${prixUnitaire} FCFA/nuit%0ATotal: ${total.toLocaleString()} FCFA%0APayé: ${montant.toLocaleString()} FCFA / ${type==="50"?"Acompte 50%":"Total 100%"}%0AStatut: PAYE`;
+window.open(`https://wa.me/2250710066132?text=${message}`, '_blank');
+document.getElementById('message-envoye').classList.remove('cache');
+document.getElementById('form-reservation').reset();
+calculerTotal();
 }
-
-function toggleMenu(){
-  document.getElementById('menu-nav').classList.toggle('show');
-}
-
-
 </script>
 </body>
 </html>

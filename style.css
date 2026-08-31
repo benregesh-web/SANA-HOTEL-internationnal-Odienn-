@@ -633,7 +633,7 @@ body {
 /* BANNIERE PLEIN ECRAN */
 .banniere {
   height: 90vh; /* 90% de l'écran */
-  background: url('https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg') center/cover no-repeat;
+  background: url('couverture2.jpg') center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center; /* CENTRÉ */
@@ -726,3 +726,6 @@ body {
     height: 250px;
   }
 }
+
+  .cache { display: none; }
+  

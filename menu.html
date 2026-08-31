@@ -21,7 +21,7 @@
     <p>Cliquez sur un plat pour commander</p>
     <div class="filtres">
       <button class="btn-filtre active" onclick="filtrerPlat('tout')">Tout</button>
-      <button class="btn-filtre" onclick="filtrerPlat('pain')">🍞 Pains</button>
+      <button class="btn-filtre" onclick="filtrerPlat('pain', event)">🍞 Pains</button>
       <button class="btn-filtre" onclick="filtrerPlat('braise')">🍗 Braisé</button>
       <button class="btn-filtre" onclick="filtrerPlat('africain')">🍲 Plats Africains</button>
       <button class="btn-filtre" onclick="filtrerPlat('boisson')">🥤 Boissons</button>
@@ -46,7 +46,7 @@
 <footer><p>© 2026 HOTEL SANA internationnal Odienné</p></footer>
 
 <script>
-function filtrerPlat(categorie){
+function filtrerPlat(categorie, e){
   let items = document.querySelectorAll('.item-plat');
   let btns = document.querySelectorAll('.btn-filtre');
   btns.forEach(btn => btn.classList.remove('active'));
