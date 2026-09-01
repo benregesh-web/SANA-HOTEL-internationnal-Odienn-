@@ -51,85 +51,65 @@
 
 <div id="message-envoye" class="message-ok cache"><h3>✅ Paiement reçu!</h3><p>Votre réservation a été envoyée au réceptionniste. Il vous contactera sur WhatsApp.</p></div>
 </section>
-
+    
 <script src="https://cdn.cinetpay.com/seamless/main.js"></script>
 <script>
 let total = 0;
 document.addEventListener('DOMContentLoaded', function() {
 document.querySelectorAll('input[name="chambre"], input[name="service"], #date-arrivee, #date-depart').forEach(el => { el.addEventListener('change', calculerTotal); });
-const urlParams = new URLSearchParams(window.location.search);
-let chambre = urlParams.get('chambre');
-let prix = urlParams.get('prix');
-if(chambre && prix){ document.querySelectorAll('input[name="chambre"]').forEach(r => { if(r.value.includes(chambre)) { r.checked = true; r.value = chambre + '|' + prix; } }); }
 calculerTotal();
 });
-
 function calculerTotal(){
 total = 0;
 let arrivee = document.getElementById('date-arrivee').value;
 let depart = document.getElementById('date-depart').value;
 let nbNuits = 0;
-if(arrivee && depart){ let date1 = new Date(arrivee); let date2 = new Date(depart); nbNuits = Math.ceil((date2 - date1) / (1000*60*60*24)); if(nbNuits < 1) nbNuits = 1; }
+if(arrivee && depart){ let d1 = new Date(arrivee); let d2 = new Date(depart); nbNuits = Math.ceil((d2 - d1) / (1000*60*60*24)); if(nbNuits < 1) nbNuits = 1; }
 let chambre = document.querySelector('input[name="chambre"]:checked');
 if(chambre){ total += parseInt(chambre.value.split('|')[1]) * nbNuits; }
 document.querySelectorAll('input[name="service"]:checked').forEach(s => { total += parseInt(s.value.split('|')[1]); });
-let texteNuits = nbNuits > 1? ` pour ${nbNuits} nuits` : '';
-document.getElementById('recap-total').innerText = "Total: " + total.toLocaleString() + " FCFA" + texteNuits;
+let txt = nbNuits>1? " pour "+nbNuits+" nuits" : "";
+document.getElementById('recap-total').innerText = "Total: " + total.toLocaleString() + " FCFA" + txt;
 }
-
 function payerEtEnvoyer(){
-if(total === 0) return alert("Veuillez choisir au moins une chambre et les dates");
+if(total === 0) return alert("Choisissez une chambre et les dates d'abord");
 let nom = document.getElementById('nom-client').value;
 let tel = document.getElementById('tel-client').value;
 let arrivee = document.getElementById('date-arrivee').value;
 let depart = document.getElementById('date-depart').value;
-if(!nom ||!tel ||!arrivee ||!depart) return alert("Veuillez remplir tous les champs");
+if(!nom ||!tel ||!arrivee ||!depart) return alert("Remplissez tous les champs");
 let typePaiement = document.querySelector('input[name="paiement-type"]:checked').value;
 let montantAPayer = typePaiement === "50"? Math.round(total * 0.5) : total;
-let transaction_id = 'SANA-RESA-' + Date.now();
-
-    // TA VRAIE CLE TEST ICI - COUPEE POUR GITHUB
-    CinetPay.setConfig({
-        apikey: 'sk_test_' + 'XSKp1FXthmUwmL08AvZwWXBT',
-        site_id: '445611',
-        notify_url: 'https://sanahotel.ci/notify',
-        mode: 'TEST'
-    });
-
-    CinetPay.getCheckout({
-        transaction_id: transaction_id,
-        amount: montantAPayer,
-        currency: 'XOF',
-        channels: 'ALL',
-        description: `Reservation SANA HOTEL - ${nom} - ${total} FCFA`,
-        customer_name: nom,
-        customer_surname: nom,
-        customer_phone_number: tel,
-    });
- 
-
-
+let transaction_id = 'SANA-' + Date.now();
+CinetPay.setConfig({
+    apikey: 'sk_test_' + 'XSKp1FXthmUwmL08AvZwWXBT',
+    site_id: '445611',
+    notify_url: 'https://benregesh-web.github.io/',
+    mode: 'TEST'
+});
+CinetPay.getCheckout({
+    transaction_id: transaction_id,
+    amount: montantAPayer,
+    currency: 'XOF',
+    channels: 'ALL',
+    description: 'Reservation SANA HOTEL ' + nom,
+    customer_name: 'SANA',
+    customer_surname: nom,
+    customer_phone_number: tel
+});
 CinetPay.waitResponse(function(data) {
     if (data.status == "ACCEPTED") {
-        envoyerAuReceptionniste(montantAPayer, typePaiement, transaction_id, nom, tel, arrivee, depart);
+        let chambre = document.querySelector('input[name="chambre"]:checked').value.split('|')[0];
+        let msg = "NOUVELLE RESERVATION PAYEE SANA HOTEL%0AID: "+transaction_id+"%0ANom: "+nom+"%0ATel: "+tel+"%0ADates: "+arrivee+" au "+depart+"%0AChambre: "+chambre+"%0ATotal: "+total+" FCFA%0APaye: "+montantAPayer+" FCFA";
+        window.open("https://wa.me/2250710066132?text="+msg, '_blank');
+        document.getElementById('message-envoye').classList.remove('cache');
     } else {
-        alert("Paiement annulé ou échoué");
+        alert("Paiement echoue");
     }
 });
-CinetPay.onError(function(data) { console.log(data); alert("Erreur de paiement"); });
+CinetPay.onError(function(data) { console.log(data); alert("Erreur CinetPay"); });
 }
-
-function envoyerAuReceptionniste(montant, type, trans_id, nom, tel, arrivee, depart){
-let chambre = document.querySelector('input[name="chambre"]:checked').value.split('|')[0];
-let prixUnitaire = document.querySelector('input[name="chambre"]:checked').value.split('|')[1];
-let date1 = new Date(arrivee); let date2 = new Date(depart);
-let nbNuits = Math.ceil((date2 - date1) / (1000*60*60*24)); if(nbNuits < 1) nbNuits = 1;
-let message = `NOUVELLE RESERVATION PAYEE SANA HOTEL%0AID: ${trans_id}%0ANom: ${nom}%0ATel: ${tel}%0ADates: ${arrivee} au ${depart} soit ${nbNuits} nuits%0AChambre: ${chambre} à ${prixUnitaire} FCFA/nuit%0ATotal: ${total.toLocaleString()} FCFA%0APayé: ${montant.toLocaleString()} FCFA / ${type==="50"?"Acompte 50%":"Total 100%"}%0AStatut: PAYE`;
-window.open(`https://wa.me/2250710066132?text=${message}`, '_blank');
-document.getElementById('message-envoye').classList.remove('cache');
-document.getElementById('form-reservation').reset();
-calculerTotal();
-}
+</script>
 </script>
 </body>
 </html>
