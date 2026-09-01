@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Test Paiement SANA</title><script src="https://cdn.cinetpay.com/seamless/main.js"></script></head>
+<body style="font-family:sans-serif;padding:20px;text-align:center">
+<h2>TEST PAIEMENT SANA HOTEL</h2>
+<p>Total: 25000 FCFA (test 100 FCFA)</p>
+<button id="btn" style="padding:20px;background:green;color:white;font-size:20px;border:none;border-radius:10px;width:100%">PAYER 100 FCFA TEST</button>
+<p id="log" style="margin-top:20px"></p>
+<script>
+document.getElementById('btn').addEventListener('click', function(){
+    document.getElementById('log').innerText = "Lancement paiement...";
+    CinetPay.setConfig({
+        apikey: 'sk_test_' + 'XSKp1FXthmUwmL08AvZwWXBT',
+        site_id: '445611',
+        notify_url: 'https://benregesh-web.github.io/',
+        mode: 'TEST'
+    });
+    CinetPay.getCheckout({
+        transaction_id: 'SANA-'+Date.now(),
+        amount: 100,
+        currency: 'XOF',
+        channels: 'ALL',
+        description: 'Test SANA HOTEL',
+        customer_name: 'Jean',
+        customer_surname: 'Test',
+        customer_phone_number: '0507199174'
+    });
+    CinetPay.waitResponse(function(data){
+        alert("Paiement: "+data.status);
+        document.getElementById('log').innerText = JSON.stringify(data);
+    });
+    CinetPay.onError(function(data){ alert("Erreur: "+JSON.stringify(data)); });
+});
+</script>
+</body>
+</html>
