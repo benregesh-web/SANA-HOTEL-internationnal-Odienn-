@@ -2,31 +2,29 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Réservation - SANA HOTEL Odienné</title>
+<title>Réservation - SANA HOTEL</title>
 <style>
-body{font-family:Arial,sans-serif;padding:15px;background:#f5f5f5;margin:0}
+body{font-family:Arial;padding:15px;background:#f5f5f5;margin:0}
 .box{background:white;padding:20px;border-radius:12px;max-width:500px;margin:20px auto;box-shadow:0 4px 15px rgba(0,0,0,.1)}
 input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:8px;box-sizing:border-box}
 button{width:100%;padding:14px;background:#25D366;color:white;border:none;border-radius:8px;font-weight:bold;font-size:16px;cursor:pointer}
+button:disabled{background:gray!important}
 .cache{display:none}
-.message-ok{background:#d4edda;padding:15px;border-radius:10px;border:1px solid green;margin-top:15px}
-.navbar{background:#111;color:white;padding:12px 15px;display:flex;justify-content:space-between;align-items:center}
+.option-pay{border:2px solid #ddd;padding:14px;border-radius:10px;margin:10px 0;cursor:pointer}
+.option-pay.selected{border-color:#25D366;background:#e8f5e9}
 </style>
 </head>
 <body>
-<div class="navbar">
-  <a href="index.html" style="color:white;text-decoration:none;font-weight:bold">SANA HOTEL Odienné</a>
-  <a href="reception.html" style="color:yellow;text-decoration:none;font-size:12px;border:1px solid yellow;padding:4px 8px;border-radius:5px">🔐 Réception</a>
-</div>
-
+<div style="background:#111;color:white;padding:12px;text-align:center"><b>SANA HOTEL INTERNATIONAL - ODIENNÉ</b> - <a href="reception.html" style="color:yellow">Réception</a></div>
 <div class="box">
-<h2 style="margin-top:0">Réservation en ligne</h2>
-<label>Nom complet</label><input id="nom" placeholder="Votre nom">
-<label>Téléphone WhatsApp</label><input id="tel" placeholder="07...">
+<h2>Réservation</h2>
+<div id="info-cat" style="background:#e7f3ff;padding:10px;border-radius:8px;display:none;margin-bottom:10px"></div>
+<label>Nom</label><input id="nom" placeholder="Nom complet">
+<label>Téléphone</label><input id="tel" placeholder="07...">
 <label>Arrivée</label><input id="arr" type="date">
 <label>Départ</label><input id="dep" type="date">
-<label>Catégorie chambre</label>
-<select id="cat">
+<label>Chambre choisie (depuis galerie)</label>
+<select id="cat" onchange="calcul()">
 <option>Standard 1 Lit - 15000 FCFA</option>
 <option>Standard 2 Lits - 20000 FCFA</option>
 <option>Confort 1 Lit - 25000 FCFA</option>
@@ -35,32 +33,37 @@ button{width:100%;padding:14px;background:#25D366;color:white;border:none;border
 <option>Suite - 75000 FCFA</option>
 </select>
 
-<div style="background:#fff3cd;padding:12px;border-radius:8px;margin:12px 0">
-Total: <b id="total-view" style="font-size:18px">0 FCFA</b><br>
-<small id="stock-view" style="color:gray"></small>
+<div style="margin:15px 0;border-top:2px solid #eee;padding-top:10px">
+<label style="font-weight:bold">💰 Paiement pour <span id="nom-chambre" style="color:#25D366"></span> :</label>
+<div id="opt-50" class="option-pay selected" onclick="choisirPourcentage(50)">
+<input type="radio" name="pourc" value="50" checked> <b>Payer 50% de cette chambre</b> <span style="color:red;font-weight:bold">NON REMBOURSABLE</span><br>
+<small id="desc-50"></small>
+</div>
+<div id="opt-100" class="option-pay" onclick="choisirPourcentage(100)">
+<input type="radio" name="pourc" value="100"> <b>Payer 100% de cette chambre</b><br>
+<small id="desc-100"></small>
+</div>
+<div style="background:#fff3cd;padding:8px;border-radius:8px;font-size:12px;margin-top:5px">⚠️ 50% = Avance non remboursable. 100% = Séjour totalement payé.</div>
 </div>
 
-<button onclick="ouvrirModalWave()">Payer avec Wave - 07071006132</button>
-
-<div id="message-envoye" class="message-ok cache">
-<h3>✅ Demande envoyée!</h3>
-<p>Ta commande a été envoyée au réceptionniste en temps réel. En attente de vérification Wave.</p>
-<p style="margin-top:15px;background:#fff3cd;padding:10px;border-radius:8px;border:1px dashed orange;">
-👨‍💼 <b>Pour le réceptionniste :</b><br>
-<a href="reception.html" style="background:#25D366;color:white;padding:10px 20px;display:inline-block;border-radius:8px;text-decoration:none;margin-top:8px;font-weight:bold;">➡️ OUVRIR PANEL RÉCEPTION</a>
-</p>
+<div style="background:#fff3cd;padding:12px;border-radius:8px;margin:12px 0">
+Total séjour: <b id="total-view">0 FCFA</b><br>
+<span id="stock-view">Chargement stock Firebase...</span><hr>
+À payer Wave maintenant: <b id="apayer-view" style="font-size:22px;color:#25D366">0 FCFA</b><br>
+<small id="reste-view"></small>
+</div>
+<button id="btn-payer" onclick="ouvrirModalWave()">Payer sur Wave</button>
+<div id="message-envoye" class="cache" style="background:#d4edda;padding:15px;border-radius:10px;border:1px solid green;margin-top:15px">
+<h3>✅ Demande envoyée!</h3><p id="recap-envoi"></p>
 </div>
 </div>
 
 <div id="modal-code" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);align-items:center;justify-content:center;z-index:1000">
 <div style="background:white;padding:20px;border-radius:12px;max-width:400px;width:90%">
-<h3 style="margin-top:0">Paiement Wave</h3>
-<p>1. Va sur Wave et envoie à :<br><b style="font-size:18px;color:#0086ff">07071006132</b><br>
-Montant: <b id="montant-wave">0</b><br>
-Code: <b id="code-cache-display" style="background:yellow;padding:2px 6px"></b></p>
-<div style="background:#e7f3ff;padding:10px;border-radius:8px;font-size:14px">2. Après paiement, Wave t'envoie un ID par SMS. Copie-le ici.</div>
-<label style="margin-top:10px;display:block">ID Transaction Wave *</label><input id="input-wave-id" placeholder="Ex: W123456...">
-<label>Code de vérification *</label><input id="input-code-visible" placeholder="Entrez le code jaune">
+<h3>Wave 07071006132</h3>
+<p>Chambre: <b id="modal-chambre"></b><br>À payer: <b id="montant-wave" style="font-size:22px;color:green">0</b><br><span id="detail-wave" style="font-size:13px"></span><br>Code: <b id="code-cache-display" style="background:yellow;padding:3px 8px"></b></p>
+<label>ID Wave *</label><input id="input-wave-id" placeholder="ID Wave SMS">
+<label>Code secret *</label><input id="input-code-visible" placeholder="Code jaune">
 <p id="msg-erreur" style="color:red;font-weight:bold"></p>
 <button onclick="verifierDoubleCode()">J'ai payé, Envoyer</button>
 <button onclick="document.getElementById('modal-code').style.display='none'" style="background:gray;margin-top:8px">Annuler</button>
@@ -69,9 +72,7 @@ Code: <b id="code-cache-display" style="background:yellow;padding:2px 6px"></b><
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
-
-// TA VRAIE CONFIG FIREBASE
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
 const firebaseConfig = {
   apiKey: "AIzaSyD0_1oZblysKviAaknavtTZCoM68J9_GKY",
   authDomain: "sana-hotel-internationnal-odie.firebaseapp.com",
@@ -81,55 +82,53 @@ const firebaseConfig = {
   messagingSenderId: "10660407067",
   appId: "1:10660407067:web:7e20b4ab80f4db542a55be"
 };
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-let CODE_CACHE_SITE = ""; let dernierTransId=""; let dernierMontant=0; let dataReservation={};
-const prix = {"Standard 1 Lit":15000,"Standard 2 Lits":20000,"Confort 1 Lit":25000,"Confort 2 Lits":30000,"VIP":50000,"Suite":75000};
-
-function getStock(){let s=localStorage.getItem('sana_stock');return s?JSON.parse(s):{"Standard 1 Lit":3,"Standard 2 Lits":3,"Confort 1 Lit":2,"Confort 2 Lits":2,"VIP":1,"Suite":1};}
+const app = initializeApp(firebaseConfig); const db = getDatabase(app);
+let CODE_CACHE_SITE=""; let dernierTransId=""; let dataReservation={}; let pourcentagePay=50;
+const prix={"Standard 1 Lit":15000,"Standard 2 Lits":20000,"Confort 1 Lit":25000,"Confort 2 Lits":30000,"VIP":50000,"Suite":75000};
+let stockFirebase=null;
+onValue(ref(db,'stock'),(snap)=>{
+  if(snap.exists()){stockFirebase=snap.val();} else {stockFirebase={"Standard 1 Lit":3,"Standard 2 Lits":3,"Confort 1 Lit":2,"Confort 2 Lits":2,"VIP":1,"Suite":1}; set(ref(db,'stock'),stockFirebase);}
+  calcul();
+});
+function getStock(){return stockFirebase || {"Standard 1 Lit":3,"Standard 2 Lits":3,"Confort 1 Lit":2,"Confort 2 Lits":2,"VIP":1,"Suite":1};}
+window.choisirPourcentage=(p)=>{pourcentagePay=p; document.querySelectorAll('.option-pay').forEach(el=>el.classList.remove('selected')); document.getElementById('opt-'+p).classList.add('selected'); document.querySelector(`input[value="${p}"]`).checked=true; calcul();}
 function calcul(){
   let catFull=document.getElementById('cat').value; let cat=catFull.split(' - ')[0];
+  document.getElementById('nom-chambre').innerText=cat;
   let arr=new Date(document.getElementById('arr').value); let dep=new Date(document.getElementById('dep').value);
-  let nuits=1; if(!isNaN(arr)&&!isNaN(dep)&&dep>arr){let diff=dep-arr; nuits=Math.ceil(diff/(1000*60*60*24));}
-  let total = (prix[cat]||15000)*nuits;
+  let nuits=1; if(!isNaN(arr)&&!isNaN(dep)&&dep>arr){nuits=Math.ceil((dep-arr)/(1000*60*60*24));}
+  let total=(prix[cat]||15000)*nuits; let aPayer=pourcentagePay==50?Math.ceil(total*0.5):total; let reste=total-aPayer;
   document.getElementById('total-view').innerText=total.toLocaleString()+" FCFA ("+nuits+" nuit(s))";
-  let stock=getStock(); document.getElementById('stock-view').innerText="Stock disponible "+cat+": "+(stock[cat]||0);
-  return {cat,total,nuits};
+  document.getElementById('apayer-view').innerText=aPayer.toLocaleString()+" FCFA ("+pourcentagePay+"% de "+cat+")";
+  document.getElementById('desc-50').innerText=`50% de ${total.toLocaleString()} = ${Math.ceil(total*0.5).toLocaleString()} FCFA maintenant. Reste ${Math.floor(total*0.5).toLocaleString()} sur place.`;
+  document.getElementById('desc-100').innerText=`100% de ${total.toLocaleString()} = ${total.toLocaleString()} FCFA. Rien sur place.`;
+  document.getElementById('reste-view').innerText=pourcentagePay==50?`Reste sur place: ${reste.toLocaleString()} FCFA - Non remboursable`:`Reste: 0 - Payé 100%`;
+  let stock=getStock(); let restant=stock[cat]||0;
+  let stockEl=document.getElementById('stock-view'); let btn=document.getElementById('btn-payer');
+  if(restant<=0){stockEl.innerHTML=`<b style="color:red">❌ ${cat} FINI / COMPLET - Bloqué</b>`; btn.disabled=true; btn.innerText=`${cat} COMPLET - Choisis autre`; btn.style.background="gray";}
+  else{stockEl.innerHTML=`✅ Nombre de chambres disponibles <b>${cat}</b>: <b style="color:green;font-size:18px">${restant}</b>`; btn.disabled=false; btn.innerText=`Payer ${aPayer.toLocaleString()} FCFA (${pourcentagePay}%) sur Wave`; btn.style.background="#25D366";}
+  return {cat,total,nuits,aPayer,reste};
 }
-document.getElementById('arr').addEventListener('change',calcul);
-document.getElementById('dep').addEventListener('change',calcul);
-document.getElementById('cat').addEventListener('change',calcul);
+document.getElementById('arr').addEventListener('change',calcul); document.getElementById('dep').addEventListener('change',calcul);
+let params=new URLSearchParams(window.location.search); let catFromUrl=params.get('cat')||localStorage.getItem('sana_cat_choisie');
+if(catFromUrl){document.getElementById('info-cat').style.display='block'; document.getElementById('info-cat').innerHTML=`Depuis galerie: <b>${catFromUrl}</b> - Prix auto-rempli`; setTimeout(()=>{let sel=document.getElementById('cat'); for(let i=0;i<sel.options.length;i++){if(sel.options[i].value.includes(catFromUrl)){sel.selectedIndex=i;break;}} calcul();},600);}
 calcul();
-
 window.ouvrirModalWave=()=>{
   let nom=document.getElementById('nom').value.trim(); let tel=document.getElementById('tel').value.trim(); let arr=document.getElementById('arr').value; let dep=document.getElementById('dep').value;
-  if(!nom||!tel||!arr||!dep){alert("Remplis tous les champs");return;}
-  let {cat,total}=calcul(); let stock=getStock(); if(stock[cat]<=0){alert(cat+" COMPLET - Plus de chambres");return;}
-  CODE_CACHE_SITE="SANA"+Math.floor(1000+Math.random()*9000);
-  dernierTransId="TRANS"+Date.now(); dernierMontant=total;
-  dataReservation={nom,tel,arr,dep,cat,total};
-  document.getElementById('montant-wave').innerText=total.toLocaleString()+" FCFA";
-  document.getElementById('code-cache-display').innerText=CODE_CACHE_SITE;
-  document.getElementById('modal-code').style.display='flex';
+  if(!nom||!tel||!arr||!dep){alert("Remplis tout");return;}
+  let {cat,total,aPayer,reste,nuits}=calcul(); if(getStock()[cat]<=0){alert(cat+" FINI, complet");return;}
+  CODE_CACHE_SITE="SANA"+Math.floor(1000+Math.random()*9000); dernierTransId="TRANS"+Date.now();
+  dataReservation={nom,tel,arr,dep,cat,total,aPayer,reste,pourcentagePay,nuits};
+  document.getElementById('modal-chambre').innerText=cat; document.getElementById('montant-wave').innerText=aPayer.toLocaleString()+" FCFA ("+pourcentagePay+"%)";
+  document.getElementById('detail-wave').innerText=pourcentagePay==50?`${cat} Total ${total.toLocaleString()} - 50% non remboursable`: `${cat} Total ${total.toLocaleString()} - 100% payé`;
+  document.getElementById('code-cache-display').innerText=CODE_CACHE_SITE; document.getElementById('modal-code').style.display='flex';
 }
-
 window.verifierDoubleCode=async()=>{
-  let codeEntre=document.getElementById('input-code-visible').value.trim();
-  let waveId=document.getElementById('input-wave-id').value.trim();
-  let err=document.getElementById('msg-erreur');
-  if(!waveId){err.innerText="Entrez l'ID Wave reçu par SMS";return;}
-  if(codeEntre!==CODE_CACHE_SITE){err.innerText="Code faux! Attendu: "+CODE_CACHE_SITE;return;}
-  err.innerText="Envoi en temps réel vers Odienné...";
-  let newRes={id:dernierTransId,codeCache:CODE_CACHE_SITE,waveId:waveId,nom:dataReservation.nom,tel:dataReservation.tel,dates:dataReservation.arr+" au "+dataReservation.dep,cat:dataReservation.cat,montant:dernierMontant,total:dataReservation.total,date:new Date().toLocaleString(),statut:"EN ATTENTE"};
-  try{
-    await set(ref(db, 'reservations/'+dernierTransId), newRes);
-    let msg=`🚨 NOUVELLE RESA SANA HOTEL%0AID: ${dernierTransId}%0AWAVE ID: ${waveId}%0A${dataReservation.nom} - ${dataReservation.cat}%0A${dernierMontant} FCFA%0AVerifie Wave et confirme sur reception.html`;
-    window.open(`https://wa.me/2250710066132?text=${msg}`,'_blank');
-    document.getElementById('modal-code').style.display="none";
-    document.getElementById('message-envoye').classList.remove('cache');
-    err.innerText="";
-  }catch(e){err.innerText="Erreur Firebase: "+e.message+" - Vérifie que tu as bien créé la base en mode test";}
+  let codeEntre=document.getElementById('input-code-visible').value.trim(); let waveId=document.getElementById('input-wave-id').value.trim(); let err=document.getElementById('msg-erreur');
+  if(!waveId){err.innerText="ID Wave obligatoire";return;} if(codeEntre!==CODE_CACHE_SITE){err.innerText="Code faux: "+CODE_CACHE_SITE;return;}
+  err.innerText="Envoi Firebase...";
+  let newRes={id:dernierTransId,codeCache:CODE_CACHE_SITE,waveId:waveId,nom:dataReservation.nom,tel:dataReservation.tel,dates:dataReservation.arr+" au "+dataReservation.dep,cat:dataReservation.cat,montant:dataReservation.aPayer,total:dataReservation.total,reste:dataReservation.reste,pourcentage:dataReservation.pourcentagePay,nuits:dataReservation.nuits,date:new Date().toLocaleString(),statut:dataReservation.pourcentagePay==50?"50% NON REMBOURSABLE":"100% PAYE"};
+  try{await set(ref(db,'reservations/'+dernierTransId), newRes); document.getElementById('modal-code').style.display="none"; document.getElementById('recap-envoi').innerHTML=`Chambre ${dataReservation.cat}<br>Payé ${dataReservation.aPayer.toLocaleString()} (${dataReservation.pourcentagePay}%) / Total ${dataReservation.total.toLocaleString()}<br>${dataReservation.pourcentagePay==50?`Reste ${dataReservation.reste.toLocaleString()} sur place - Non remboursable`:`Payé 100%`}`; document.getElementById('message-envoye').classList.remove('cache'); window.open(`https://wa.me/2250710066132?text=RESA ${dataReservation.cat} ${dataReservation.pourcentagePay}% - ${dataReservation.nom} - Payé ${dataReservation.aPayer} - Total ${dataReservation.total} - ID ${waveId}`,'_blank');}catch(e){err.innerText=e.message;}
 }
 </script>
 </body>
