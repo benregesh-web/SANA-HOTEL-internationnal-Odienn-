@@ -1,78 +1,80 @@
-<!DOCTYPE html> <html lang="fr"> <head> <meta charset="UTF-8"> <title>Réserver - SANA HOTEL internationnal Odienné</title> <link rel="stylesheet" href="style.css"> </head> <body> <header class="navbar"> <div class="logo"><a href="index.html" style="color:white; text-decoration:none;">SANA HOTEL internationnal Odienné</a></div> </header> <section id="reservation" class="reservation"> <h2>Réserver votre séjour</h2> <p>Choisissez tout. Payez 50% ou 100%. Votre réservation partira direct au réceptionniste via WhatsApp.</p> <form id="form-reservation" class="form-reservation"> <div class="form-groupe"><label>Nom Complet</label><input type="text" id="nom-client" placeholder="Ex: Kouassi Jean" required></div> <div class="form-groupe"><label>Téléphone</label><input type="tel" id="tel-client" placeholder="07 00 00 00" required></div> <div class="form-groupe"><label>Date d'arrivée</label><input type="date" id="date-arrivee" required></div> <div class="form-groupe"><label>Date de départ</label><input type="date" id="date-depart" required></div> <h3>Choisissez votre chambre</h3> <div id="stock-chambres" style="background:#eaf8f0; padding:10px; border-radius:5px; margin-bottom:15px; font-size:14px;">Chargement des disponibilités...</div> <div class="choix-chambre"> <label class="option-chambre"><input type="radio" name="chambre" value="Standard 1 Lit|15000"><div><b>Chambre Standard 1 Lit</b><br><span>15 000 FCFA / nuit</span></div></label> <label class="option-chambre"><input type="radio" name="chambre" value="Standard 2 Lits|20000"><div><b>Chambre Standard 2 Lits</b><br><span>20 000 FCFA / nuit</span></div></label> <label class="option-chambre"><input type="radio" name="chambre" value="Confort 1 Lit|25000"><div><b>Chambre Confort 1 Lit</b><br><span>25 000 FCFA / nuit</span></div></label> <label class="option-chambre"><input type="radio" name="chambre" value="Confort 2 Lits|30000"><div><b>Chambre Confort 2 Lits</b><br><span>30 000 FCFA / nuit</span></div></label> <label class="option-chambre"><input type="radio" name="chambre" value="VIP|50000"><div><b>Chambre VIP</b><br><span>50 000 FCFA / nuit</span></div></label> <label class="option-chambre"><input type="radio" name="chambre" value="Suite|60000"><div><b>Suite Présidentielle</b><br><span>60 000 FCFA / nuit</span></div></label> </div> <h3>Services supplémentaires</h3> <div class="services-sup"> <label><input type="checkbox" name="service" value="Restaurant|5000"> 🍽️ Restaurant 5 000 FCFA</label> <label><input type="checkbox" name="service" value="Salle|20000"> 🏛️ Salle 20 000 FCFA</label> <label><input type="checkbox" name="service" value="Piscine|3000"> 🏊 Piscine 3 000 FCFA</label> <label><input type="checkbox" name="service" value="Massage|10000"> 💆 Massage 10 000 FCFA</label> <label><input type="checkbox" name="service" value="Gym|2000"> 🏋️ Gym 2 000 FCFA</label> </div> <div class="bloc-recap"> <h3>Récapitulatif</h3> <p id="recap-total">Total: 0 FCFA</p> <div class="choix-paiement"><label><input type="radio" name="paiement-type" value="50" checked> Payer 50% Acompte</label><label><input type="radio" name="paiement-type" value="100"> Payer 100% Totalité</label></div> <p class="alerte">⚠️ Payez sur Wave au 07 10 06 61 32 puis envoyez la capture au réceptionniste. Non remboursable.</p> <button type="button" onclick="payerEtEnvoyer()" class="btn-payer-envoyer">📱 PAYER VIA WAVE ET ENVOYER AU RECEPTIONNISTE</button> </div> </form> <div id="message-envoye" class="message-ok cache"><h3>✅ Réservation envoyée!</h3><p>Le réceptionniste vous contactera sur WhatsApp.</p></div> </section>
+<!DOCTYPE html> <html lang="fr"> <head> <meta charset="UTF-8"> <title>Réserver - SANA HOTEL</title> <link rel="stylesheet" href="style.css">
+<style>.modal-double{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;justify-content:center;align-items:center;z-index:9999;padding:15px}.modal-double-content{background:white;padding:25px;border-radius:15px;max-width:450px;width:95%;text-align:center}</style>
+</head><body>
+<header class="navbar"><div class="logo"><a href="index.html" style="color:white;text-decoration:none;">SANA HOTEL internationnal Odienné</a></div></header>
+<section id="reservation" class="reservation">
+<h2>Réserver votre séjour</h2>
+<p>Choisissez tout. Payez 50% ou 100%.</p>
+<form id="form-reservation" class="form-reservation">
+<div class="form-groupe"><label>Nom Complet</label><input type="text" id="nom-client" required></div>
+<div class="form-groupe"><label>Téléphone</label><input type="tel" id="tel-client" required></div>
+<div class="form-groupe"><label>Date d'arrivée</label><input type="date" id="date-arrivee" required></div>
+<div class="form-groupe"><label>Date de départ</label><input type="date" id="date-depart" required></div>
+<h3>Choisissez votre chambre</h3>
+<div id="stock-chambres" style="background:#eaf8f0;padding:10px;border-radius:5px;margin-bottom:15px;font-size:14px;">Chargement...</div>
+<div class="choix-chambre">
+<label class="option-chambre"><input type="radio" name="chambre" value="Standard 1 Lit|15000"><div><b>Standard 1 Lit</b><br><span>15 000 FCFA</span></div></label>
+<label class="option-chambre"><input type="radio" name="chambre" value="Standard 2 Lits|20000"><div><b>Standard 2 Lits</b><br><span>20 000 FCFA</span></div></label>
+<label class="option-chambre"><input type="radio" name="chambre" value="Confort 1 Lit|25000"><div><b>Confort 1 Lit</b><br><span>25 000 FCFA</span></div></label>
+<label class="option-chambre"><input type="radio" name="chambre" value="Confort 2 Lits|30000"><div><b>Confort 2 Lits</b><br><span>30 000 FCFA</span></div></label>
+<label class="option-chambre"><input type="radio" name="chambre" value="VIP|50000"><div><b>VIP</b><br><span>50 000 FCFA</span></div></label>
+<label class="option-chambre"><input type="radio" name="chambre" value="Suite|60000"><div><b>Suite Présidentielle</b><br><span>60 000 FCFA</span></div></label>
+</div>
+<h3>Services</h3>
+<div class="services-sup">
+<label><input type="checkbox" name="service" value="Restaurant|5000"> Restaurant</label>
+<label><input type="checkbox" name="service" value="Salle|20000"> Salle</label>
+<label><input type="checkbox" name="service" value="Piscine|3000"> Piscine</label>
+<label><input type="checkbox" name="service" value="Massage|10000"> Massage</label>
+<label><input type="checkbox" name="service" value="Gym|2000"> Gym</label>
+</div>
+<div class="bloc-recap">
+<h3>Récapitulatif</h3><p id="recap-total">Total: 0 FCFA</p>
+<div class="choix-paiement"><label><input type="radio" name="paiement-type" value="50" checked> Payer 50%</label><label><input type="radio" name="paiement-type" value="100"> Payer 100%</label></div>
+<p class="alerte">⚠️ Payez sur Wave au 07 10 06 61 32 puis envoyez la capture.</p>
+<button type="button" onclick="afficherPaiement()" class="btn-payer-envoyer">📱 PAYER VIA WAVE</button>
+</div></form>
+<div id="message-envoye" class="message-ok cache"><h3>✅ Demande envoyée!</h3><p>En attente de vérification Wave par le réceptionniste.</p></div>
+
+<div id="modal-paiement" class="modal-double"><div class="modal-double-content">
+<h3>Payez sur Wave</h3><p>Numéro: <b>07 10 06 61 32</b></p>
+<p id="montant-a-payer" style="font-size:32px;font-weight:bold;color:#25D366;margin:15px 0"></p>
+<p>à payer sur Wave</p>
+<button onclick="genererDoubleCode()" style="background:#25D366;color:white;padding:16px;width:100%;border:none;border-radius:10px;font-weight:bold;">J'AI PAYÉ - DONNEZ-MOI LE CODE</button>
+<button onclick="document.getElementById('modal-paiement').style.display='none'" style="margin-top:10px;background:#f0f0f0;padding:10px;width:100%;border:none;border-radius:8px">Annuler</button>
+</div></div>
+
+<div id="modal-code" class="modal-double"><div class="modal-double-content">
+<h3 style="color:#25D366">Double Code</h3>
+<p id="code-affiche" style="font-size:34px;font-weight:bold;letter-spacing:7px;background:#eaf8f0;padding:15px;border-radius:10px;border:2px dashed #25D366"></p>
+<p style="font-size:12px;color:red">Recopiez exactement le code ci-dessus (copie cachée sur le site)</p>
+<input type="text" id="input-code-visible" placeholder="Code reçu" style="font-size:20px;text-align:center;letter-spacing:4px;padding:12px;width:90%;border:2px solid #25D366;border-radius:8px;margin-top:10px">
+<input type="text" id="input-wave-id" placeholder="ID transaction Wave (ex: QZ7R9...)" style="font-size:16px;padding:12px;width:90%;border:2px solid #25D366;border-radius:8px;margin-top:10px"><br><br>
+<button onclick="verifierDoubleCode()" style="background:#25D366;color:white;padding:15px;width:100%;border:none;border-radius:10px;font-weight:bold;">VÉRIFIER ET ENVOYER POUR VÉRIFICATION</button>
+<p id="msg-erreur" style="color:red;font-size:13px"></p>
+</div></div>
+</section>
 <script>
-let total = 0;
-let STOCK_INITIAL = {
-  "Standard 1 Lit": 3,
-  "Standard 2 Lits": 3,
-  "Confort 1 Lit": 2,
-  "Confort 2 Lits": 2,
-  "VIP": 1,
-  "Suite": 1
-};
-function getStock(){ let s = localStorage.getItem('sana_stock'); return s? JSON.parse(s) : STOCK_INITIAL; }
-function saveStock(stock){ localStorage.setItem('sana_stock', JSON.stringify(stock)); }
-function afficherStock(){
-  let stock = getStock();
-  let div = document.getElementById('stock-chambres');
-  let html = "<b>Disponibilités:</b><br>";
-  for(let cat in stock){
-    let r = stock[cat];
-    html += `${cat}: ${r>0?`<span style='color:green'>${r} dispo</span>`:`<span style='color:red;font-weight:bold'>COMPLET - OCCUPÉ</span>`} | `;
-  }
-  div.innerHTML = html;
-  document.querySelectorAll('input[name="chambre"]').forEach(radio=>{
-    let cat = radio.value.split('|')[0];
-    if(stock[cat] <=0){
-      radio.disabled = true;
-      radio.parentElement.style.opacity="0.5";
-      radio.parentElement.style.background="#ffcccc";
-    } else {
-      radio.disabled = false;
-      radio.parentElement.style.opacity="1";
-      radio.parentElement.style.background="";
-    }
-  });
+let total=0;let STOCK_INITIAL={"Standard 1 Lit":3,"Standard 2 Lits":3,"Confort 1 Lit":2,"Confort 2 Lits":2,"VIP":1,"Suite":1};
+function getStock(){let s=localStorage.getItem('sana_stock');return s?JSON.parse(s):STOCK_INITIAL;}
+function saveStock(stock){localStorage.setItem('sana_stock',JSON.stringify(stock));}
+function afficherStock(){let stock=getStock();let div=document.getElementById('stock-chambres');let html="<b>Disponibilités:</b><br>";for(let cat in stock){let r=stock[cat];html+=`${cat}: ${r>0?`<span style='color:green'>${r} dispo</span>`:`<span style='color:red;font-weight:bold'>COMPLET</span>`} | `;}div.innerHTML=html;document.querySelectorAll('input[name="chambre"]').forEach(radio=>{let cat=radio.value.split('|')[0];if(stock[cat]<=0){radio.disabled=true;radio.parentElement.style.opacity="0.5";radio.parentElement.style.background="#ffcccc";}else{radio.disabled=false;radio.parentElement.style.opacity="1";radio.parentElement.style.background="";}});}
+document.addEventListener('DOMContentLoaded',function(){afficherStock();document.querySelectorAll('input[name="chambre"], input[name="service"], #date-arrivee, #date-depart').forEach(el=>{el.addEventListener('change',calculerTotal);});calculerTotal();});
+function calculerTotal(){total=0;let arr=document.getElementById('date-arrivee').value;let dep=document.getElementById('date-depart').value;let nuits=0;if(arr&&dep){let d1=new Date(arr);let d2=new Date(dep);nuits=Math.ceil((d2-d1)/(1000*60*60*24));if(nuits<1)nuits=1;}let ch=document.querySelector('input[name="chambre"]:checked');if(ch){total+=parseInt(ch.value.split('|')[1])*nuits;}document.querySelectorAll('input[name="service"]:checked').forEach(s=>{total+=parseInt(s.value.split('|')[1]);});let txt=nuits>1?` pour ${nuits} nuits`:'';document.getElementById('recap-total').innerText="Total: "+total.toLocaleString()+" FCFA"+txt;}
+
+let CODE_CACHE_SITE="";let dernierMontant=0;let dernierTransId="";let dataReservation={};
+function afficherPaiement(){if(total===0)return alert("Choisissez chambre");let nom=document.getElementById('nom-client').value;let tel=document.getElementById('tel-client').value;let arr=document.getElementById('date-arrivee').value;let dep=document.getElementById('date-depart').value;if(!nom||!tel||!arr||!dep)return alert("Remplissez tout");let chChecked=document.querySelector('input[name="chambre"]:checked');if(!chChecked)return alert("Choisissez chambre");if(getStock()[chChecked.value.split('|')[0]]<=0)return alert("COMPLET");let type=document.querySelector('input[name="paiement-type"]:checked').value;dernierMontant=type==="50"?Math.round(total*0.5):total;dernierTransId='SANA-WAVE-'+Date.now();dataReservation={nom,tel,arr,dep,cat:chChecked.value.split('|')[0],prix:chChecked.value.split('|')[1],type,total};document.getElementById('montant-a-payer').innerText=dernierMontant.toLocaleString()+" FCFA";document.getElementById('modal-paiement').style.display="flex";}
+function genererDoubleCode(){CODE_CACHE_SITE=Math.floor(100000+Math.random()*900000).toString();document.getElementById('code-affiche').innerText=CODE_CACHE_SITE;document.getElementById('modal-paiement').style.display="none";document.getElementById('modal-code').style.display="flex";}
+function verifierDoubleCode(){
+let codeEntre=document.getElementById('input-code-visible').value.trim();let waveId=document.getElementById('input-wave-id').value.trim();
+if(!waveId)return document.getElementById('msg-erreur').innerText="Entrez ID Wave";if(codeEntre!==CODE_CACHE_SITE)return document.getElementById('msg-erreur').innerText="❌ Code faux! Copie cachée: "+CODE_CACHE_SITE;
+let reservations=JSON.parse(localStorage.getItem('sana_reservations_pending')||"[]");
+let newRes={id:dernierTransId,codeCache:CODE_CACHE_SITE,codeClient:codeEntre,waveId:waveId,nom:dataReservation.nom,tel:dataReservation.tel,dates:dataReservation.arr+" au "+dataReservation.dep,cat:dataReservation.cat,montant:dernierMontant,total:total,type:dataReservation.type,date:new Date().toLocaleString(),statut:"EN ATTENTE"};
+reservations.push(newRes);localStorage.setItem('sana_reservations_pending',JSON.stringify(reservations));
+let services=[];document.querySelectorAll('input[name="service"]:checked').forEach(s=>services.push(s.value.split('|')[0]));
+let msg=`🚨 DEMANDE A VERIFIER SANA HOTEL%0A⚠️ NE CONFIRMEZ QUE SI ARGENT RECU SUR WAVE%0AID: ${dernierTransId}%0ACode Cache: ${CODE_CACHE_SITE}%0ACode Client: ${codeEntre}%0AWAVE ID: ${waveId}%0ANom: ${dataReservation.nom}%0ATel: ${dataReservation.tel}%0ADates: ${dataReservation.arr} au ${dataReservation.dep}%0AChambre: ${dataReservation.cat}%0AMontant annoncé: ${dernierMontant} FCFA%0AServices: ${services.join(', ')}%0A%0A👉 Ouvrez Wave et vérifiez. Puis allez sur reception.html pour CONFIRMER.`;
+window.open(`https://wa.me/2250710066132?text=${msg}`,'_blank');
+document.getElementById('modal-code').style.display="none";document.getElementById('message-envoye').classList.remove('cache');
+document.getElementById('form-reservation').reset();calculerTotal();CODE_CACHE_SITE="";
 }
-document.addEventListener('DOMContentLoaded', function() {
- afficherStock();
- document.querySelectorAll('input[name="chambre"], input[name="service"], #date-arrivee, #date-depart').forEach(el=>{ el.addEventListener('change', calculerTotal); });
- const urlParams = new URLSearchParams(window.location.search);
- let chambre = urlParams.get('chambre'); let prix = urlParams.get('prix');
- if(chambre && prix){ document.querySelectorAll('input[name="chambre"]').forEach(r=>{ if(r.value.includes(chambre)){ r.checked=true; r.value=chambre+'|'+prix; } }); }
- calculerTotal();
- if(new URLSearchParams(window.location.search).get('reset_stock')==='oui'){ localStorage.removeItem('sana_stock'); alert("Stock réinitialisé!"); afficherStock(); }
-});
-function calculerTotal(){
- total=0; let arr=document.getElementById('date-arrivee').value; let dep=document.getElementById('date-depart').value; let nuits=0;
- if(arr && dep){ let d1=new Date(arr); let d2=new Date(dep); nuits=Math.ceil((d2-d1)/(1000*60*60*24)); if(nuits<1) nuits=1; }
- let ch=document.querySelector('input[name="chambre"]:checked'); if(ch){ total+=parseInt(ch.value.split('|')[1])*nuits; }
- document.querySelectorAll('input[name="service"]:checked').forEach(s=>{ total+=parseInt(s.value.split('|')[1]); });
- let txt=nuits>1?` pour ${nuits} nuits`:'';
- document.getElementById('recap-total').innerText="Total: "+total.toLocaleString()+" FCFA"+txt;
-}
-function payerEtEnvoyer(){
- if(total===0) return alert("Veuillez choisir au moins une chambre et les dates");
- let nom=document.getElementById('nom-client').value; let tel=document.getElementById('tel-client').value;
- let arr=document.getElementById('date-arrivee').value; let dep=document.getElementById('date-depart').value;
- if(!nom||!tel||!arr||!dep) return alert("Veuillez remplir tous les champs");
- let chChecked=document.querySelector('input[name="chambre"]:checked');
- if(!chChecked) return alert("Choisissez une chambre");
- let cat=chChecked.value.split('|')[0];
- let stock=getStock();
- if(stock[cat]<=0) return alert("Désolé, "+cat+" est COMPLET - OCCUPÉ. Choisissez une autre catégorie.");
- let type=document.querySelector('input[name="paiement-type"]:checked').value;
- let montant= type==="50"?Math.round(total*0.5):total;
- let trans_id='SANA-WAVE-'+Date.now();
- let ok=confirm("MONTANT A PAYER: "+montant.toLocaleString()+" FCFA\nNuméro Wave: 07 10 06 61 32\nNom: SANA HOTEL\n\n1. Paye sur Wave\n2. Clique OK pour envoyer sur WhatsApp");
- if(ok){
-   stock[cat]--; saveStock(stock); afficherStock();
-   let prixU=chChecked.value.split('|')[1];
-   let d1=new Date(arr); let d2=new Date(dep); let nb=Math.ceil((d2-d1)/(1000*60*60*24)); if(nb<1) nb=1;
-   let services=[]; document.querySelectorAll('input[name="service"]:checked').forEach(s=>services.push(s.value.split('|')[0]));
-   let msg=`NOUVELLE RESERVATION SANA HOTEL%0AID: ${trans_id}%0ANom: ${nom}%0ATel: ${tel}%0ADates: ${arr} au ${dep} (${nb} nuits)%0AChambre: ${cat} à ${prixU} FCFA/nuit%0AServices: ${services.join(', ')||'Aucun'}%0ATotal: ${total.toLocaleString()} FCFA%0APayé: ${montant.toLocaleString()} FCFA / ${type==="50"?"Acompte 50%":"Total 100%"}%0APaiement: Wave 07 10 06 61 32%0AStock restant ${cat}: ${stock[cat]}%0AVérifier Wave svp.`;
-   window.open(`https://wa.me/2250710066132?text=${msg}`,'_blank');
-   document.getElementById('message-envoye').classList.remove('cache');
-   document.getElementById('form-reservation').reset(); calculerTotal();
- }
-}
-</script> </body> </html>
+</script></body></html>
