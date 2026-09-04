@@ -1,146 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Panel Réception SANA - FIX BOUTONS</title>
-<style>body{font-family:Arial;padding:15px;background:#f0f2f5;margin:0}.header{background:#111;color:white;padding:15px;text-align:center}.card{background:white;padding:15px;border-radius:12px;margin-bottom:12px;border-left:5px solid #25D366;box-shadow:0 2px 5px rgba(0,0,0,.1)}.btn-oui{background:#25D366;color:white;padding:14px;border:none;border-radius:8px;width:48%;font-weight:bold;cursor:pointer}.btn-non{background:#ff4444;color:white;padding:14px;border:none;border-radius:8px;width:48%;font-weight:bold;cursor:pointer}.stock-box{background:white;padding:12px;border-radius:8px;margin:10px 0}.btn-stock{padding:8px;margin:3px;background:#2E8B57;color:white;border:none;border-radius:5px;cursor:pointer;font-size:12px}</style>
-</head>
-<body>
-<script>if(prompt("🔐 Mot de passe Réception SANA:")!=="SANA2024"){alert("Faux");location.href="index.html"}</script>
-<div class="header"><h2 style="margin:0">🔴 PANEL RÉCEPTION SANA - STOCK FIXÉ</h2></div>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Panel Réception</title>
+<style>body{font-family:Arial;padding:15px;background:#f0f2f5;margin:0}.header{background:#111;color:white;padding:15px;text-align:center}.card{background:white;padding:15px;border-radius:12px;margin-bottom:12px;border-left:5px solid #25D366}.btn-oui{background:#25D366;color:white;padding:14px;border:none;border-radius:8px;width:48%;font-weight:bold}.btn-non{background:#ff4444;color:white;padding:14px;border:none;border-radius:8px;width:48%;font-weight:bold}.stock-box{background:white;padding:12px;border-radius:8px;margin:10px 0}.btn-stock{padding:8px;margin:3px;background:#2E8B57;color:white;border:none;border-radius:5px;font-size:12px}</style>
+</head><body>
+<script>if(prompt("🔐 Mot de passe:")!=="SANA2024"){location.href="index.html"}</script>
+<div class="header"><h2>🔴 PANEL SANA - BLOCAGE PAR CHAMBRE</h2><small>CH01 pris = CH01 bloqué</small><div style="background:red;color:white;padding:5px;margin-top:5px;border-radius:5px;font-weight:bold">🚫 UNE FOIS LA COMMANDE VALIDÉE, AUCUN REMBOURSEMENT 🚫</div></div>
 <div style="padding:15px">
-<div class="stock-box">📦 Stock réel:<br>
-<b id="stock-view" style="font-size:14px">Chargement...</b><br><br>
-<b>🔧 Débloquer / Remettre à zéro:</b><br>
-<button onclick="remettreStock('STANDARD_15000',12)" class="btn-stock">Standard 15k → 12</button>
-<button onclick="remettreStock('CLASSIQUE_20000',24)" class="btn-stock">Classique 20k → 24</button>
-<button onclick="remettreStock('CONFORT_30000',12)" class="btn-stock">Confort 30k → 12</button>
-<button onclick="remettreStock('VIP_50000',6)" class="btn-stock">VIP 50k → 6</button>
-<button onclick="remettreStock('VVIP_60000',2)" class="btn-stock">VVIP 60k → 2</button>
-<button onclick="remettreStock('SUITE_60000',4)" class="btn-stock">Suite 60k → 4</button>
-<button onclick="remettreStock('APPART_70000',4)" class="btn-stock">Appart 70k → 4</button>
-<br><br>
-<button onclick="remettreTout()" style="padding:12px;background:orange;color:white;border:none;border-radius:8px;width:100%;font-weight:bold">🔄 REMETTRE TOUT À PLEIN</button>
-<button onclick="ajouterUneChambre()" style="padding:10px;background:#111;color:white;border:none;border-radius:8px;width:100%;margin-top:8px">➕ +1 LIBRE (client parti)</button>
-<button onclick="supprimerAncienStock()" style="padding:8px;background:red;color:white;border:none;border-radius:5px;width:100%;margin-top:8px">🗑️ SUPPRIMER ANCIEN STOCK AVEC POINTS (à cliquer 1 fois)</button>
-</div>
-<div id="liste">Chargement...</div>
-</div>
+<div class="stock-box">
+<b id="stock-view">Chargement...</b><br><small id="occupees-view" style="color:red"></small><br><br>
+<button onclick="remettreStock('STANDARD_15000',12)" class="btn-stock">Standard 12</button>
+<button onclick="remettreStock('CLASSIQUE_20000',24)" class="btn-stock">Classique 24</button>
+<button onclick="remettreStock('CONFORT_30000',12)" class="btn-stock">Confort 12</button>
+<button onclick="remettreStock('VIP_50000',6)" class="btn-stock">VIP 6</button>
+<button onclick="remettreStock('VVIP_60000',2)" class="btn-stock">VVIP 2</button>
+<button onclick="remettreStock('SUITE_60000',4)" class="btn-stock">Suite 4</button>
+<button onclick="remettreStock('APPART_70000',4)" class="btn-stock">Appart 4</button><br><br>
+<button onclick="remettreTout()" style="padding:12px;background:orange;color:white;border:none;border-radius:8px;width:100%;font-weight:bold">🔄 TOUT REMETTRE À PLEIN + LIBÉRER TOUTES</button>
+<button onclick="libererChambre()" style="padding:10px;background:#111;color:white;border:none;border-radius:8px;width:100%;margin-top:8px">🔓 LIBÉRER UNE CHAMBRE (CH10)</button>
+</div><div id="liste"></div></div>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getDatabase, ref, onValue, remove, get, set, update } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
-const firebaseConfig = {
-  apiKey: "AIzaSyD0_1oZblysKviAaknavtTZCoM68J9_GKY",
-  authDomain: "sana-hotel-internationnal-odie.firebaseapp.com",
-  databaseURL: "https://sana-hotel-internationnal-odie-default-rtdb.firebaseio.com",
-  projectId: "sana-hotel-internationnal-odie",
-  storageBucket: "sana-hotel-internationnal-odie.firebasestorage.app",
-  messagingSenderId: "10660407067",
-  appId: "1:10660407067:web:7e20b4ab80f4db542a55be"
-};
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-const STOCK_INIT={
-"STANDARD_15000":12,
-"CLASSIQUE_20000":24,
-"CONFORT_30000":12,
-"VIP_50000":6,
-"VVIP_60000":2,
-"SUITE_60000":4,
-"APPART_70000":4
-};
-
-const LABELS={
-"STANDARD_15000":"STANDARD 15.000F (12)",
-"CLASSIQUE_20000":"CLASSIQUE 20.000F (24)",
-"CONFORT_30000":"CONFORT 30.000F (12)",
-"VIP_50000":"VIP 50.000F (6)",
-"VVIP_60000":"VVIP 60.000F (2)",
-"SUITE_60000":"SUITE 60.000F (4)",
-"APPART_70000":"APPART 70.000F (4)"
-};
-
-function getCategorieFromChambre(chambreStr){
-  if(chambreStr.includes("STANDARD")) return "STANDARD_15000";
-  if(chambreStr.includes("CLASSIQUE")) return "CLASSIQUE_20000";
-  if(chambreStr.includes("CONFORT")) return "CONFORT_30000";
-  if(chambreStr.includes("VVIP")) return "VVIP_60000";
-  if(chambreStr.includes("SUITE")) return "SUITE_60000";
-  if(chambreStr.includes("APPART")) return "APPART_70000";
-  if(chambreStr.includes("VIP")) return "VIP_50000";
-  return "STANDARD_15000";
-}
-
-onValue(ref(db,'stock'),(snap)=>{
-  if(!snap.exists()){
-    set(ref(db,'stock'), STOCK_INIT);
-    document.getElementById('stock-view').innerText = "Stock créé";
-    return;
-  }
-  let s=snap.val(); let txt="";
-  for(let k in s){
-    if(LABELS[k]) txt+=`${LABELS[k]}: ${s[k]} | `;
-    else if(k.includes(".")) txt+=`[ANCIEN BUG ${k}] | `;
-    else txt+=`${k}: ${s[k]} | `;
-  }
-  document.getElementById('stock-view').innerText=txt;
-});
-
-onValue(ref(db,'reservations'),(snap)=>{
-  let div=document.getElementById('liste'); div.innerHTML="";
-  if(!snap.exists()){div.innerHTML="<div class='card'>✅ Aucune réservation</div>";return;}
-  snap.forEach(c=>{
-    let r=c.val(); let k=c.key;
-    let catStock = getCategorieFromChambre(r.cat || "");
-    div.innerHTML+=`<div class="card">
-<span style="background:${r.pourcentage==50?'orange':'green'};color:white;padding:4px 8px;border-radius:5px;font-size:12px">${r.statut}</span> <small>${r.date}</small><br>
-<b>${r.nom}</b> - ${r.tel}<br>
-🏨 ${r.cat} → ${LABELS[catStock]}<br>
-💰 Total ${r.total} | Payé ${r.montant} (${r.pourcentage}%)<br>
-${r.pourcentage==50?`<span style="color:red;font-weight:bold">RESTE ${r.reste} - NON REMBOURSABLE</span>`:`<span style="color:green">PAYÉ 100%</span>`}<br>
-ID Wave: ${r.waveId}<br><br>
-<button onclick="confirmer('${k}','${r.cat}')" class="btn-oui">✅ REÇU ${r.montant}</button>
-<button onclick="refuser('${k}')" class="btn-non">❌ REFUSER</button>
-</div>`;
-  });
-});
-
-window.confirmer=async(k,catStr)=>{
-  let catStock = getCategorieFromChambre(catStr);
-  if(!confirm("Confirmer "+catStr+"? Stock "+LABELS[catStock]+" -1")) return;
-  let snap=await get(ref(db,'stock')); let st=snap.val()||STOCK_INIT;
-  if((st[catStock]||0)<=0){ alert("Déjà 0"); await remove(ref(db,'reservations/'+k)); return; }
-  st[catStock]--; await set(ref(db,'stock'),st); await remove(ref(db,'reservations/'+k));
-  alert("✅ Reste "+LABELS[catStock]+": "+st[catStock]);
-}
-window.refuser=async(k)=>{ if(confirm("Refuser?")) await remove(ref(db,'reservations/'+k)); }
-
-window.remettreStock=async(cat,qte)=>{
-  if(!confirm(`Remettre ${LABELS[cat]} à ${qte}?`)) return;
-  let snap=await get(ref(db,'stock')); let st=snap.val()||{};
-  st[cat]=qte; await set(ref(db,'stock'),st);
-  alert(`✅ ${LABELS[cat]} = ${qte}`);
-}
-window.remettreTout=async()=>{
-  if(!confirm("Remettre tout à plein 12/24/12/6/2/4/4?")) return;
-  await set(ref(db,'stock'),STOCK_INIT);
-  alert("✅ Tout plein remis");
-}
-window.ajouterUneChambre=async()=>{
-  let cat=prompt("Tape: STANDARD_15000, CLASSIQUE_20000, CONFORT_30000, VIP_50000, VVIP_60000, SUITE_60000, APPART_70000");
-  if(!cat||!STOCK_INIT[cat]) return alert("Faux nom, recopie exactement");
-  let snap=await get(ref(db,'stock')); let st=snap.val()||STOCK_INIT;
-  st[cat]=(st[cat]||0)+1; if(st[cat]>STOCK_INIT[cat]) st[cat]=STOCK_INIT[cat];
-  await set(ref(db,'stock'),st); alert(`${LABELS[cat]}: ${st[cat]}`);
-}
-window.supprimerAncienStock=async()=>{
-  // supprime les anciennes clés avec points qui bloquaient
-  let snap=await get(ref(db,'stock')); if(!snap.exists()) return;
-  let st=snap.val();
-  for(let k in st){ if(k.includes(".")){ await remove(ref(db,'stock/'+k)); } }
-  // remet le bon stock
-  await set(ref(db,'stock'),STOCK_INIT);
-  alert("✅ Ancien stock avec points supprimé, nouveau stock mis");
-}
-</script>
-</body>
-</html>
+import { getDatabase, ref, onValue, remove, get, set } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+const firebaseConfig={apiKey:"AIzaSyD0_1oZblysKviAaknavtTZCoM68J9_GKY",authDomain:"sana-hotel-internationnal-odie.firebaseapp.com",databaseURL:"https://sana-hotel-internationnal-odie-default-rtdb.firebaseio.com",projectId:"sana-hotel-internationnal-odie",storageBucket:"sana-hotel-internationnal-odie.firebasestorage.app",messagingSenderId:"10660407067",appId:"1:10660407067:web:7e20b4ab80f4db542a55be"};
+const app=initializeApp(firebaseConfig);const db=getDatabase(app);
+const STOCK_INIT={"STANDARD_15000":12,"CLASSIQUE_20000":24,"CONFORT_30000":12,"VIP_50000":6,"VVIP_60000":2,"SUITE_60000":4,"APPART_70000":4};
+const LABELS={"STANDARD_15000":"STANDARD 15.000F","CLASSIQUE_20000":"CLASSIQUE 20.000F","CONFORT_30000":"CONFORT 30.000F","VIP_50000":"VIP 50.000F","VVIP_60000":"VVIP 60.000F","SUITE_60000":"SUITE 60.000F","APPART_70000":"APPART 70.000F"};
+function getCat(s){if(s.includes("STANDARD"))return"STANDARD_15000";if(s.includes("CLASSIQUE"))return"CLASSIQUE_20000";if(s.includes("CONFORT"))return"CONFORT_30000";if(s.includes("VVIP"))return"VVIP_60000";if(s.includes("SUITE"))return"SUITE_60000";if(s.includes("APPART"))return"APPART_70000";return"VIP_50000";}
+function getNum(s){let m=s.match(/(CH\d+|APP\d+)/);return m?m[0]:s;}
+onValue(ref(db,'stock'),snap=>{if(!snap.exists()){set(ref(db,'stock'),STOCK_INIT);return;}let t="";for(let k in snap.val()){t+=`${LABELS[k]||k}: ${snap.val()[k]} | `;}document.getElementById('stock-view').innerText=t;});
+onValue(ref(db,'chambres_occupees'),snap=>{let txt="Occupées: ";if(!snap.exists()){document.getElementById('occupees-view').innerText="Aucune occupée - tout libre ✅ | 🚫 AUCUN REMBOURSEMENT";return;}for(let k in snap.val()){txt+=k+" ❌ ";}document.getElementById('occupees-view').innerText=txt+" | 🚫 AUCUN REMBOURSEMENT";});
+onValue(ref(db,'reservations'),snap=>{let d=document.getElementById('liste');d.innerHTML="";if(!snap.exists()){d.innerHTML="✅ Aucune réservation";return;}snap.forEach(c=>{let r=c.val();let k=c.key;d.innerHTML+=`<div class="card"><b>${r.nom}</b> - ${r.cat} - ${r.numero||getNum(r.cat)}<br>Payé ${r.montant} (${r.pourcentage}%) - ${r.waveId}<br><small style="color:red;font-weight:bold">🚫 AUCUN REMBOURSEMENT - ${r.statut}</small><br><button onclick="confirmer('${k}','${r.cat}')" class="btn-oui">✅ REÇU + BLOQUER ${r.numero||getNum(r.cat)}</button> <button onclick="refuser('${k}')" class="btn-non">❌ REFUSER</button></div>`;});});
+window.confirmer=async(k,catStr)=>{let cs=getCat(catStr);let num=catStr.match(/(CH\d+|APP\d+)/)?.[0]||"";if(!num) num=prompt("Numéro à bloquer?")?.toUpperCase();if(!confirm(`Confirmer ${catStr}? ${num} bloquée - AUCUN REMBOURSEMENT`)) return;let s=(await get(ref(db,'stock'))).val()||STOCK_INIT;if((s[cs]||0)<=0){ await remove(ref(db,'reservations/'+k)); return; }s[cs]--; await set(ref(db,'stock'),s);if(num) await set(ref(db,'chambres_occupees/'+num), true);await remove(ref(db,'reservations/'+k));alert(`✅ ${num} OCCUPÉE! AUCUN REMBOURSEMENT - Reste ${LABELS[cs]}: ${s[cs]}`);}
+window.refuser=async k=>{if(confirm("Refuser? Même si refusé, si déjà validé avant: AUCUN REMBOURSEMENT"))await remove(ref(db,'reservations/'+k));}
+window.remettreStock=async(c,q)=>{if(!confirm(`Remettre ${LABELS[c]} à ${q}?`))return;let s=(await get(ref(db,'stock'))).val()||{};s[c]=q;await set(ref(db,'stock'),{...STOCK_INIT,...s,[c]:q});alert(LABELS[c]+" = "+q);}
+window.remettreTout=async()=>{if(!confirm("Tout remettre plein + libérer toutes?"))return;await set(ref(db,'stock'),STOCK_INIT);await remove(ref(db,'chambres_occupees'));alert("✅ Tout plein + toutes libérées - RAPPEL: AUCUN REMBOURSEMENT si commande validée");}
+window.libererChambre=async()=>{let num=prompt("Quelle chambre libérer? CH01, CH10, APP01...")?.toUpperCase();if(!num)return;await set(ref(db,'chambres_occupees/'+num), null);let cs=getCat(num);let s=(await get(ref(db,'stock'))).val()||STOCK_INIT;s[cs]=Math.min((s[cs]||0)+1,STOCK_INIT[cs]);await set(ref(db,'stock'),s);alert(`✅ ${num} LIBÉRÉE! ${LABELS[cs]}: ${s[cs]}`);};
+</script></body></html>
