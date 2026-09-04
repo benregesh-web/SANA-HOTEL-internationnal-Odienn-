@@ -7,84 +7,119 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
 <header class="navbar">
-  <div class="logo">HOTEL SANA internationnal Odienné</div>
+<div class="logo">HOTEL SANA internationnal Odienné</div>
 </header>
 
 <section id="galerie-chambres" class="galerie-chambres">
-  <h2>Découvrez nos Chambres</h2>
-  <p>Cliquez sur une chambre pour réserver</p>
-  <div class="filtres">
-    <button class="btn-filtre active" onclick="filtrerChambre('tout')">Toutes</button>
-    <button class="btn-filtre" onclick="filtrerChambre('standard')">Standard</button>
-    <button class="btn-filtre" onclick="filtrerChambre('confort')">Confort</button>
-    <button class="btn-filtre" onclick="filtrerChambre('vip')">VIP</button>
-    <button class="btn-filtre" onclick="filtrerChambre('suite')">Suite</button>
-  </div>
- 
-  <div class="grille-galerie">
-  <!-- STANDARD -->
-  <div class="item-galerie standard">
-    <img src="simple1.JPG" alt="Chambre Standard A" onclick="window.location.href='reservation.html?chambre=Standard A&prix=15000'">
-    <div class="info-img"><h4>Chambre Standard A</h4><p>15 000 FCFA / nuit</p></div>
-  </div>
-  
-  <div class="item-galerie standard">
-    <img src="simple2.JPG" alt="Chambre Standard B" onclick="window.location.href='reservation.html?chambre=Standard B&prix=20000'">
-    <div class="info-img"><h4>Chambre Standard B</h4><p>20 000 FCFA / nuit</p></div>
-  </div>
+<h2>Découvrez nos Chambres</h2>
+<p>Cliquez sur une chambre pour réserver - 12 Standards 15.000F, 24 Classiques 20.000F, 12 Conforts 30.000F, 6 VIP 50.000F, 2 VVIP 60.000F, 4 Suites 60.000F, 4 Apparts 70.000F</p>
 
-  <!-- CONFORT -->
-  <div class="item-galerie confort">
-    <img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="Chambre Confort A" onclick="window.location.href='reservation.html?chambre=Confort A&prix=25000'">
-    <div class="info-img"><h4>Chambre Confort A</h4><p>25 000 FCFA / nuit</p></div>
-  </div>
-  
-  <div class="item-galerie confort">
-    <img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="Chambre Confort B" onclick="window.location.href='reservation.html?chambre=Confort B&prix=30000'">
-    <div class="info-img"><h4>Chambre Confort B</h4><p>30 000 FCFA / nuit</p></div>
-  </div>
+<div class="filtres">
+<button class="btn-filtre active" onclick="filtrerChambre('tout')">Toutes</button>
+<button class="btn-filtre" onclick="filtrerChambre('standard')">Standard 15k (12)</button>
+<button class="btn-filtre" onclick="filtrerChambre('classique')">Classique 20k (24)</button>
+<button class="btn-filtre" onclick="filtrerChambre('confort')">Confort 30k (12)</button>
+<button class="btn-filtre" onclick="filtrerChambre('vip')">VIP 50k (6)</button>
+<button class="btn-filtre" onclick="filtrerChambre('vvip')">VVIP 60k (2)</button>
+<button class="btn-filtre" onclick="filtrerChambre('suite')">Suite 60k (4)</button>
+<button class="btn-filtre" onclick="filtrerChambre('appartement')">Appart 70k (4)</button>
+</div>
 
-  <!-- VIP -->
-  <div class="item-galerie vip">
-    <img src="vp1.JPG" alt="Chambre VIP" onclick="window.location.href='reservation.html?chambre=VIP&prix=50000'">
-    <div class="info-img"><h4>Chambre VIP</h4><p>50 000 FCFA / nuit</p></div>
-  </div>
+<div class="grille-galerie">
 
-  <div class="item-galerie vip">
-    <img src="vp1.JPG" alt="Chambre VIP" onclick="window.location.href='reservation.html?chambre=VIP&prix=50000'">
-    <div class="info-img"><h4>Chambre VIP</h4><p>50 000 FCFA / nuit</p></div>
-  </div>
+<!-- ● STANDARD 15.000F (12CHS) CH01 CH02 CH03 CH04 CH05 CH06 CH08 CH09 CH12 CH14 CH15 CH16 -->
+<div class="item-galerie standard"><img src="simple1.JPG" alt="CH01" onclick="window.location.href='reservation.html?chambre=STANDARD 15.000F CH01&prix=15000'"><div class="info-img"><h4>CH01 - Standard</h4><p>15 000 FCFA / nuit</p></div></div>
+<div class="item-galerie standard"><img src="simple1.JPG" alt="CH02" onclick="window.location.href='reservation.html?chambre=STANDARD 15.000F CH02&prix=15000'"><div class="info-img"><h4>CH02 - Standard</h4><p>15 000 FCFA</p></div></div>
+<div class="item-galerie standard"><img src="simple1.JPG" alt="CH03" onclick="window.location.href='reservation.html?chambre=STANDARD 15.000F CH03&prix=15000'"><div class="info-img"><h4>CH03 - Standard</h4><p>15 000 FCFA</p></div></div>
+<div class="item-galerie standard"><img src="simple2.JPG" alt="CH04" onclick="window.location.href='reservation.html?chambre=STANDARD 15.000F CH04&prix=15000'"><div class="info-img"><h4>CH04 - Standard</h4><p>15 000 FCFA</p></div></div>
+<div class="item-galerie standard"><img src="simple2.JPG" alt="CH05" onclick="window.location.href='reservation.html?chambre=STANDARD 15.000F CH05&prix=15000'"><div class="info-img"><h4>CH05 - Standard</h4><p>15 000 FCFA</p></div></div>
+<div class="item-galerie standard"><img src="simple2.JPG" alt="CH06" onclick="window.location.href='reservation.html?chambre=STANDARD 15.000F CH06&prix=15000'"><div class="info-img"><h4>CH06 - Standard</h4><p>15 000 FCFA</p></div></div>
+<div class="item-galerie standard"><img src="simple1.JPG" alt="CH08" onclick="window.location.href='reservation.html?chambre=STANDARD 15.000F CH08&prix=15000'"><div class="info-img"><h4>CH08 - Standard</h4><p>15 000 FCFA</p></div></div>
+<div class="item-galerie standard"><img src="simple2.JPG" alt="CH09" onclick="window.location.href='reservation.html?chambre=STANDARD 15.000F CH09&prix=15000'"><div class="info-img"><h4>CH09 - Standard</h4><p>15 000 FCFA</p></div></div>
+<div class="item-galerie standard"><img src="simple1.JPG" alt="CH12" onclick="window.location.href='reservation.html?chambre=STANDARD 15.000F CH12&prix=15000'"><div class="info-img"><h4>CH12 - Standard</h4><p>15 000 FCFA</p></div></div>
+<div class="item-galerie standard"><img src="simple2.JPG" alt="CH14" onclick="window.location.href='reservation.html?chambre=STANDARD 15.000F CH14&prix=15000'"><div class="info-img"><h4>CH14 - Standard</h4><p>15 000 FCFA</p></div></div>
+<div class="item-galerie standard"><img src="simple1.JPG" alt="CH15" onclick="window.location.href='reservation.html?chambre=STANDARD 15.000F CH15&prix=15000'"><div class="info-img"><h4>CH15 - Standard</h4><p>15 000 FCFA</p></div></div>
+<div class="item-galerie standard"><img src="simple2.JPG" alt="CH16" onclick="window.location.href='reservation.html?chambre=STANDARD 15.000F CH16&prix=15000'"><div class="info-img"><h4>CH16 - Standard</h4><p>15 000 FCFA</p></div></div>
 
-  <!-- SUITE -->
- <div class="item-galerie suite">
-    <img src="suite1.JPG" alt="Suite Présidentielle" onclick="window.location.href='reservation.html?chambre=Suite&prix=60000'">
-    <div class="info-img"><h4>Suite Présidentielle</h4><p>60 000 FCFA / nuit</p></div>
-  </div>
-</div> 
+<!-- ● CLASSIQUES 20.000F (24CHS) CH10 CH11 CH28-47 CH60 CH61 -->
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="CH10" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH10&prix=20000'"><div class="info-img"><h4>CH10 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="CH11" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH11&prix=20000'"><div class="info-img"><h4>CH11 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="CH28" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH28&prix=20000'"><div class="info-img"><h4>CH28 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="CH29" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH29&prix=20000'"><div class="info-img"><h4>CH29 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="CH30" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH30&prix=20000'"><div class="info-img"><h4>CH30 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="CH31" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH31&prix=20000'"><div class="info-img"><h4>CH31 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="CH32" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH32&prix=20000'"><div class="info-img"><h4>CH32 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="CH33" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH33&prix=20000'"><div class="info-img"><h4>CH33 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="CH34" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH34&prix=20000'"><div class="info-img"><h4>CH34 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="CH35" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH35&prix=20000'"><div class="info-img"><h4>CH35 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="CH36" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH36&prix=20000'"><div class="info-img"><h4>CH36 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="CH37" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH37&prix=20000'"><div class="info-img"><h4>CH37 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="CH38" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH38&prix=20000'"><div class="info-img"><h4>CH38 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="CH39" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH39&prix=20000'"><div class="info-img"><h4>CH39 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="CH40" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH40&prix=20000'"><div class="info-img"><h4>CH40 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="CH41" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH41&prix=20000'"><div class="info-img"><h4>CH41 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="CH42" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH42&prix=20000'"><div class="info-img"><h4>CH42 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="CH43" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH43&prix=20000'"><div class="info-img"><h4>CH43 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="CH44" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH44&prix=20000'"><div class="info-img"><h4>CH44 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="CH45" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH45&prix=20000'"><div class="info-img"><h4>CH45 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="CH46" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH46&prix=20000'"><div class="info-img"><h4>CH46 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="CH47" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH47&prix=20000'"><div class="info-img"><h4>CH47 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="CH60" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH60&prix=20000'"><div class="info-img"><h4>CH60 - Classique</h4><p>20 000 FCFA</p></div></div>
+<div class="item-galerie classique"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="CH61" onclick="window.location.href='reservation.html?chambre=CLASSIQUE 20.000F CH61&prix=20000'"><div class="info-img"><h4>CH61 - Classique</h4><p>20 000 FCFA</p></div></div>
 
+<!-- ● CONFORTS 30.000F (12CHS) CH07 CH13 CH17 CH18 CH19 CH20 CH21 CH23 CH24 CH25 CH26 CH27 -->
+<div class="item-galerie confort"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="CH07" onclick="window.location.href='reservation.html?chambre=CONFORT 30.000F CH07&prix=30000'"><div class="info-img"><h4>CH07 - Confort</h4><p>30 000 FCFA</p></div></div>
+<div class="item-galerie confort"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="CH13" onclick="window.location.href='reservation.html?chambre=CONFORT 30.000F CH13&prix=30000'"><div class="info-img"><h4>CH13 - Confort</h4><p>30 000 FCFA</p></div></div>
+<div class="item-galerie confort"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="CH17" onclick="window.location.href='reservation.html?chambre=CONFORT 30.000F CH17&prix=30000'"><div class="info-img"><h4>CH17 - Confort</h4><p>30 000 FCFA</p></div></div>
+<div class="item-galerie confort"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="CH18" onclick="window.location.href='reservation.html?chambre=CONFORT 30.000F CH18&prix=30000'"><div class="info-img"><h4>CH18 - Confort</h4><p>30 000 FCFA</p></div></div>
+<div class="item-galerie confort"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="CH19" onclick="window.location.href='reservation.html?chambre=CONFORT 30.000F CH19&prix=30000'"><div class="info-img"><h4>CH19 - Confort</h4><p>30 000 FCFA</p></div></div>
+<div class="item-galerie confort"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="CH20" onclick="window.location.href='reservation.html?chambre=CONFORT 30.000F CH20&prix=30000'"><div class="info-img"><h4>CH20 - Confort</h4><p>30 000 FCFA</p></div></div>
+<div class="item-galerie confort"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="CH21" onclick="window.location.href='reservation.html?chambre=CONFORT 30.000F CH21&prix=30000'"><div class="info-img"><h4>CH21 - Confort</h4><p>30 000 FCFA</p></div></div>
+<div class="item-galerie confort"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="CH23" onclick="window.location.href='reservation.html?chambre=CONFORT 30.000F CH23&prix=30000'"><div class="info-img"><h4>CH23 - Confort</h4><p>30 000 FCFA</p></div></div>
+<div class="item-galerie confort"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="CH24" onclick="window.location.href='reservation.html?chambre=CONFORT 30.000F CH24&prix=30000'"><div class="info-img"><h4>CH24 - Confort</h4><p>30 000 FCFA</p></div></div>
+<div class="item-galerie confort"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="CH25" onclick="window.location.href='reservation.html?chambre=CONFORT 30.000F CH25&prix=30000'"><div class="info-img"><h4>CH25 - Confort</h4><p>30 000 FCFA</p></div></div>
+<div class="item-galerie confort"><img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg" alt="CH26" onclick="window.location.href='reservation.html?chambre=CONFORT 30.000F CH26&prix=30000'"><div class="info-img"><h4>CH26 - Confort</h4><p>30 000 FCFA</p></div></div>
+<div class="item-galerie confort"><img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg" alt="CH27" onclick="window.location.href='reservation.html?chambre=CONFORT 30.000F CH27&prix=30000'"><div class="info-img"><h4>CH27 - Confort</h4><p>30 000 FCFA</p></div></div>
+
+<!-- ● VIP 50.000F (06CHS) CH48 CH49 CH50 CH51 CH52 CH53 -->
+<div class="item-galerie vip"><img src="vp1.JPG" alt="CH48" onclick="window.location.href='reservation.html?chambre=VIP 50.000F CH48&prix=50000'"><div class="info-img"><h4>CH48 - VIP</h4><p>50 000 FCFA</p></div></div>
+<div class="item-galerie vip"><img src="vp1.JPG" alt="CH49" onclick="window.location.href='reservation.html?chambre=VIP 50.000F CH49&prix=50000'"><div class="info-img"><h4>CH49 - VIP</h4><p>50 000 FCFA</p></div></div>
+<div class="item-galerie vip"><img src="vp1.JPG" alt="CH50" onclick="window.location.href='reservation.html?chambre=VIP 50.000F CH50&prix=50000'"><div class="info-img"><h4>CH50 - VIP</h4><p>50 000 FCFA</p></div></div>
+<div class="item-galerie vip"><img src="vp1.JPG" alt="CH51" onclick="window.location.href='reservation.html?chambre=VIP 50.000F CH51&prix=50000'"><div class="info-img"><h4>CH51 - VIP</h4><p>50 000 FCFA</p></div></div>
+<div class="item-galerie vip"><img src="vp1.JPG" alt="CH52" onclick="window.location.href='reservation.html?chambre=VIP 50.000F CH52&prix=50000'"><div class="info-img"><h4>CH52 - VIP</h4><p>50 000 FCFA</p></div></div>
+<div class="item-galerie vip"><img src="vp1.JPG" alt="CH53" onclick="window.location.href='reservation.html?chambre=VIP 50.000F CH53&prix=50000'"><div class="info-img"><h4>CH53 - VIP</h4><p>50 000 FCFA</p></div></div>
+
+<!-- ● VVIP 60.000F (02CHS) CH54 CH55 -->
+<div class="item-galerie vvip"><img src="suite1.JPG" alt="CH54" onclick="window.location.href='reservation.html?chambre=VVIP 60.000F CH54&prix=60000'"><div class="info-img"><h4>CH54 - VVIP</h4><p>60 000 FCFA</p></div></div>
+<div class="item-galerie vvip"><img src="suite1.JPG" alt="CH55" onclick="window.location.href='reservation.html?chambre=VVIP 60.000F CH55&prix=60000'"><div class="info-img"><h4>CH55 - VVIP</h4><p>60 000 FCFA</p></div></div>
+
+<!-- ● SUITES 60.000F (04CHS) CH56 CH57 CH58 CH59 -->
+<div class="item-galerie suite"><img src="suite1.JPG" alt="CH56" onclick="window.location.href='reservation.html?chambre=SUITE 60.000F CH56&prix=60000'"><div class="info-img"><h4>CH56 - Suite</h4><p>60 000 FCFA</p></div></div>
+<div class="item-galerie suite"><img src="suite1.JPG" alt="CH57" onclick="window.location.href='reservation.html?chambre=SUITE 60.000F CH57&prix=60000'"><div class="info-img"><h4>CH57 - Suite</h4><p>60 000 FCFA</p></div></div>
+<div class="item-galerie suite"><img src="suite1.JPG" alt="CH58" onclick="window.location.href='reservation.html?chambre=SUITE 60.000F CH58&prix=60000'"><div class="info-img"><h4>CH58 - Suite</h4><p>60 000 FCFA</p></div></div>
+<div class="item-galerie suite"><img src="suite1.JPG" alt="CH59" onclick="window.location.href='reservation.html?chambre=SUITE 60.000F CH59&prix=60000'"><div class="info-img"><h4>CH59 - Suite</h4><p>60 000 FCFA</p></div></div>
+
+<!-- ● APPARTEMENT 70.000F (04APPTS) -->
+<div class="item-galerie appartement"><img src="vp1.JPG" alt="APPART 1" onclick="window.location.href='reservation.html?chambre=APPARTEMENT 70.000F APP01&prix=70000'"><div class="info-img"><h4>APP01 - Appartement</h4><p>70 000 FCFA</p></div></div>
+<div class="item-galerie appartement"><img src="vp1.JPG" alt="APPART 2" onclick="window.location.href='reservation.html?chambre=APPARTEMENT 70.000F APP02&prix=70000'"><div class="info-img"><h4>APP02 - Appartement</h4><p>70 000 FCFA</p></div></div>
+<div class="item-galerie appartement"><img src="suite1.JPG" alt="APPART 3" onclick="window.location.href='reservation.html?chambre=APPARTEMENT 70.000F APP03&prix=70000'"><div class="info-img"><h4>APP03 - Appartement</h4><p>70 000 FCFA</p></div></div>
+<div class="item-galerie appartement"><img src="suite1.JPG" alt="APPART 4" onclick="window.location.href='reservation.html?chambre=APPARTEMENT 70.000F APP04&prix=70000'"><div class="info-img"><h4>APP04 - Appartement</h4><p>70 000 FCFA</p></div></div>
+
+</div>
 </section>
-
-<footer><p>© 2026  HOTEL SANA internationnal Odienné</p></footer>
-
+<footer><p>© 2026 HOTEL SANA internationnal Odienné</p></footer>
 <script>
-function filtrerChambre(categorie){
+function reserverChambre(categorie){ localStorage.setItem('sana_cat_choisie', categorie); window.location.href = 'reservation.html?cat=' + encodeURIComponent(categorie); }
+function filtrerChambre(type){
   let items = document.querySelectorAll('.item-galerie');
-  let btns = document.querySelectorAll('.btn-filtre');
-  btns.forEach(btn => btn.classList.remove('active'));
-  event.target.classList.add('active');
-  items.forEach(item => {
-    if(categorie === 'tout' || item.classList.contains(categorie)){ item.classList.remove('cache'); }
-    else { item.classList.add('cache'); }
+  items.forEach(el=>{
+    if(type=='tout' || el.classList.contains(type)){el.style.display='block';} else{el.style.display='none';}
   });
+  document.querySelectorAll('.btn-filtre').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
 }
-
-function toggleMenu(){
-  document.getElementById('menu-nav').classList.toggle('show');
-}
-
-
+function toggleMenu(){ document.getElementById('menu-nav')?.classList.toggle('show'); }
 </script>
 </body>
 </html>

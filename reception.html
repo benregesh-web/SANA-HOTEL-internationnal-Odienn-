@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html>
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Panel Réception SANA - Stock + 50/100</title>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Panel Réception SANA - VRAI STOCK</title>
 <style>body{font-family:Arial;padding:15px;background:#f0f2f5;margin:0}.header{background:#111;color:white;padding:15px;text-align:center}.card{background:white;padding:15px;border-radius:12px;margin-bottom:12px;border-left:5px solid #25D366;box-shadow:0 2px 5px rgba(0,0,0,.1)}.btn-oui{background:#25D366;color:white;padding:14px;border:none;border-radius:8px;width:48%;font-weight:bold;cursor:pointer}.btn-non{background:#ff4444;color:white;padding:14px;border:none;border-radius:8px;width:48%;font-weight:bold;cursor:pointer}.stock-box{background:white;padding:12px;border-radius:8px;margin:10px 0}</style>
 </head>
 <body>
 <script>if(prompt("🔐 Mot de passe Réception SANA:")!=="SANA2024"){alert("Faux");location.href="index.html"}</script>
-<div class="header"><h2 style="margin:0">🔴 PANEL RÉCEPTION SANA</h2><small>Temps réel - 50%/100% - Stock</small></div>
+<div class="header"><h2 style="margin:0">🔴 PANEL RÉCEPTION SANA - VRAI STOCK 64 CHS + 4 APPTS</h2><small>Temps réel - 50%/100% - Stock</small></div>
 <div style="padding:15px">
-<div class="stock-box">📦 Nombre de chambres disponibles (temps réel Firebase):<br><b id="stock-view" style="font-size:16px">Chargement...</b><br><small>Si 0 → catégorie bloquée automatiquement pour les clients</small></div>
-<div id="liste">Chargement des commandes de tous les téléphones...</div>
+<div class="stock-box">📦 Stock réel:<br><b id="stock-view" style="font-size:14px">Chargement...</b><br><small>Si 0 → catégorie bloquée</small></div>
+<div id="liste">Chargement...</div>
 </div>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
 import { getDatabase, ref, onValue, remove, get, set } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
@@ -23,49 +22,83 @@ const firebaseConfig = {
   messagingSenderId: "10660407067",
   appId: "1:10660407067:web:7e20b4ab80f4db542a55be"
 };
-const app = initializeApp(firebaseConfig); const db = getDatabase(app);
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-// AFFICHAGE STOCK DISPONIBLE
+// STOCK INITIAL SELON TA LISTE - NE CHANGE PLUS
+const STOCK_INIT = {
+  "STANDARD 15.000F": 12,
+  "CLASSIQUE 20.000F": 24,
+  "CONFORT 30.000F": 12,
+  "VIP 50.000F": 6,
+  "VVIP 60.000F": 2,
+  "SUITE 60.000F": 4,
+  "APPARTEMENT 70.000F": 4
+};
+
+function getCategorieFromChambre(chambreStr){
+  if(chambreStr.includes("STANDARD")) return "STANDARD 15.000F";
+  if(chambreStr.includes("CLASSIQUE")) return "CLASSIQUE 20.000F";
+  if(chambreStr.includes("CONFORT")) return "CONFORT 30.000F";
+  if(chambreStr.includes("VIP") && chambreStr.includes("VVIP")===false && chambreStr.includes("SUITE")===false) {
+    // différencie VIP et VVIP
+    if(chambreStr.includes("VVIP")) return "VVIP 60.000F";
+    return "VIP 50.000F";
+  }
+  if(chambreStr.includes("VVIP")) return "VVIP 60.000F";
+  if(chambreStr.includes("SUITE")) return "SUITE 60.000F";
+  if(chambreStr.includes("APPARTEMENT")) return "APPARTEMENT 70.000F";
+  // fallback
+  if(chambreStr.includes("VIP")) return "VIP 50.000F";
+  return chambreStr;
+}
+
 onValue(ref(db,'stock'),(snap)=>{
-  if(!snap.exists()){document.getElementById('stock-view').innerText="Stock non créé - Première commande va le créer"; return;}
+  if(!snap.exists()){
+    set(ref(db,'stock'), STOCK_INIT);
+    document.getElementById('stock-view').innerText = "Stock créé: STANDARD 12 | CLASSIQUE 24 | CONFORT 12 | VIP 6 | VVIP 2 | SUITE 4 | APPART 4";
+    return;
+  }
   let s=snap.val(); let txt="";
-  for(let k in s){txt+=`${k}: ${s[k]} | `;}
+  for(let k in s){ txt+=`${k}: ${s[k]} | `; }
   document.getElementById('stock-view').innerText=txt;
 });
 
-// AFFICHAGE RESERVATIONS AVEC 50%/100%
 onValue(ref(db,'reservations'),(snap)=>{
   let div=document.getElementById('liste'); div.innerHTML="";
-  if(!snap.exists()){div.innerHTML="<div class='card'>✅ Aucune commande en attente de tous les clients</div>";return;}
-  snap.forEach(c=>{let r=c.val();let k=c.key;
+  if(!snap.exists()){div.innerHTML="<div class='card'>✅ Aucune commande</div>";return;}
+  snap.forEach(c=>{
+    let r=c.val(); let k=c.key;
+    let catStock = getCategorieFromChambre(r.cat || "");
     div.innerHTML+=`<div class="card">
-    <span style="background:${r.pourcentage==50?'orange':'green'};color:white;padding:4px 8px;border-radius:5px;font-size:12px">${r.statut}</span> <small>${r.date}</small><br>
-    <b style="font-size:18px">${r.nom}</b> - ${r.tel}<br>
-    🏨 Chambre choisie: <b>${r.cat}</b> (${r.nuits} nuit(s))<br>
-    💰 Total séjour: ${r.total} FCFA<br>
-    💳 <b>Payé sur Wave: ${r.montant} FCFA (${r.pourcentage}% de ${r.cat})</b><br>
-    ${r.pourcentage==50?`<span style="color:red;font-weight:bold">💵 RESTE À PAYER SUR PLACE: ${r.reste} FCFA<br>⚠️ 50% NON REMBOURSABLE</span>`: `<span style="color:green;font-weight:bold">✅ PAYÉ 100% - Rien à demander sur place</span>`}<br>
-    📅 ${r.dates}<br>
-    🌊 ID Wave client: <b style="color:green">${r.waveId}</b><br>
-    🔑 Code: ${r.codeCache} | 🆔 ${r.id}<br><br>
-    <button onclick="confirmer('${k}','${r.cat}')" class="btn-oui">✅ J'AI REÇU ${r.montant} FCFA SUR WAVE</button>
-    <button onclick="refuser('${k}')" class="btn-non">❌ REFUSER</button>
-    </div>`;
+<span style="background:${r.pourcentage==50?'orange':'green'};color:white;padding:4px 8px;border-radius:5px;font-size:12px">${r.statut}</span> <small>${r.date}</small><br>
+<b style="font-size:18px">${r.nom}</b> - ${r.tel}<br>
+🏨 Chambre choisie: <b>${r.cat}</b> (${r.nuits} nuit(s)) → Stock: ${catStock}<br>
+💰 Total: ${r.total} FCFA<br>
+💳 Payé Wave: ${r.montant} FCFA (${r.pourcentage}% de ${catStock})<br>
+${r.pourcentage==50?`<span style="color:red;font-weight:bold">RESTE: ${r.reste} FCFA - 50% NON REMBOURSABLE</span>`:`<span style="color:green;font-weight:bold">PAYÉ 100% - Rien à demander</span>`}<br>
+📅 ${r.dates}<br>
+🌊 ID Wave: <b style="color:green">${r.waveId}</b><br>
+🔑 Code: ${r.codeCache} | 🆔 ${r.id}<br><br>
+<button onclick="confirmer('${k}','${r.cat}')" class="btn-oui">✅ J'AI REÇU ${r.montant} FCFA</button>
+<button onclick="refuser('${k}')" class="btn-non">❌ REFUSER</button>
+</div>`;
   });
 });
 
-window.confirmer=async(k,cat)=>{
-  if(!confirm("Tu confirmes avoir reçu l'argent sur Wave? Chambre: "+cat+"\\nSi tu confirmes, le stock de "+cat+" va diminuer de 1 pour tous les clients et si 0 ça bloquera."))return;
+window.confirmer=async(k,catStr)=>{
+  let catStock = getCategorieFromChambre(catStr);
+  if(!confirm("Confirmer réception Wave pour "+catStr+"?\nCatégorie stock "+catStock+" va -1")) return;
   let snapStock=await get(ref(db,'stock'));
-  let st=snapStock.exists()?snapStock.val():{"Standard 1 Lit":3,"Standard 2 Lits":3,"Confort 1 Lit":2,"Confort 2 Lits":2,"VIP":1,"Suite":1};
-  if(st[cat]<=0){alert("Stock déjà à 0 pour "+cat+" - Catégorie déjà bloquée"); await remove(ref(db,'reservations/'+k)); return;}
-  st[cat]--;
+  let st=snapStock.exists()?snapStock.val():STOCK_INIT;
+  if(!st[catStock]) st[catStock]=STOCK_INIT[catStock]||1;
+  if(st[catStock]<=0){ alert("Stock déjà à 0 pour "+catStock); await remove(ref(db,'reservations/'+k)); return; }
+  st[catStock]--;
   await set(ref(db,'stock'),st);
   await remove(ref(db,'reservations/'+k));
-  alert("✅ Confirmé! Stock restant "+cat+": "+st[cat]+". Si 0, les clients verront FINI/COMPLET et ne pourront plus commander cette catégorie.");
+  alert("✅ Confirmé! Reste "+catStock+": "+st[catStock]);
 }
-
-window.refuser=async(k)=>{if(confirm("Refuser cette commande?"))await remove(ref(db,'reservations/'+k));}
+window.refuser=async(k)=>{ if(confirm("Refuser?")) await remove(ref(db,'reservations/'+k)); }
 </script>
 </body>
 </html>
