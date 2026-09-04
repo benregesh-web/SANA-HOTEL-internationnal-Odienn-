@@ -1,102 +1,100 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Menu Restaurant - SANA</title>
-<link rel="stylesheet" href="style.css">
-<style>
-body{font-family:Arial;background:#f5f5f5;margin:0;padding:10px}
-.grille-plats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.item-plat{background:white;border-radius:12px;overflow:hidden;border:2px solid #ddd;cursor:pointer}
-.item-plat img{width:100%;height: 400px;object-fit:cover;display:block}
-.info-plat{padding:8px;text-align:center}
-.info-plat h4{margin:5px 0;font-size:14px}
-.info-plat p{margin:0;color:#25D366;font-weight:bold}
-.btn-filtre{padding:8px 12px;margin:4px;border:none;border-radius:20px;background:#ddd;cursor:pointer}
-.btn-filtre.active{background:#2E8B57;color:white}
-</style>
-<script>
-// CETTE FONCTION DOIT ÊTRE EN HAUT
-function commanderPlat(nom, prix){
-  console.log("Clic sur", nom, prix);
-  let panier = JSON.parse(localStorage.getItem('panierSana')) || [];
-  let exist = panier.find(i=>i.nom===nom);
-  if(exist){ exist.qte += 1; }
-  else{ panier.push({nom:nom, prix:prix, qte:1}); }
-  localStorage.setItem('panierSana', JSON.stringify(panier));
-  // va à commande avec plat
-  window.location.href = 'commande.html?plat=' + encodeURIComponent(nom) + '&prix=' + prix;
+<!DOCTYPE html> <html lang="fr"> <head> <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"> <title>Menu Restaurant - SANA</title> <link rel="stylesheet" href="style.css"> <style> body{font-family:Arial;background:#f5f5f5;margin:0;padding:10px} .grille-plats{display:grid;grid-template-columns:1fr 1fr;gap:10px} .item-plat{background:white;border-radius:12px;overflow:hidden;border:2px solid #ddd;cursor:pointer} .item-plat img{width:100%;height:180px;object-fit:cover;display:block} .info-plat{padding:8px;text-align:center} .info-plat h4{margin:5px 0;font-size:13px} .info-plat p{margin:0;color:#25D366;font-weight:bold} .btn-filtre{padding:8px 12px;margin:4px;border:none;border-radius:20px;background:#ddd;cursor:pointer;font-size:12px} .btn-filtre.active{background:#2E8B57;color:white} .banner-officiel{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0} .banner-officiel img{width:100%;border-radius:10px;border:2px solid #2E8B57} .cat-title{background:#111;color:white;padding:8px;border-radius:8px;margin:15px 0 8px 0;text-align:center;font-weight:bold} </style> <script>
+function commanderPlat(nom, prix){ 
+ let panier = JSON.parse(localStorage.getItem('panierSana')) || []; 
+ let exist = panier.find(i=>i.nom===nom); 
+ if(exist){ exist.qte += 1; } else{ panier.push({nom:nom, prix:prix, qte:1}); } 
+ localStorage.setItem('panierSana', JSON.stringify(panier)); 
+ window.location.href = 'commande.html?plat=' + encodeURIComponent(nom) + '&prix=' + prix; 
 }
-function filtrerPlat(cat, e){
-  let items = document.querySelectorAll('.item-plat');
-  items.forEach(el=>{
-    if(cat==='tout' || el.classList.contains(cat)) el.style.display='block';
-    else el.style.display='none';
-  });
-  document.querySelectorAll('.btn-filtre').forEach(b=>b.classList.remove('active'));
-  if(e) e.target.classList.add('active');
-  else if(event) event.target.classList.add('active');
-}
-</script>
-</head>
-<body>
+function filtrerPlat(cat, e){ let items = document.querySelectorAll('.item-plat'); items.forEach(el=>{ if(cat==='tout' || el.classList.contains(cat)) el.style.display='block'; else el.style.display='none'; }); document.querySelectorAll('.btn-filtre').forEach(b=>b.classList.remove('active')); e.target.classList.add('active'); document.querySelectorAll('.cat-title').forEach(t=>{ if(cat==='tout') t.style.display='block'; else t.style.display='none'; }); if(cat!=='tout') document.getElementById('title-'+cat).style.display='block';}
+</script> </head> <body> 
+<h2 style="text-align:center">🍽️ MENU SANA HOTEL - ODIENNÉ</h2>
 
-<h2 style="text-align:center">Notre Menu SANA</h2>
-<p style="text-align:center">Clique sur un plat pour commander</p>
-
-<div style="text-align:center;margin-bottom:10px">
-<button class="btn-filtre active" onclick="filtrerPlat('tout', event)">Tout</button>
-<button class="btn-filtre" onclick="filtrerPlat('fastfood', event)">FASTFOOD</button>
-<button class="btn-filtre" onclick="filtrerPlat('braise', event)">Braisé</button>
-<button class="btn-filtre" onclick="filtrerPlat('africain', event)">Africain</button>
-<button class="btn-filtre" onclick="filtrerPlat('boisson', event)">Boissons</button>
+<div class="banner-officiel">
+ <img src="menu-sana-officiel-1.jpg"><img src="menu-sana-officiel-2.jpg"><img src="menu-fastfood.jpg">
 </div>
 
+<div style="background:#ffdddd;border:2px solid red;padding:10px;border-radius:10px;text-align:center;color:red;font-weight:bold">🚫 UNE FOIS LA COMMANDE VALIDÉE, AUCUN REMBOURSEMENT 🚫<br><small style="color:black">Même plat commandable plusieurs fois ✅</small></div>
+
+<p style="text-align:center;font-size:13px">Clique sur un plat → va direct dans commande</p>
+<div style="text-align:center;margin-bottom:10px"> 
+ <button class="btn-filtre active" onclick="filtrerPlat('tout', event)">Tout</button> 
+ <button class="btn-filtre" onclick="filtrerPlat('fastfood', event)">FASTFOOD</button> 
+ <button class="btn-filtre" onclick="filtrerPlat('poulet', event)">Poulet Chair</button> 
+ <button class="btn-filtre" onclick="filtrerPlat('africain', event)">Africain & Agouti</button> 
+ <button class="btn-filtre" onclick="filtrerPlat('poisson', event)">Poissons</button> 
+ <button class="btn-filtre" onclick="filtrerPlat('crudite', event)">Crudités</button> 
+ <button class="btn-filtre" onclick="filtrerPlat('petitdej', event)">Petit Déj</button> 
+</div>
+
+<!-- FASTFOOD DE TON AFFICHE JAUNE -->
+<div class="cat-title" id="title-fastfood">🍔 FASTFOOD - AFFICHE JAUNE</div>
+<div class="grille-plats"> 
+ <div class="item-plat fastfood" onclick="commanderPlat('Chawarma Viande ou Poulet', 1000)"> <img src="pain1.jpg"><div class="info-plat"><h4>Chawarma Viande/Poulet</h4><p>1 000 FCFA</p></div> </div> 
+ <div class="item-plat fastfood" onclick="commanderPlat('Hamburger Frites', 1500)"> <img src="pain2.jpg"><div class="info-plat"><h4>Hamburger Frites</h4><p>1 500 FCFA</p></div> </div> 
+ <div class="item-plat fastfood" onclick="commanderPlat('Sandwich Viande ou Poulet', 1000)"> <img src="pain1.jpg"><div class="info-plat"><h4>Sandwich Viande/Poulet</h4><p>1 000 FCFA</p></div> </div> 
+ <div class="item-plat fastfood" onclick="commanderPlat('Pizza Grande', 5000)"> <img src="pain2.jpg"><div class="info-plat"><h4>Pizza Grande</h4><p>5 000 FCFA</p></div> </div> 
+ <div class="item-plat fastfood" onclick="commanderPlat('Pizza Moyen', 3000)"> <img src="pain2.jpg"><div class="info-plat"><h4>Pizza Moyen</h4><p>3 000 FCFA</p></div> </div> 
+ <div class="item-plat fastfood" onclick="commanderPlat('Mini Pizza Mixte', 1000)"> <img src="pain2.jpg"><div class="info-plat"><h4>Mini Pizza Mixte</h4><p>1 000 FCFA</p></div> </div> 
+ <div class="item-plat fastfood" onclick="commanderPlat('Quiche au Thon Grande', 5000)"> <img src="pain2.jpg"><div class="info-plat"><h4>Quiche Thon Grande</h4><p>5 000 FCFA</p></div> </div> 
+ <div class="item-plat fastfood" onclick="commanderPlat('Quiche Moyenne', 3000)"> <img src="pain2.jpg"><div class="info-plat"><h4>Quiche Moyenne</h4><p>3 000 FCFA</p></div> </div> 
+ <div class="item-plat fastfood" onclick="commanderPlat('Mini Quiche au Thon', 1000)"> <img src="pain2.jpg"><div class="info-plat"><h4>Mini Quiche Thon</h4><p>1 000 FCFA</p></div> </div> 
+</div>
+
+<!-- POULET DE CHAIR DE TON AFFICHE -->
+<div class="cat-title" id="title-poulet">🍗 POULET DE CHAIR</div>
 <div class="grille-plats">
-
-<div class="item-plat fastfood" onclick="commanderPlat('Chawarma au Viande', 1000)">
-<img src="pain1.jpg"><div class="info-plat"><h4>Chawarma Viande</h4><p>1 000 FCFA</p></div>
+ <div class="item-plat poulet africain" onclick="commanderPlat('1/4 Poulet de Chair', 2000)"> <img src="pouletalloco.png"><div class="info-plat"><h4>1/4 Poulet Chair</h4><p>2 000 FCFA</p></div> </div> 
+ <div class="item-plat poulet africain" onclick="commanderPlat('1/2 Poulet de Chair', 3500)"> <img src="pouletalloco.png"><div class="info-plat"><h4>1/2 Poulet Chair</h4><p>3 500 FCFA</p></div> </div> 
+ <div class="item-plat poulet africain" onclick="commanderPlat('Poulet Entier Chair', 7000)"> <img src="pouletalloco.png"><div class="info-plat"><h4>Poulet Entier Chair</h4><p>7 000 FCFA</p></div> </div> 
+ <div class="item-plat poulet africain" onclick="commanderPlat('1/2 Poulet Africain', 6000)"> <img src="pouletalloco.png"><div class="info-plat"><h4>1/2 Poulet Africain</h4><p>6 000 FCFA</p></div> </div> 
+ <div class="item-plat poulet africain" onclick="commanderPlat('Poulet Entier Africain', 12000)"> <img src="pouletalloco.png"><div class="info-plat"><h4>Poulet Entier Africain</h4><p>12 000 FCFA</p></div> </div> 
+ <div class="item-plat poulet africain" onclick="commanderPlat('1/2 Pintade', 7000)"> <img src="pouletalloco.png"><div class="info-plat"><h4>1/2 Pintade</h4><p>7 000 FCFA</p></div> </div> 
+ <div class="item-plat poulet africain" onclick="commanderPlat('Pintade Entière', 14000)"> <img src="pouletalloco.png"><div class="info-plat"><h4>Pintade Entière</h4><p>14 000 FCFA</p></div> </div> 
+ <div class="item-plat poulet africain" onclick="commanderPlat('Soupe de Poulet Chair', 3500)"> <img src="placali.jpg"><div class="info-plat"><h4>Soupe Poulet Chair</h4><p>3 500 FCFA</p></div> </div> 
 </div>
 
-<div class="item-plat fastfood" onclick="commanderPlat('Chawarma au Poulet', 1000)">
-<img src="pain1.jpg"><div class="info-plat"><h4>Chawarma Poulet</h4><p>1 000 FCFA</p></div>
+<!-- POISSONS -->
+<div class="cat-title" id="title-poisson">🐟 POISSONS</div>
+<div class="grille-plats">
+ <div class="item-plat poisson africain" onclick="commanderPlat('Poisson Carpe', 6000)"> <img src="poisson.png"><div class="info-plat"><h4>Poisson Carpe</h4><p>6 000 FCFA</p></div> </div> 
+ <div class="item-plat poisson africain" onclick="commanderPlat('Poisson Capitaine Eau Douce', 6000)"> <img src="poisson.png"><div class="info-plat"><h4>Poisson Capitaine</h4><p>6 000 FCFA</p></div> </div> 
+ <div class="item-plat poisson africain" onclick="commanderPlat('Poulet Braisé + Alloco', 5000)"> <img src="pouletalloco.png"><div class="info-plat"><h4>Poulet + Alloco</h4><p>5 000 FCFA</p></div> </div> 
+ <div class="item-plat poisson africain" onclick="commanderPlat('Poisson Braisé', 4500)"> <img src="poisson.png"><div class="info-plat"><h4>Poisson Braisé</h4><p>4 500 FCFA</p></div> </div> 
+ <div class="item-plat poisson africain" onclick="commanderPlat('Attiéké + Poisson', 4000)"> <img src="attiekep.png"><div class="info-plat"><h4>Attiéké Poisson</h4><p>4 000 FCFA</p></div> </div> 
 </div>
 
-<div class="item-plat fastfood" onclick="commanderPlat('Namburger Frites A', 1500)">
-<img src="pain2.jpg"><div class="info-plat"><h4>Namburger A</h4><p>1 500 FCFA</p></div>
+<!-- AGOUTI -->
+<div class="cat-title" id="title-africain">🍖 AGOUTI & AFRICAIN</div>
+<div class="grille-plats">
+ <div class="item-plat africain" onclick="commanderPlat('Agouti Sauté - Plat', 6000)"> <img src="placali.jpg"><div class="info-plat"><h4>Agouti Sauté</h4><p>6 000 FCFA</p></div> </div> 
+ <div class="item-plat africain" onclick="commanderPlat('Soupe d Agouti - Plat', 6000)"> <img src="placali.jpg"><div class="info-plat"><h4>Soupe Agouti</h4><p>6 000 FCFA</p></div> </div> 
+ <div class="item-plat africain" onclick="commanderPlat('Placali + Sauce Graine', 3500)"> <img src="placali.jpg"><div class="info-plat"><h4>Placali Graine</h4><p>3 500 FCFA</p></div> </div> 
 </div>
 
-<div class="item-plat fastfood" onclick="commanderPlat('Pizza Grande', 5000)">
-<img src="pain2.jpg"><div class="info-plat"><h4>Pizza Grande</h4><p>5 000 FCFA</p></div>
+<!-- CRUDITÉS -->
+<div class="cat-title" id="title-crudite">🥗 CRUDITÉS</div>
+<div class="grille-plats">
+ <div class="item-plat crudite" onclick="commanderPlat('Salade Poulet 1/4', 2500)"> <img src="attiekep.png"><div class="info-plat"><h4>Salade Poulet 1/4</h4><p>2 500 FCFA</p></div> </div> 
+ <div class="item-plat crudite" onclick="commanderPlat('Salade au Oeuf', 2000)"> <img src="attiekep.png"><div class="info-plat"><h4>Salade Oeuf</h4><p>2 000 FCFA</p></div> </div> 
+ <div class="item-plat crudite" onclick="commanderPlat('Spaghetti Poulet Viande Boeuf Foie 1/4', 2500)"> <img src="attiekep.png"><div class="info-plat"><h4>Spaghetti Poulet/Boeuf</h4><p>2 500 FCFA</p></div> </div> 
 </div>
 
-<div class="item-plat braise" onclick="commanderPlat('Poulet Braisé + Alloco', 5000)">
-<img src="pouletalloco.png"><div class="info-plat"><h4>Poulet + Alloco</h4><p>5 000 FCFA</p></div>
+<!-- PETIT DEJ -->
+<div class="cat-title" id="title-petitdej">☕ PETIT DÉJEUNER & BOISSONS</div>
+<div class="grille-plats">
+ <div class="item-plat petitdej" onclick="commanderPlat('Petit Pois', 2500)"> <img src="https://images.pexels.com/photos/1098652/pexels-photo-1098652.jpeg"><div class="info-plat"><h4>Petit Pois</h4><p>2 500 FCFA</p></div> </div> 
+ <div class="item-plat petitdej" onclick="commanderPlat('Café Omelette', 2000)"> <img src="https://images.pexels.com/photos/1098652/pexels-photo-1098652.jpeg"><div class="info-plat"><h4>Café Omelette</h4><p>2 000 FCFA</p></div> </div> 
+ <div class="item-plat petitdej" onclick="commanderPlat('Macédoine', 3000)"> <img src="https://images.pexels.com/photos/1098652/pexels-photo-1098652.jpeg"><div class="info-plat"><h4>Macédoine</h4><p>3 000 FCFA</p></div> </div> 
+ <div class="item-plat petitdej" onclick="commanderPlat('Salade avec Thon', 2500)"> <img src="https://images.pexels.com/photos/1098652/pexels-photo-1098652.jpeg"><div class="info-plat"><h4>Salade avec Thon</h4><p>2 500 FCFA</p></div> </div> 
+ <div class="item-plat petitdej" onclick="commanderPlat('Sucrerie', 1000)"> <img src="https://images.pexels.com/photos/50593/coca-cola-cold-drink-soft-drink-50593.jpeg"><div class="info-plat"><h4>Sucrerie</h4><p>1 000 FCFA</p></div> </div> 
+ <div class="item-plat petitdej" onclick="commanderPlat('Bière', 1000)"> <img src="https://images.pexels.com/photos/50593/coca-cola-cold-drink-soft-drink-50593.jpeg"><div class="info-plat"><h4>Bière</h4><p>1 000 FCFA</p></div> </div> 
+ <div class="item-plat petitdej" onclick="commanderPlat('Eaux Minérales', 1000)"> <img src="https://images.pexels.com/photos/50593/coca-cola-cold-drink-soft-drink-50593.jpeg"><div class="info-plat"><h4>Eaux Minérales</h4><p>1 000 FCFA</p></div> </div> 
+ <div class="item-plat petitdej" onclick="commanderPlat('Nespresso', 1000)"> <img src="https://images.pexels.com/photos/1098652/pexels-photo-1098652.jpeg"><div class="info-plat"><h4>Nespresso</h4><p>1 000 FCFA</p></div> </div> 
+ <div class="item-plat petitdej" onclick="commanderPlat('Coca 33cl', 600)"> <img src="https://images.pexels.com/photos/50593/coca-cola-cold-drink-soft-drink-50593.jpeg"><div class="info-plat"><h4>Coca 33cl</h4><p>600 FCFA</p></div> </div> 
+ <div class="item-plat petitdej" onclick="commanderPlat('Jus Naturel', 1000)"> <img src="https://images.pexels.com/photos/1098652/pexels-photo-1098652.jpeg"><div class="info-plat"><h4>Jus Naturel</h4><p>1 000 FCFA</p></div> </div> 
 </div>
 
-<div class="item-plat braise" onclick="commanderPlat('Poisson Braisé', 4500)">
-<img src="poisson.png"><div class="info-plat"><h4>Poisson Braisé</h4><p>4 500 FCFA</p></div>
-</div>
-
-<div class="item-plat africain" onclick="commanderPlat('Placali + Sauce Graine', 3500)">
-<img src="placali.jpg"><div class="info-plat"><h4>Placali Graine</h4><p>3 500 FCFA</p></div>
-</div>
-
-<div class="item-plat africain" onclick="commanderPlat('Attiéké + Poisson', 4000)">
-<img src="attiekep.png"><div class="info-plat"><h4>Attiéké Poisson</h4><p>4 000 FCFA</p></div>
-</div>
-
-<div class="item-plat boisson" onclick="commanderPlat('Coca 33cl', 600)">
-<img src="https://images.pexels.com/photos/50593/coca-cola-cold-drink-soft-drink-50593.jpeg"><div class="info-plat"><h4>Coca 33cl</h4><p>600 FCFA</p></div>
-</div>
-
-<div class="item-plat boisson" onclick="commanderPlat('Jus Naturel', 1000)">
-<img src="https://images.pexels.com/photos/1098652/pexels-photo-1098652.jpeg"><div class="info-plat"><h4>Jus Naturel</h4><p>1 000 FCFA</p></div>
-</div>
-
-</div>
-
-<p style="text-align:center;margin-top:20px"><a href="commande.html">Voir mon panier →</a></p>
-
-</body>
-</html>
+<p style="text-align:center;margin-top:20px"><a href="commande.html" style="background:#25D366;color:white;padding:12px 20px;border-radius:8px;text-decoration:none;font-weight:bold">Voir mon panier →</a></p> 
+<div style="background:#111;color:white;padding:10px;text-align:center;border-radius:8px;margin-top:15px">📞 0757338010 / 0709999695 / 0555577255 - SANA HOTEL<br><span style="color:red;font-weight:bold">🚫 AUCUN REMBOURSEMENT UNE FOIS VALIDÉE</span><br><small>Riz, Frites, Alloco, Attiéké disponibles en accompagnement</small></div>
+</body> </html>
