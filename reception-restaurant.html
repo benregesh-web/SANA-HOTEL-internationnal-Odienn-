@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Réception Restaurant - Wave</title>
+<style>body{font-family:Arial;padding:15px;background:#f0f2f5;margin:0}.header{background:#111;color:white;padding:15px;text-align:center}.card{background:white;padding:15px;border-radius:12px;margin-bottom:12px;border-left:5px solid #25D366;box-shadow:0 2px 5px rgba(0,0,0,.1);white-space:pre-line}.btn-oui{background:#25D366;color:white;padding:14px;border:none;border-radius:8px;width:48%;font-weight:bold}.btn-non{background:#ff4444;color:white;padding:14px;border:none;border-radius:8px;width:48%;font-weight:bold}</style>
+</head>
+<body>
+<script>if(prompt("Mot de passe Réception:")!=="SANA2024"){location.href="index.html"}</script>
+<div class="header"><h2>🍔 RÉCEPTION RESTAURANT - WAVE</h2><a href="reception.html" style="color:yellow"></a></div>
+<div style="padding:15px"><div id="liste">Chargement...</div></div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyD0_1oZblysKviAaknavtTZCoM68J9_GKY",
+  authDomain: "sana-hotel-internationnal-odie.firebaseapp.com",
+  databaseURL: "https://sana-hotel-internationnal-odie-default-rtdb.firebaseio.com",
+  projectId: "sana-hotel-internationnal-odie",
+  storageBucket: "sana-hotel-internationnal-odie.firebasestorage.app",
+  messagingSenderId: "10660407067",
+  appId: "1:10660407067:web:7e20b4ab80f4db542a55be"
+};
+const app=initializeApp(firebaseConfig); const db=getDatabase(app);
+onValue(ref(db,'commandes_restaurant'),(snap)=>{
+  let div=document.getElementById('liste'); div.innerHTML="";
+  if(!snap.exists()){div.innerHTML="<div class='card'>✅ Aucune commande</div>";return;}
+  snap.forEach(c=>{let r=c.val();let k=c.key;
+    div.innerHTML+=`<div class="card">
+<span style="background:${r.pourcentage==50?'orange':'green'};color:white;padding:4px 8px;border-radius:5px">${r.statut}</span> <small>${r.date}</small><br>
+<b>${r.nom}</b> - ${r.tel} - ${r.adresse}<br>
+🍽️ <b>COMMANDE CHOISIE:</b>\n${r.details}\n
+💰 Total: ${r.total} FCFA\n💳 Payé Wave: ${r.montantPaye} FCFA (${r.pourcentage}% de la commande choisie)\n${r.pourcentage==50?`💵 RESTE: ${r.reste} FCFA - NON REMBOURSABLE`:`✅ 100% PAYE`}\n
+🌊 ID Wave: ${r.waveId} | Code: ${r.codeCache}\n
+<button onclick="confirmer('${k}')" class="btn-oui">✅ J'AI REÇU ${r.montantPaye} FCFA WAVE</button>
+<button onclick="suppr('${k}')" class="btn-non">❌ REFUSER</button>
+</div>`;
+  });
+});
+window.confirmer=async(k)=>{if(confirm("Tu confirmes avoir reçu Wave?")){await remove(ref(getDatabase(),'commandes_restaurant/'+k));}}
+window.suppr=async(k)=>{if(confirm("Refuser?")){await remove(ref(getDatabase(),'commandes_restaurant/'+k));}}
+</script>
+</body>
+</html>
