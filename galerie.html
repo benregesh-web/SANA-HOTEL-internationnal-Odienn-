@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Galerie Chambres - HOTEL SANA International Odienné</title>
+<title>Galerie Chambres - SANA HOTEL International Odienné</title>
 <link rel="stylesheet" href="style.css">
 <style>
 .item-galerie.complet{opacity:0.4; pointer-events:none; filter:grayscale(1);}
@@ -12,10 +12,10 @@
 </style>
 </head>
 <body>
-<header class="navbar"><div class="logo">HOTEL SANA International Odienné</div></header>
+<header class="navbar"><div class="logo">SANA HOTEL International Odienné</div></header>
 <section class="galerie-chambres">
-<h2>Découvrez nos Chambres</h2>
-<p id="info-stock" style="text-align:center;color:#666;">Chargement du stock...</p>
+<h2>Découvrez nos Chambres, Piscine & Sport</h2>
+<p id="info-stock" style="text-align:center;color:#666;"></p>
 <div class="filtres">
 <button class="btn-filtre active" data-filter="tout">Toutes</button>
 <button class="btn-filtre" data-filter="standard">STANDARD</button>
@@ -25,10 +25,12 @@
 <button class="btn-filtre" data-filter="vvip">VVIP</button>
 <button class="btn-filtre" data-filter="suite">SUITE</button>
 <button class="btn-filtre" data-filter="appartement">APPARTEMENT</button>
+<button class="btn-filtre" data-filter="sport" style="background:#ff9800;color:white;">SPORT</button>
+<button class="btn-filtre" data-filter="piscine" style="background:#00bcd4;color:white;">PISCINE</button>
 </div>
 <div class="grille-galerie" id="grille"></div>
 </section>
-<footer><p>© 2026 HOTEL SANA International Odienné</p></footer>
+<footer><p>© 2026 SANA HOTEL International Odienné</p></footer>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
 import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
@@ -36,13 +38,15 @@ const firebaseConfig={apiKey:"AIzaSyD0_1oZblysKviAaknavtTZCoM68J9_GKY",authDomai
 const app=initializeApp(firebaseConfig);
 const db=getDatabase(app);
 const categories = [
-{ cat:"standard", label:"Standard", prix:15000, count:12, imgs:["simple1.JPG","simple2.JPG"] },
-{ cat:"classique", label:"Classique", prix:20000, count:24, imgs:["https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg","https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg"] },
-{ cat:"confort", label:"Confort", prix:30000, count:12, imgs:["https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg","https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg"] },
-{ cat:"vip", label:"VIP", prix:50000, count:6, imgs:["vp1.JPG","vp1.JPG"] },
-{ cat:"vvip", label:"VVIP", prix:60000, count:2, imgs:["suite1.JPG","suite1.JPG"] },
-{ cat:"suite", label:"Suite", prix:60000, count:4, imgs:["suite1.JPG","suite1.JPG"] },
-{ cat:"appartement", label:"Appartement", prix:70000, count:4, imgs:["vp1.JPG","suite1.JPG"] },
+{ cat:"standard", label:"Standard", prix:15000, imgs:["simple1.JPG","simple2.JPG"], type:"CHAMBRE" },
+{ cat:"classique", label:"Classique", prix:20000, imgs:["https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg","https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg"], type:"CHAMBRE" },
+{ cat:"confort", label:"Confort", prix:30000, imgs:["https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg","https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg"], type:"CHAMBRE" },
+{ cat:"vip", label:"VIP", prix:50000, imgs:["vp1.JPG","vp1.JPG"], type:"CHAMBRE" },
+{ cat:"vvip", label:"VVIP", prix:60000, imgs:["suite1.JPG","suite1.JPG"], type:"CHAMBRE" },
+{ cat:"suite", label:"Suite", prix:60000, imgs:["suite1.JPG","suite1.JPG"], type:"CHAMBRE" },
+{ cat:"appartement", label:"Appartement", prix:70000, imgs:["vp1.JPG","suite1.JPG"], type:"CHAMBRE" },
+{ cat:"sport", label:"Salle de Sport", prix:10000, imgs:["https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg","https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg"], type:"SPORT", info:"Abo 10000F / Séance 1000F - Lun, Mar, Jeu, Ven 19h-20h30" },
+{ cat:"piscine", label:"Piscine", prix:15000, imgs:["https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg","https://images.pexels.com/photos/261101/pexels-photo-261101.jpeg"], type:"PISCINE", info:"Abo Adulte 15000F Enfant 8000F - Séance 1500F/1000F - 9h à 18h" },
 ];
 const STOCK_INIT={"STANDARD":12,"CLASSIQUE":24,"CONFORT":12,"VIP":6,"VVIP":2,"SUITE":4,"APPARTEMENT":4};
 let stockActuel = STOCK_INIT;
@@ -50,34 +54,46 @@ let filtreActuel = "tout";
 const grille = document.getElementById('grille');
 function render(){
 let html = "";
-let totalCategoriesDispo = 0;
 categories.forEach(c=>{
 if(filtreActuel!=="tout" && filtreActuel!==c.cat) return;
+if(c.type==="CHAMBRE"){
 let stock = stockActuel[c.cat.toUpperCase()]?? 0;
-let estComplet = stock <= 0;
-if(estComplet) return;
-totalCategoriesDispo++;
-c.imgs.forEach((img, i)=>{
+if(stock <=0) return;
+c.imgs.forEach((img)=>{
 html += `
 <div class="item-galerie ${c.cat}">
-<img src="${img}" alt="${c.label}" onclick="reserver('${c.label}', ${c.prix}, '${c.cat}')">
+<img src="${img}" alt="${c.label}" onclick="reserver('${c.label}', ${c.prix}, '${c.cat}', '${c.type}')">
 <div class="info-img">
 <h4>${c.label} <span style="background:#e8f5e9;color:#2e7d32;padding:2px 6px;border-radius:10px;font-size:10px;">${stock} chambres dispo au total</span></h4>
-<p>${c.prix.toLocaleString()} FCFA - Les 2 photos représentent la même catégorie (${stock} au total)</p>
+<p>${c.prix.toLocaleString()} FCFA</p>
 </div>
 </div>`;
 });
+}else{
+c.imgs.forEach((img)=>{
+html += `
+<div class="item-galerie ${c.cat}">
+<img src="${img}" alt="${c.label}" onclick="reserver('${c.label}', ${c.prix}, '${c.cat}', '${c.type}')">
+<div class="info-img">
+<h4>${c.label} <span style="background:${c.type=='SPORT'?'#ff9800':'#00bcd4'};color:white;padding:2px 6px;border-radius:10px;font-size:10px;">${c.type}</span></h4>
+<p>${c.info}</p>
+</div>
+</div>`;
 });
-grille.innerHTML = html || `<p style="text-align:center;width:100%;grid-column:1/-1;padding:40px;">❌ Plus de chambre disponible dans cette catégorie</p>`;
-document.getElementById('info-stock').innerText = filtreActuel==="tout"? `${totalCategoriesDispo} catégories disponibles` : `Stock ${filtreActuel}: ${stockActuel[filtreActuel.toUpperCase()]??0} chambres au total (2 visuels = même catégorie)`;
 }
-window.reserver=(label, prix, cat)=>{
+});
+grille.innerHTML = html;
+}
+window.reserver=(label, prix, cat, type)=>{
+if(type==="CHAMBRE"){
 let stock = stockActuel[cat.toUpperCase()]?? 0;
 if(stock <=0){ alert(label+" est COMPLET"); return; }
-window.location.href = `reservation.html?chambre=${encodeURIComponent(label)}&prix=${prix}&cat=${cat}`;
+}
+window.location.href = `reservation.html?chambre=${encodeURIComponent(label)}&prix=${prix}&cat=${cat}&type=${type}`;
 }
 onValue(ref(db,'stock'),snap=>{
-if(!snap.exists()){ set(ref(db,'stock'), STOCK_INIT); stockActuel = STOCK_INIT; } else { stockActuel = snap.val(); }
+if(!snap.exists()){ set(ref(db,'stock'), STOCK_INIT); stockActuel = STOCK_INIT; }
+else { stockActuel = snap.val(); }
 render();
 });
 document.querySelectorAll('.btn-filtre').forEach(b=>{
