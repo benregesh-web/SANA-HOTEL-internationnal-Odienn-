@@ -13,103 +13,81 @@
 </head>
 <body>
 <header class="navbar"><div class="logo">HOTEL SANA International Odienné</div></header>
-
 <section class="galerie-chambres">
 <h2>Découvrez nos Chambres</h2>
 <p id="info-stock" style="text-align:center;color:#666;">Chargement du stock...</p>
-
 <div class="filtres">
-  <button class="btn-filtre active" data-filter="tout">Toutes</button>
-  <button class="btn-filtre" data-filter="standard">Standard 15k</button>
-  <button class="btn-filtre" data-filter="classique">Classique 20k</button>
-  <button class="btn-filtre" data-filter="confort">Confort 30k</button>
-  <button class="btn-filtre" data-filter="vip">VIP 50k</button>
-  <button class="btn-filtre" data-filter="vvip">VVIP 60k</button>
-  <button class="btn-filtre" data-filter="suite">Suite 60k</button>
-  <button class="btn-filtre" data-filter="appartement">Appart 70k</button>
+<button class="btn-filtre active" data-filter="tout">Toutes</button>
+<button class="btn-filtre" data-filter="standard">STANDARD</button>
+<button class="btn-filtre" data-filter="classique">CLASSIQUE</button>
+<button class="btn-filtre" data-filter="confort">CONFORT</button>
+<button class="btn-filtre" data-filter="vip">VIP</button>
+<button class="btn-filtre" data-filter="vvip">VVIP</button>
+<button class="btn-filtre" data-filter="suite">SUITE</button>
+<button class="btn-filtre" data-filter="appartement">APPARTEMENT</button>
 </div>
-
 <div class="grille-galerie" id="grille"></div>
 </section>
-
 <footer><p>© 2026 HOTEL SANA International Odienné</p></footer>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
 import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
-
 const firebaseConfig={apiKey:"AIzaSyD0_1oZblysKviAaknavtTZCoM68J9_GKY",authDomain:"sana-hotel-internationnal-odie.firebaseapp.com",databaseURL:"https://sana-hotel-internationnal-odie-default-rtdb.firebaseio.com",projectId:"sana-hotel-internationnal-odie",storageBucket:"sana-hotel-internationnal-odie.firebasestorage.app",messagingSenderId:"10660407067",appId:"1:10660407067:web:7e20b4ab80f4db542a55be"};
 const app=initializeApp(firebaseConfig);
 const db=getDatabase(app);
-
 const categories = [
-  { cat:"standard", label:"Standard", prix:15000, count:12, imgs:["simple1.JPG","simple2.JPG"] },
-  { cat:"classique", label:"Classique", prix:20000, count:24, imgs:["https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg","https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg"] },
-  { cat:"confort", label:"Confort", prix:30000, count:12, imgs:["https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg","https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg"] },
-  { cat:"vip", label:"VIP", prix:50000, count:6, imgs:["vp1.JPG","vp1.JPG"] },
-  { cat:"vvip", label:"VVIP", prix:60000, count:2, imgs:["suite1.JPG","suite1.JPG"] },
-  { cat:"suite", label:"Suite", prix:60000, count:4, imgs:["suite1.JPG","suite1.JPG"] },
-  { cat:"appartement", label:"Appartement", prix:70000, count:4, imgs:["vp1.JPG","suite1.JPG"] },
+{ cat:"standard", label:"Standard", prix:15000, count:12, imgs:["simple1.JPG","simple2.JPG"] },
+{ cat:"classique", label:"Classique", prix:20000, count:24, imgs:["https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg","https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg"] },
+{ cat:"confort", label:"Confort", prix:30000, count:12, imgs:["https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg","https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg"] },
+{ cat:"vip", label:"VIP", prix:50000, count:6, imgs:["vp1.JPG","vp1.JPG"] },
+{ cat:"vvip", label:"VVIP", prix:60000, count:2, imgs:["suite1.JPG","suite1.JPG"] },
+{ cat:"suite", label:"Suite", prix:60000, count:4, imgs:["suite1.JPG","suite1.JPG"] },
+{ cat:"appartement", label:"Appartement", prix:70000, count:4, imgs:["vp1.JPG","suite1.JPG"] },
 ];
-
 const STOCK_INIT={"STANDARD":12,"CLASSIQUE":24,"CONFORT":12,"VIP":6,"VVIP":2,"SUITE":4,"APPARTEMENT":4};
 let stockActuel = STOCK_INIT;
 let filtreActuel = "tout";
-
 const grille = document.getElementById('grille');
-
 function render(){
-  let html = "";
-  let totalDispo = 0;
-  categories.forEach(c=>{
-    if(filtreActuel!=="tout" && filtreActuel!==c.cat) return;
-    let stock = stockActuel[c.cat.toUpperCase()] ?? 0;
-    let estComplet = stock <= 0;
-    if(!estComplet) totalDispo += 2;
-    
-    c.imgs.forEach((img, i)=>{
-      // Si complet, on cache complètement (tu peux aussi laisser grisé si tu veux)
-      if(estComplet) return;
-      
-      html += `
-      <div class="item-galerie ${c.cat} ${estComplet?'complet':''}">
-        ${estComplet?'<span class="badge-complet">COMPLET</span>':''}
-        <img src="${img}" alt="${c.label}" onclick="reserver('${c.label}', ${c.prix}, '${c.cat}')">
-        <div class="info-img">
-          <h4>${c.label} - Modèle ${i+1} <span style="background:#e8f5e9;color:#2e7d32;padding:2px 6px;border-radius:10px;font-size:10px;">${stock} dispo</span></h4>
-          <p>${c.prix.toLocaleString()} F</p>
-        </div>
-      </div>`;
-    });
-  });
-  
-  grille.innerHTML = html || `<p style="text-align:center;width:100%;grid-column:1/-1;padding:40px;">❌ Plus de chambre disponible dans cette catégorie</p>`;
-  document.getElementById('info-stock').innerText = filtreActuel==="tout" ? `${totalDispo/2} catégories disponibles` : `Stock ${filtreActuel}: ${stockActuel[filtreActuel.toUpperCase()]??0} chambres`;
+let html = "";
+let totalCategoriesDispo = 0;
+categories.forEach(c=>{
+if(filtreActuel!=="tout" && filtreActuel!==c.cat) return;
+let stock = stockActuel[c.cat.toUpperCase()]?? 0;
+let estComplet = stock <= 0;
+if(estComplet) return;
+totalCategoriesDispo++;
+c.imgs.forEach((img, i)=>{
+html += `
+<div class="item-galerie ${c.cat}">
+<img src="${img}" alt="${c.label}" onclick="reserver('${c.label}', ${c.prix}, '${c.cat}')">
+<div class="info-img">
+<h4>${c.label} <span style="background:#e8f5e9;color:#2e7d32;padding:2px 6px;border-radius:10px;font-size:10px;">${stock} chambres dispo au total</span></h4>
+<p>${c.prix.toLocaleString()} FCFA - Les 2 photos représentent la même catégorie (${stock} au total)</p>
+</div>
+</div>`;
+});
+});
+grille.innerHTML = html || `<p style="text-align:center;width:100%;grid-column:1/-1;padding:40px;">❌ Plus de chambre disponible dans cette catégorie</p>`;
+document.getElementById('info-stock').innerText = filtreActuel==="tout"? `${totalCategoriesDispo} catégories disponibles` : `Stock ${filtreActuel}: ${stockActuel[filtreActuel.toUpperCase()]??0} chambres au total (2 visuels = même catégorie)`;
 }
-
 window.reserver=(label, prix, cat)=>{
-  let stock = stockActuel[cat.toUpperCase()] ?? 0;
-  if(stock <=0){ alert(label+" est COMPLET"); return; }
-  window.location.href = `reservation.html?chambre=${encodeURIComponent(label)}&prix=${prix}&cat=${cat}`;
+let stock = stockActuel[cat.toUpperCase()]?? 0;
+if(stock <=0){ alert(label+" est COMPLET"); return; }
+window.location.href = `reservation.html?chambre=${encodeURIComponent(label)}&prix=${prix}&cat=${cat}`;
 }
-
-// Ecoute Firebase en temps réel
 onValue(ref(db,'stock'),snap=>{
-  if(!snap.exists()){ set(ref(db,'stock'), STOCK_INIT); stockActuel = STOCK_INIT; }
-  else { stockActuel = snap.val(); }
-  render();
+if(!snap.exists()){ set(ref(db,'stock'), STOCK_INIT); stockActuel = STOCK_INIT; } else { stockActuel = snap.val(); }
+render();
 });
-
-// Filtres
 document.querySelectorAll('.btn-filtre').forEach(b=>{
-  b.addEventListener('click',()=>{
-    document.querySelectorAll('.btn-filtre').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    filtreActuel = b.dataset.filter;
-    render();
-  });
+b.addEventListener('click',()=>{
+document.querySelectorAll('.btn-filtre').forEach(x=>x.classList.remove('active'));
+b.classList.add('active');
+filtreActuel = b.dataset.filter;
+render();
 });
-
+});
 render();
 </script>
 </body>
