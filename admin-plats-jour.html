@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Admin Plats SANA</title>
+    <title>Admin Plats SANA - Vierge + Images Manuelles</title>
     <style>
         body {
             font-family: Arial;
@@ -15,18 +15,18 @@
             background: white;
             padding: 15px;
             border-radius: 12px;
-            max-width: 700px;
+            max-width: 800px;
             margin: 20px auto
         }
 
         .plat-item {
             display: flex;
             justify-content: space-between;
-            padding: 8px;
+            align-items: center;
+            padding: 10px;
             border: 1px solid #ddd;
-            margin: 4px 0;
+            margin: 5px 0;
             border-radius: 8px;
-            cursor: pointer
         }
 
         .plat-item.selected {
@@ -57,23 +57,61 @@
             border: 1px solid #ddd;
             border-radius: 6px
         }
+
+        .btn-small {
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 4px;
+            font-weight: bold
+        }
+
+        .jour-box {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 8px 0;
+            background: #fafafa
+        }
+
+        .jour-box.aujourd {
+            border: 2px solid #25D366;
+            background: #e8f5e9
+        }
     </style>
 </head>
 
 <body>
     <div id="login" class="box">
-        <h2>🔐 Admin Restaurant</h2><input type="password" id="code-secret" placeholder="Code"><button class="btn"
-            style="background:#111" onclick="verifierCode()">Entrer</button>
-        <p id="msg-login" style="color:red"></p><small>Code: SANA2026</small>
+        <h2>🔐 Admin Restaurant</h2>
+        <input type="password" id="code-secret" placeholder="Code">
+        <button class="btn" style="background:#111" onclick="verifierCode()">Entrer</button>
+        <p id="msg-login" style="color:red"></p>
     </div>
+
     <div id="admin" class="box cache">
         <h2>🍽️ Plats du Jour - <span id="date-jour"></span></h2>
         <input type="text" id="nom-receptionniste" placeholder="Nom réceptionniste du jour *">
-        <h3>1. Gérer la carte (Photo + Prix)</h3>
+        <div id="auto-info" style="background:#d4edda;padding:10px;border-radius:8px;margin-bottom:10px;display:none">
+        </div>
+
+        <div style="background:#ffebee;padding:10px;border-radius:8px;border:2px dashed #e74c3c;margin-bottom:15px">
+            <button class="btn" style="background:#e74c3c" onclick="toutEffacerPageVierge()">🗑️ TOUT SUPPRIMER - RENDRE
+                PAGE VIERGE</button>
+        </div>
+
+        <h3>1. Gérer la carte (Ajout manuel avec image)</h3>
         <div style="background:#fff8f0;padding:10px;border-radius:8px;border:1px dashed #c89b3c">
             <input id="new-nom" placeholder="Nom plat ex: Poulet Braisé">
             <input id="new-prix" type="number" placeholder="Prix ex: 5000">
-            <input id="new-photo" placeholder="Lien photo ou nom fichier ex: pouletalloco.png">
+            <input id="new-photo"
+                placeholder="Photo: ex: pouletalloco.png ou https://...jpg (laisse vide si pas d'image)"
+                oninput="previewImage(this.value)">
+            <img id="preview-img"
+                style="width:70px;height:70px;object-fit:cover;border-radius:8px;display:none;margin-top:5px"
+                onerror="this.style.display='none'">
             <select id="new-cat">
                 <option value="africain">Africain</option>
                 <option value="fastfood">Fastfood</option>
@@ -82,68 +120,158 @@
                 <option value="crudite">Crudité</option>
                 <option value="petitdej">Petit Déj</option>
             </select>
-            <button class="btn" style="background:#c89b3c" onclick="ajouterOuModifierPlat()">💾 Ajouter / Modifier plat
-                (Photo + Prix)</button>
-            <div id="liste-gestion" style="max-height:200px;overflow:auto;margin-top:10px"></div>
+            <button class="btn" style="background:#c89b3c" onclick="ajouterOuModifierPlat()">💾 Ajouter / Modifier Plat
+                (avec photo)</button>
+            <div id="liste-gestion"
+                style="max-height:280px;overflow:auto;margin-top:10px;border:1px solid #eee;padding:5px;border-radius:6px">
+                Page vierge - ajoute tes plats</div>
         </div>
-        <h3>2. Cocher plats disponibles aujourd'hui</h3>
-        <div id="liste-plats-admin"></div>
-        <button class="btn" style="background:#25D366;font-size:18px" onclick="validerPlatsJour()">✅ VALIDER PLATS DU
-            JOUR (clients verront seulement ça)</button>
+
+        <h3>2. Cocher aujourd'hui (Suppression Jour seulement)</h3>
+        <div id="liste-plats-admin" style="border:1px solid #eee;padding:10px;border-radius:6px">Aucun plat</div>
+        <button class="btn" style="background:#25D366;font-size:18px" onclick="validerPlatsJour()">✅ VALIDER
+            AUJOURD'HUI</button>
         <div id="confirmation" class="cache" style="background:#d4edda;padding:10px;border-radius:8px;margin-top:10px">
         </div>
-        <h3>📜 Historique</h3>
-        <div id="historique" style="max-height:200px;overflow:auto;background:#fff8f0;padding:10px;border-radius:8px">
+
+        <h3>3. 📅 Programmer SEMAINE (Avec Ajout / Suppr)</h3>
+        <div style="background:#e3f2fd;padding:12px;border-radius:8px;border:2px solid #2196F3">
+            <div style="background:white;padding:8px;border-radius:6px;margin-bottom:10px;display:flex;gap:5px">
+                <input id="quick-nom" placeholder="Nouveau plat rapide" style="flex:2"><input id="quick-prix"
+                    type="number" placeholder="Prix" style="flex:1">
+                <button class="btn-small" style="background:#2196F3;color:white;padding:10px 15px"
+                    onclick="ajoutRapideDepuisZone3()">+ Ajouter</button>
+            </div>
+            <div id="programme-semaine"></div>
+            <button class="btn" style="background:#2196F3" onclick="sauvegarderSemaine()">💾 SAUVEGARDER
+                SEMAINE</button>
+            <button class="btn" style="background:#111" onclick="appliquerAujourdhui()">▶️ Appliquer
+                aujourd'hui</button>
+            <button class="btn" style="background:#e74c3c" onclick="supprimerTouteLaSemaine()">🗑️ Supprimer
+                Semaine</button>
+        </div>
+
+        <h3>📜 Historique (Code requis)</h3>
+        <div id="historique" style="max-height:250px;overflow:auto;background:#fff8f0;padding:10px;border-radius:8px">
         </div>
         <button onclick="logout()" class="btn" style="background:gray">Déconnexion</button>
     </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-        import { getDatabase, ref, set, get, child, push } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
-        const firebaseConfig = { apiKey: "AIzaSyD0_1oZblysKviAaknavtTZCoM68J9_GKY", authDomain: "sana-hotel-internationnal-odie.firebaseapp.com", databaseURL: "https://sana-hotel-internationnal-odie-default-rtdb.firebaseio.com", projectId: "sana-hotel-internationnal-odie", storageBucket: "sana-hotel-internationnal-odie.firebasestorage.app", messagingSenderId: "10660407067", appId: "1:10660407067:web:7e20b4ab80f4db542a55be" };
-        const app = initializeApp(firebaseConfig); const db = getDatabase(app);
-        const CODE_ADMIN = "SANA2026";
-        let platsBase = []; let platsCoches = new Set();
+        import { getDatabase, ref, set, get, child, push, remove } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD0_1oZblysKviAaknavtTZCoM68J9_GKY",
+            authDomain: "sana-hotel-internationnal-odie.firebaseapp.com",
+            databaseURL: "https://sana-hotel-internationnal-odie-default-rtdb.firebaseio.com",
+            projectId: "sana-hotel-internationnal-odie",
+            storageBucket: "sana-hotel-internationnal-odie.firebasestorage.app",
+            messagingSenderId: "10660407067",
+            appId: "1:10660407067:web:7e20b4ab80f4db542a55be"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const CODE_ADMIN = atob("U0FOQTIwMjY=");
+
+        let platsBase = []; let platsCoches = new Set(); let platsMasquesJour = new Set(); let programmeSemaine = {};
         document.getElementById('date-jour').innerText = new Date().toLocaleDateString('fr-FR');
+
+        window.previewImage = function (val) { let img = document.getElementById('preview-img'); if (val) { img.src = val; img.style.display = 'block'; } else img.style.display = 'none'; }
+
         window.verifierCode = async function () {
             if (document.getElementById('code-secret').value !== CODE_ADMIN) { document.getElementById('msg-login').innerText = "Code faux"; return; }
             document.getElementById('login').classList.add('cache'); document.getElementById('admin').classList.remove('cache');
-            await chargerCarte(); afficherPlats(); chargerHistorique();
+            await chargerCarte(); afficherPlats(); await chargerProgrammeSemaine(); await appliquerProgrammeAuto(); chargerHistorique();
         }
+
         async function chargerCarte() {
-            let snap = await get(child(ref(db), 'menu_items'));
-            platsBase = []; document.getElementById('liste-gestion').innerHTML = "";
+            let snap = await get(child(ref(db), 'menu_items')); platsBase = [];
             if (snap.exists()) {
                 snap.forEach(c => { let v = c.val(); v.key = c.key; platsBase.push(v); });
-                document.getElementById('liste-gestion').innerHTML = platsBase.map(p => `<div style="display:flex;justify-content:space-between;font-size:12px;border-bottom:1px solid #eee;padding:4px"><span>${p.nom} - ${p.prix}F <small>(${p.photo})</small></span><button onclick="remplirForm('${p.nom.replace(/'/g, "\\'")}',${p.prix},'${p.photo}','${p.cat}')">✏️</button></div>`).join('');
+                document.getElementById('liste-gestion').innerHTML = platsBase.map(p => `
+<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;padding:8px">
+<div style="display:flex;align-items:center;gap:8px">
+${p.photo ? `<img src="${p.photo}" onerror="this.style.display='none'" style="width:35px;height:35px;object-fit:cover;border-radius:5px">` : `<div style="width:35px;height:35px;background:#ddd;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px">Pas img</div>`}
+<span><b>${p.nom}</b> - ${p.prix}F<br><small>${p.photo || 'sans image'} - ${p.cat}</small></span>
+</div>
+<div><button class="btn-small" style="background:#2E8B57;color:white" onclick="remplirForm('${p.nom.replace(/'/g, "\\'")}',${p.prix},'${p.photo}','${p.cat}')">✏️</button>
+<button class="btn-small" style="background:#e74c3c;color:white" onclick="supprimerCarte('${p.key}','${p.nom.replace(/'/g, "\\'")}')">🗑️ Carte</button></div>
+</div>`).join('');
             } else {
-                // première fois: créer à partir de ton ancien menu
-                let def = [{ nom: "Chawarma Viande ou Poulet", prix: 1000, photo: "pain1.jpg", cat: "fastfood" }, { nom: "Poulet Braisé + Alloco", prix: 5000, photo: "pouletalloco.png", cat: "poulet" }, { nom: "Poisson Carpe", prix: 6000, photo: "poisson.png", cat: "poisson" }];
-                for (let p of def) { await push(ref(db, 'menu_items'), p); }
-                chargerCarte();
+                document.getElementById('liste-gestion').innerHTML = "<i>Page vierge - ajoute ton premier plat avec image</i>";
             }
         }
-        window.remplirForm = function (n, p, ph, c) { document.getElementById('new-nom').value = n; document.getElementById('new-prix').value = p; document.getElementById('new-photo').value = ph; document.getElementById('new-cat').value = c; }
+
+        window.toutEffacerPageVierge = async function () {
+            let code = prompt("Code secret pour tout effacer?"); if (code !== CODE_ADMIN) return alert("Code faux");
+            if (!confirm("Tout effacer pour page vierge?")) return;
+            await remove(ref(db, 'menu_items')); await remove(ref(db, 'programme_semaine')); await remove(ref(db, 'plats_du_jour_actuels'));
+            platsBase = []; platsCoches.clear(); platsMasquesJour.clear(); programmeSemaine = {};
+            document.getElementById('liste-gestion').innerHTML = "<i>Page vierge</i>"; document.getElementById('liste-plats-admin').innerHTML = "<i>Page vierge</i>"; genererUIProgramme(); alert("✅ Page vierge");
+        }
+        window.supprimerCarte = async function (key, nom) { if (!confirm("Supprimer de la CARTE: " + nom + "?")) return; await remove(ref(db, 'menu_items/' + key)); await chargerCarte(); afficherPlats(); genererUIProgramme(); }
+        window.supprimerDuJour = function (nom) { platsMasquesJour.add(nom); platsCoches.delete(nom); afficherPlats(); }
+        window.remplirForm = function (n, p, ph, c) { document.getElementById('new-nom').value = n; document.getElementById('new-prix').value = p; document.getElementById('new-photo').value = ph; document.getElementById('new-cat').value = c; previewImage(ph); }
         window.ajouterOuModifierPlat = async function () {
-            let nom = document.getElementById('new-nom').value.trim(); let prix = parseInt(document.getElementById('new-prix').value); let photo = document.getElementById('new-photo').value.trim() || 'pouletalloco.png'; let cat = document.getElementById('new-cat').value;
-            if (!nom || !prix) return alert("Nom + Prix obligatoires");
-            let snap = await get(child(ref(db), 'menu_items')); let keyExist = null;
+            let nom = document.getElementById('new-nom').value.trim(); let prix = parseInt(document.getElementById('new-prix').value); let photo = document.getElementById('new-photo').value.trim(); let cat = document.getElementById('new-cat').value;
+            if (!nom || !prix) return alert("Nom + Prix obligatoires"); let snap = await get(child(ref(db), 'menu_items')); let keyExist = null;
             if (snap.exists()) { snap.forEach(c => { if (c.val().nom.toLowerCase() === nom.toLowerCase()) keyExist = c.key; }); }
             if (keyExist) { await set(ref(db, 'menu_items/' + keyExist), { nom, prix, photo, cat }); } else { await push(ref(db, 'menu_items'), { nom, prix, photo, cat }); }
-            alert("✅ Plat enregistré"); chargerCarte(); afficherPlats();
+            document.getElementById('new-nom').value = ""; document.getElementById('new-prix').value = ""; document.getElementById('new-photo').value = ""; document.getElementById('preview-img').style.display = 'none'; platsMasquesJour.delete(nom); await chargerCarte(); afficherPlats(); genererUIProgramme();
+        }
+        window.ajoutRapideDepuisZone3 = async function () {
+            let nom = document.getElementById('quick-nom').value.trim(); let prix = parseInt(document.getElementById('quick-prix').value);
+            if (!nom || !prix) return alert("Nom + prix"); await push(ref(db, 'menu_items'), { nom, prix, cat: 'africain', photo: '' });
+            document.getElementById('quick-nom').value = ""; document.getElementById('quick-prix').value = ""; await chargerCarte(); afficherPlats(); genererUIProgramme();
         }
         function afficherPlats() {
-            let div = document.getElementById('liste-plats-admin');
-            div.innerHTML = platsBase.map(p => `<div class="plat-item ${platsCoches.has(p.nom) ? 'selected' : ''}" onclick="togglePlat('${p.nom.replace(/'/g, "\\'")}')"><span><img src="${p.photo}" style="width:30px;height:30px;object-fit:cover;border-radius:4px;vertical-align:middle;margin-right:6px">${p.nom} - ${p.prix}F</span><input type="checkbox" ${platsCoches.has(p.nom) ? 'checked' : ''}></div>`).join('');
+            let div = document.getElementById('liste-plats-admin'); let aAfficher = platsBase.filter(p => !platsMasquesJour.has(p.nom));
+            if (aAfficher.length == 0) { div.innerHTML = "<i>Aucun plat - page vierge</i>"; return; }
+            div.innerHTML = aAfficher.map(p => `<div class="plat-item ${platsCoches.has(p.nom) ? 'selected' : ''}"><div onclick="togglePlat('${p.nom.replace(/'/g, "\\'")}')" style="display:flex;align-items:center;gap:8px;flex:1;cursor:pointer">${p.photo ? `<img src="${p.photo}" style="width:30px;height:30px;object-fit:cover;border-radius:4px">` : ''}<b>${p.nom}</b> - ${p.prix}F</div><div><input type="checkbox" ${platsCoches.has(p.nom) ? 'checked' : ''} style="width:auto" onclick="togglePlat('${p.nom.replace(/'/g, "\\'")}')"><button class="btn-small" style="background:#ff9800;color:white" onclick="supprimerDuJour('${p.nom.replace(/'/g, "\\'")}')">🗑️ Jour</button></div></div>`).join('');
         }
         window.togglePlat = function (plat) { if (platsCoches.has(plat)) platsCoches.delete(plat); else platsCoches.add(plat); afficherPlats(); }
         window.validerPlatsJour = async function () {
             let nom = document.getElementById('nom-receptionniste').value.trim(); if (!nom) return alert("Nom réceptionniste"); if (platsCoches.size == 0) return alert("Coche 1 plat");
-            let auj = new Date(); let data = { date: auj.toLocaleDateString('fr-FR'), dateISO: auj.toISOString().split('T')[0], heure: auj.toLocaleTimeString('fr-FR'), receptionniste: nom, plats: Array.from(platsCoches), timestamp: Date.now() };
-            await set(ref(db, 'plats_du_jour_actuels'), data); await set(ref(db, 'historique_plats/' + data.dateISO + '_' + Date.now()), data);
-            document.getElementById('confirmation').innerHTML = `Validé par ${nom}: ${Array.from(platsCoches).join(', ')}`; document.getElementById('confirmation').classList.remove('cache'); chargerHistorique();
+            let auj = new Date(); let data = { date: auj.toLocaleDateString('fr-FR'), dateISO: auj.toISOString().split('T')[0], heure: auj.toLocaleTimeString('fr-FR'), receptionniste: nom, plats: Array.from(platsCoches), timestamp: Date.now(), source: 'manuel' };
+            await set(ref(db, 'plats_du_jour_actuels'), data); await set(ref(db, 'historique_plats/' + data.dateISO + '_' + Date.now()), data); chargerHistorique();
         }
-        async function chargerHistorique() { let snap = await get(child(ref(db), 'historique_plats')); let div = document.getElementById('historique'); if (!snap.exists()) { div.innerHTML = "Aucune"; return; } let vals = Object.values(snap.val()).sort((a, b) => b.timestamp - a.timestamp).slice(0, 10); div.innerHTML = vals.map(v => `<div style="padding:5px 0;border-bottom:1px solid #ddd"><b>${v.date} ${v.heure}</b> - ${v.receptionniste}<br><small>${v.plats.join(', ')}</small></div>`).join(''); }
+        async function chargerProgrammeSemaine() { let snap = await get(child(ref(db), 'programme_semaine')); programmeSemaine = snap.exists() ? snap.val() : {}; genererUIProgramme(); }
+        function getSemaineDates() { let dates = []; let today = new Date(); let day = today.getDay(); let lundi = new Date(today); lundi.setDate(today.getDate() - (day == 0 ? 6 : day - 1)); for (let i = 0; i < 7; i++) { let d = new Date(lundi); d.setDate(lundi.getDate() + i); dates.push(d); } return dates; }
+        function genererUIProgramme() {
+            let dates = getSemaineDates(); let container = document.getElementById('programme-semaine');
+            container.innerHTML = dates.map(d => {
+                let iso = d.toISOString().split('T')[0]; let label = d.toLocaleDateString('fr-FR', { weekday: 'long', day: '2-digit', month: 'short' }); let isToday = iso === new Date().toISOString().split('T')[0];
+                let platsDuJourProg = programmeSemaine[iso] || [];
+                return `<div class="jour-box ${isToday ? 'aujourd' : ''}">
+<div style="display:flex;justify-content:space-between"><b>${label}</b><button class="btn-small" style="background:#e74c3c;color:white" onclick="supprimerProgrammeJour('${iso}')">🗑️ Jour</button></div>
+<small>${iso}</small>
+<div style="background:white;padding:5px;border-radius:6px;margin-top:5px">
+${platsBase.length == 0 ? '<i>Aucun plat</i>' : platsBase.map(p => `<label style="display:flex;gap:6px;align-items:center;font-size:13px;margin:4px 0"><input type="checkbox" value="${p.nom}" data-date="${iso}" ${platsDuJourProg.includes(p.nom) ? 'checked' : ''} style="width:auto"> ${p.photo ? `<img src="${p.photo}" style="width:20px;height:20px;object-fit:cover;border-radius:3px">` : ''} ${p.nom}</label>`).join('')}
+</div>
+</div>`;
+            }).join('');
+        }
+        window.supprimerProgrammeJour = async function (iso) { if (!confirm("Supprimer " + iso + "?")) return; await remove(ref(db, 'programme_semaine/' + iso)); delete programmeSemaine[iso]; genererUIProgramme(); }
+        window.supprimerTouteLaSemaine = async function () { let code = prompt("Code secret:"); if (code !== CODE_ADMIN) return alert("Code faux"); await remove(ref(db, 'programme_semaine')); programmeSemaine = {}; genererUIProgramme(); }
+        window.sauvegarderSemaine = async function () {
+            let checkboxes = document.querySelectorAll('#programme-semaine input[type=checkbox]'); let nouveauProg = {};
+            checkboxes.forEach(cb => { let date = cb.getAttribute('data-date'); if (!nouveauProg[date]) nouveauProg[date] = []; if (cb.checked) nouveauProg[date].push(cb.value); });
+            await set(ref(db, 'programme_semaine'), nouveauProg); programmeSemaine = nouveauProg; alert("✅ Semaine sauvegardée"); appliquerProgrammeAuto();
+        }
+        window.appliquerProgrammeAuto = async function () {
+            let todayISO = new Date().toISOString().split('T')[0]; let platsToday = programmeSemaine[todayISO]; let info = document.getElementById('auto-info');
+            if (platsToday && platsToday.length > 0) { let data = { date: new Date().toLocaleDateString('fr-FR'), dateISO: todayISO, heure: new Date().toLocaleTimeString('fr-FR'), receptionniste: 'Auto', plats: platsToday, timestamp: Date.now(), source: 'auto' }; await set(ref(db, 'plats_du_jour_actuels'), data); info.style.display = 'block'; info.innerHTML = `🤖 Auto aujourd'hui: ${platsToday.join(', ')}`; }
+            else { info.style.display = 'block'; info.innerHTML = `ℹ️ Aucun programme aujourd'hui`; }
+        }
+        window.appliquerAujourdhui = async function () { await appliquerProgrammeAuto(); alert("Appliqué"); }
+        async function chargerHistorique() {
+            let snap = await get(child(ref(db), 'historique_plats')); let div = document.getElementById('historique');
+            if (!snap.exists()) { div.innerHTML = "Aucune"; return; }
+            let entries = []; snap.forEach(c => entries.push({ key: c.key, val: c.val() })); entries.sort((a, b) => b.val.timestamp - a.val.timestamp);
+            div.innerHTML = entries.slice(0, 15).map(e => `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #ddd"><div><b>${e.val.date}</b> - ${e.val.receptionniste}<br><small>${e.val.plats.join(', ')}</small></div><button class="btn-small" style="background:#111;color:white" onclick="supprimerHistorique('${e.key}')">🗑️</button></div>`).join('');
+        }
+        window.supprimerHistorique = async function (key) { let code = prompt("Code:"); if (code !== CODE_ADMIN) return; await remove(ref(db, 'historique_plats/' + key)); chargerHistorique(); }
         window.logout = function () { document.getElementById('admin').classList.add('cache'); document.getElementById('login').classList.remove('cache'); }
     </script>
 </body>
