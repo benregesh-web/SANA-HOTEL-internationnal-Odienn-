@@ -1,174 +1,208 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Réception Restaurant - SANA</title>
-<style>
-body{font-family:Arial;padding:0;margin:0;background:#f0f2f5}
-.bande-noire{background:#111827;color:white;padding:12px;text-align:center;font-weight:bold;position:sticky;top:0;z-index:100}
-.bande-noire a{color:#facc15;text-decoration:none}
-.header{padding:15px;text-align:center;background:#111827;color:white}
-.card{background:white;padding:15px;border-radius:12px;margin-bottom:12px;border-left:5px solid #25D366;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
-.btn-oui{background:#25D366;color:white;padding:14px;border:none;border-radius:8px;width:48%;font-weight:bold;cursor:pointer}
-.btn-non{background:#ff4444;color:white;padding:14px;border:none;border-radius:8px;width:48%;font-weight:bold;cursor:pointer}
-.nav-links a{display:inline-block;padding:8px 12px;margin:5px;color:white;text-decoration:none;border-radius:6px;font-weight:bold}
-.panel-sana{background:#111827;color:white;padding:15px;text-align:center;border-bottom:3px solid red}
-.dot{width:12px;height:12px;background:#ff4444;border-radius:50%;display:inline-block;animation:blink 1s infinite}
-@keyframes blink{0%{opacity:1}50%{opacity:0.3}100%{opacity:1}}
-.historique{background:#fff8dc;border:2px solid #c89b3c;padding:10px;border-radius:10px;margin-top:20px}
-</style>
-</head>
-<body>
-
-<script>
-if(prompt("Mot de passe Réception:")!=="SANA2024"){location.href="index.html"}
-let _today=new Date().toLocaleDateString('fr-FR');
-let _savedDate=localStorage.getItem('recepDateResto');
-if(_savedDate!==_today){
-  localStorage.removeItem('recepSanaResto');
-  localStorage.removeItem('recepDateResto');
-}
-let _s=localStorage.getItem('recepSanaResto');
-if(!_s||_s.trim()===""){
-  let _nom=prompt("Entrez votre NOM:");
-  if(!_nom||_nom.trim()===""){
-    alert("Nom obligatoire");
-    location.href="index.html";
-  } else {
-    let _num=prompt("Entrez votre NUMÉRO:");
-    if(!_num||_num.trim()===""){
-      alert("Numéro obligatoire");
-      location.href="index.html";
-    } else {
-      let _full=_nom.trim()+" - "+_num.trim();
-      localStorage.setItem('recepSanaResto',_full);
-      localStorage.setItem('recepDateResto',_today);
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Réception Restaurant - SANA</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 0;
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(rgba(240, 242, 245, 0.88), rgba(240, 242, 245, 0.88)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
     }
-  }
-}
-</script>
 
-<div class="bande-noire">SANA HOTEL INTERNATIONAL - ODIENNE - <a href="index.html">Accueil</a></div>
+    .bande-noire {
+      background: #111827;
+      color: white;
+      padding: 12px;
+      text-align: center;
+      font-weight: bold;
+      position: sticky;
+      top: 0;
+      z-index: 100
+    }
 
-<div class="panel-sana">
-  <div style="font-size:20px;font-weight:bold;letter-spacing:1px"><span class="dot"></span> PANEL SANA</div>
-  <div style="margin-top:8px;color:#facc15;font-size:13px"><span id="info-receptionniste"></span></div>
-  <button onclick="changerReceptionniste()" style="background:#2d3748;color:white;border:1px solid #4a5568;padding:5px 12px;border-radius:20px;font-size:11px;margin-top:8px;cursor:pointer">Changer réceptionniste</button>
-</div>
+    .bande-noire a {
+      color: #facc15;
+      text-decoration: none
+    }
 
-<div class="header">
-  <h2 style="margin:5px">🍔 RÉCEPTION RESTAURANT</h2>
-  <div class="nav-links">
-    <a href="admin-plats-jour.html" style="background:#2E8B57">🔧 Admin Plats du Jour / Photos & Prix</a>
-    <a href="menu.html" style="background:#c89b3c">🖼️ Voir Galerie Menu Client</a>
-  </div>
-  <div style="background:red;color:white;padding:8px;border-radius:6px;margin-top:10px;font-weight:bold">🚫 AUCUN REMBOURSEMENT UNE FOIS VALIDÉE</div>
-</div>
+    .header {
+      padding: 15px;
+      text-align: center;
+      background: rgba(17, 24, 39, 0.92);
+      color: white
+    }
 
-<div style="padding:10px">
-  <b id="total-commandes"></b>
-  <div id="liste"></div>
+    .card {
+      background: rgba(255, 255, 255, 0.97);
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      border-left: 5px solid #25D366;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15)
+    }
 
-  <div class="historique">
-    <div style="background:red;color:white;padding:6px;text-align:center;border-radius:6px;font-weight:bold;margin-bottom:10px">🚫 AUCUN REMBOURSEMENT - HISTORIQUE DU JOUR</div>
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <b>📋 Historique validé aujourd'hui</b>
-      <button onclick="supprimerHistoriqueConcepteur()" style="background:black;color:red;border:1px solid red;padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer">🗑️ Supprimer Historique (Concepteur)</button>
+    .btn-oui {
+      background: #25D366;
+      color: white;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      width: 48%;
+      font-weight: bold;
+      cursor: pointer
+    }
+
+    .btn-non {
+      background: #ff4444;
+      color: white;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      width: 48%;
+      font-weight: bold;
+      cursor: pointer
+    }
+
+    .nav-links a {
+      display: inline-block;
+      padding: 8px 12px;
+      margin: 5px;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold
+    }
+
+    .panel-sana {
+      background: #111827;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      border-bottom: 3px solid #c89b3c
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      background: #ff4444;
+      border-radius: 50%;
+      display: inline-block;
+      animation: blink 1s infinite
+    }
+
+    @keyframes blink {
+      0% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: 0.3
+      }
+
+      100% {
+        opacity: 1
+      }
+    }
+
+    .historique {
+      background: rgba(255, 248, 220, 0.96);
+      border: 2px solid #c89b3c;
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 20px
+    }
+
+    .badge-cuis {
+      background: #c89b3c;
+      color: white;
+      padding: 4px 9px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: bold;
+      margin: 2px;
+      display: inline-block
+    }
+
+    .badge-accomp {
+      background: #2E8B57;
+      color: white;
+      padding: 4px 9px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: bold;
+      margin: 2px;
+      display: inline-block
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    if (prompt("Mot de passe Réception:") !== "SANA2024") { location.href = "index.html" }
+    let _today = new Date().toLocaleDateString('fr-FR');
+    let _savedDate = localStorage.getItem('recepDateResto');
+    if (_savedDate !== _today) { localStorage.removeItem('recepSanaResto'); localStorage.removeItem('recepDateResto'); }
+    let _s = localStorage.getItem('recepSanaResto');
+    if (!_s || _s.trim() === "") { let _nom = prompt("Entrez votre NOM:"); if (!_nom || _nom.trim() === "") { alert("Nom obligatoire"); location.href = "index.html"; } else { let _num = prompt("Entrez votre NUMÉRO:"); if (!_num || _num.trim() === "") { alert("Numéro obligatoire"); location.href = "index.html"; } else { let _full = _nom.trim() + " - " + _num.trim(); localStorage.setItem('recepSanaResto', _full); localStorage.setItem('recepDateResto', _today); } } }
+  </script>
+  <div class="bande-noire">SANA HOTEL INTERNATIONAL - ODIENNE - <a href="index.html">Accueil</a></div>
+  <div class="panel-sana">
+    <div style="font-size:20px;font-weight:bold;letter-spacing:1px"><span class="dot"></span> PANEL SANA - RESTAURANT
     </div>
-    <div id="liste-historique" style="margin-top:10px"><i>Aucun historique aujourd'hui</i></div>
+    <div style="margin-top:8px;color:#facc15;font-size:13px"><span id="info-receptionniste"></span></div>
+    <button onclick="changerReceptionniste()"
+      style="background:#2d3748;color:white;border:1px solid #4a5568;padding:5px 12px;border-radius:20px;font-size:11px;margin-top:8px;cursor:pointer">Changer
+      réceptionniste</button>
   </div>
-</div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getDatabase, ref, onValue, remove, set } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
-
-const firebaseConfig={
-  apiKey:"AIzaSyD0_1oZblysKviAaknavtTZCoM68J9_GKY",
-  authDomain:"sana-hotel-internationnal-odie.firebaseapp.com",
-  databaseURL:"https://sana-hotel-internationnal-odie-default-rtdb.firebaseio.com",
-  projectId:"sana-hotel-internationnal-odie",
-  storageBucket:"sana-hotel-internationnal-odie.firebasestorage.app",
-  messagingSenderId:"10660407067",
-  appId:"1:10660407067:web:7e20b4ab80f4db542a55be"
-};
-const app=initializeApp(firebaseConfig);
-const db=getDatabase(app);
-
-let recep = localStorage.getItem('recepSanaResto') || "";
-function majPanel(){
-  document.getElementById('info-receptionniste').innerText = recep + " | " + new Date().toLocaleDateString('fr-FR');
-}
-majPanel();
-
-window.changerReceptionniste=function(){
-  let _n=prompt("Nouveau NOM:", recep.split(' - ')[0]);
-  if(!_n||_n.trim()==="") return;
-  let _t=prompt("Nouveau NUMÉRO:", recep.split(' - ')[1]||"");
-  if(!_t||_t.trim()==="") return;
-  recep=_n.trim()+" - "+_t.trim();
-  localStorage.setItem('recepSanaResto', recep);
-  localStorage.setItem('recepDateResto', new Date().toLocaleDateString('fr-FR'));
-  majPanel();
-}
-
-onValue(ref(db,'commandes_restaurant'),(snap)=>{
-  let div=document.getElementById('liste');
-  let tot=document.getElementById('total-commandes');
-  div.innerHTML="";
-  if(!snap.exists()){
-    div.innerHTML="<div class='card'>✅ Aucune commande</div>";
-    tot.innerText="0 commande";
-    return;
-  }
-  let c=0; snap.forEach(()=>c++);
-  tot.innerText=c+" commande(s) en attente";
-  snap.forEach(cc=>{
-    let r=cc.val();let k=cc.key;
-    div.innerHTML+=`<div class="card"><span style="background:${r.pourcentage==50?'orange':'green'};color:white;padding:4px 8px;border-radius:5px">${r.statut}</span> <small>${r.date}</small><br><b>👤 ${r.nom}</b> - ${r.tel} - ${r.adresse||''}<br><hr>🍽️ ${r.details}<hr>💰 Total ${r.total} | Payé ${r.montantPaye} (${r.pourcentage}%)<br>Wave: ${r.waveId} | Code: ${r.codeCache}<div style="margin-top:10px"><button onclick="confirmer('${k}')" class="btn-oui">✅ REÇU</button> <button onclick="suppr('${k}')" class="btn-non">❌ REFUSER</button></div></div>`;
-  });
-});
-
-onValue(ref(db,'historique_restaurant'),(snap)=>{
-  let div=document.getElementById('liste-historique');
-  if(!snap.exists()){div.innerHTML="<i>Aucun historique aujourd'hui</i>";return;}
-  div.innerHTML="";
-  snap.forEach(h=>{
-    let r=h.val();
-    div.innerHTML+=`<div style="background:white;padding:8px;border-radius:6px;margin-bottom:6px;border-left:4px solid green;font-size:13px"><b>${r.nom}</b> - ${r.details} - <span style="color:green">${r.montantPaye} FCFA</span><br><span style="background:#111;color:#facc15;padding:2px 6px;border-radius:4px;font-size:11px">📅 ${r.dateValidation}</span> <span style="font-size:11px">par ${r.validePar}</span></div>`;
-  });
-});
-
-window.confirmer=async(k)=>{
-  if(!confirm("Confirmer réception et mettre dans historique?")) return;
-  onValue(ref(db,'commandes_restaurant/'+k), async (s)=>{
-    if(!s.exists()) return;
-    let r=s.val();
-    let _now=new Date();
-    let _dateHeure=_now.toLocaleDateString('fr-FR')+" à "+_now.toLocaleTimeString('fr-FR');
-    await set(ref(db,'historique_restaurant/'+k), {...r, dateValidation:_dateHeure, validePar:recep});
-    await remove(ref(db,'commandes_restaurant/'+k));
-  }, {onlyOnce:true});
-};
-
-window.suppr=async(k)=>{
-  if(confirm("Refuser et supprimer la commande?")){
-    await remove(ref(db,'commandes_restaurant/'+k));
-  }
-};
-
-window.supprimerHistoriqueConcepteur=async()=>{
-  let code = prompt("Code Concepteur pour supprimer historique:");
-  if(code!== "SANA_CONCEPTEUR2026"){
-    alert("Code incorrect - Seul le concepteur peut supprimer");
-    return;
-  }
-  if(confirm("Vraiment supprimer tout l'historique du jour?")){
-    await remove(ref(db,'historique_restaurant'));
-    alert("Historique supprimé");
-  }
-};
-</script>
+  <div class="header">
+    <h2 style="margin:5px">🍔 RÉCEPTION RESTAURANT</h2>
+    <div class="nav-links">
+      <a href="admin-plats-jour.html" style="background:#2E8B57">🔧 Admin Plats du Jour</a>
+      <a href="menu.html" style="background:#c89b3c">🖼️ Voir Galerie Menu Client</a>
+    </div>
+    <div style="background:red;color:white;padding:8px;border-radius:6px;margin-top:10px;font-weight:bold">🚫 AUCUN
+      REMBOURSEMENT UNE FOIS VALIDÉE</div>
+  </div>
+  <div style="padding:10px">
+    <b id="total-commandes"></b>
+    <div id="liste"></div>
+    <div class="historique">
+      <div
+        style="background:red;color:white;padding:6px;text-align:center;border-radius:6px;font-weight:bold;margin-bottom:10px">
+        🚫 AUCUN REMBOURSEMENT - HISTORIQUE DU JOUR</div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <b>📋 Historique validé aujourd'hui</b>
+        <button onclick="supprimerHistoriqueConcepteur()"
+          style="background:black;color:red;border:1px solid red;padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer">🗑️
+          Supprimer Historique (Concepteur)</button>
+      </div>
+      <div id="liste-historique" style="margin-top:10px"><i>Aucun historique aujourd'hui</i></div>
+    </div>
+  </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getDatabase, ref, onValue, remove, set } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+    const firebaseConfig = { apiKey: "AIzaSyD0_1oZblysKviAaknavtTZCoM68J9_GKY", authDomain: "sana-hotel-internationnal-odie.firebaseapp.com", databaseURL: "https://sana-hotel-internationnal-odie-default-rtdb.firebaseio.com", projectId: "sana-hotel-internationnal-odie", storageBucket: "sana-hotel-internationnal-odie.firebasestorage.app", messagingSenderId: "10660407067", appId: "1:10660407067:web:7e20b4ab80f4db542a55be" };
+    const app = initializeApp(firebaseConfig); const db = getDatabase(app);
+    let recep = localStorage.getItem('recepSanaResto') || "";
+    function majPanel() { document.getElementById('info-receptionniste').innerText = recep + " | " + new Date().toLocaleDateString('fr-FR'); }
+    majPanel();
+    window.changerReceptionniste = function () { let _n = prompt("Nouveau NOM:", recep.split(' - ')[0]); if (!_n || _n.trim() === "") return; let _t = prompt("Nouveau NUMÉRO:", recep.split(' - ')[1] || ""); if (!_t || _t.trim() === "") return; recep = _n.trim() + " - " + _t.trim(); localStorage.setItem('recepSanaResto', recep); localStorage.setItem('recepDateResto', new Date().toLocaleDateString('fr-FR')); majPanel(); }
+    function formatDetails(details) { if (!details) return ""; return details.replace(/\[([^\]]+)\]/g, (m, c) => { let low = c.toLowerCase(); if (["grillé", "braisé", "en soupe", "grille", "braise"].includes(low)) return `<span class="badge-cuis">🔥 ${c}</span>`; else return `<span class="badge-accomp">🍚 ${c}</span>`; }); }
+    onValue(ref(db, 'commandes_restaurant'), (snap) => { let div = document.getElementById('liste'); let tot = document.getElementById('total-commandes'); div.innerHTML = ""; if (!snap.exists()) { div.innerHTML = "<div class='card'>✅ Aucune commande</div>"; tot.innerText = "0 commande"; return; } let c = 0; snap.forEach(() => c++); tot.innerText = c + " commande(s) en attente"; snap.forEach(cc => { let r = cc.val(); let k = cc.key; div.innerHTML += `<div class="card"><span style="background:${r.pourcentage == 50 ? 'orange' : 'green'};color:white;padding:4px 8px;border-radius:5px">${r.statut}</span> <small>${r.date}</small><br><b>👤 ${r.nom}</b> - ${r.tel} - ${r.adresse || ''}<br><hr><div style="background:#f9f9f9;padding:8px;border-radius:8px"><b>🍽️ Détails:</b><br>${formatDetails(r.details)}</div><hr>💰 Total ${r.total} | Payé ${r.montantPaye} (${r.pourcentage}%)<br>Wave: ${r.waveId} | Code: ${r.codeCache}<div style="margin-top:10px"><button onclick="confirmer('${k}')" class="btn-oui">✅ REÇU</button> <button onclick="suppr('${k}')" class="btn-non">❌ REFUSER</button></div></div>`; }); });
+    onValue(ref(db, 'historique_restaurant'), (snap) => { let div = document.getElementById('liste-historique'); if (!snap.exists()) { div.innerHTML = "<i>Aucun historique aujourd'hui</i>"; return; } div.innerHTML = ""; snap.forEach(h => { let r = h.val(); div.innerHTML += `<div style="background:white;padding:8px;border-radius:6px;margin-bottom:6px;border-left:4px solid green;font-size:13px"><b>${r.nom}</b> - ${formatDetails(r.details)} - <span style="color:green">${r.montantPaye} FCFA</span><br><span style="background:#111;color:#facc15;padding:2px 6px;border-radius:4px;font-size:11px">📅 ${r.dateValidation}</span> <span style="font-size:11px">par ${r.validePar}</span></div>`; }); });
+    window.confirmer = async (k) => { if (!confirm("Confirmer réception et mettre dans historique?")) return; onValue(ref(db, 'commandes_restaurant/' + k), async (s) => { if (!s.exists()) return; let r = s.val(); let _now = new Date(); let _dateHeure = _now.toLocaleDateString('fr-FR') + " à " + _now.toLocaleTimeString('fr-FR'); await set(ref(db, 'historique_restaurant/' + k), { ...r, dateValidation: _dateHeure, validePar: recep }); await remove(ref(db, 'commandes_restaurant/' + k)); }, { onlyOnce: true }); };
+    window.suppr = async (k) => { if (confirm("Refuser et supprimer la commande?")) { await remove(ref(db, 'commandes_restaurant/' + k)); } };
+    window.supprimerHistoriqueConcepteur = async () => { let code = prompt("Code Concepteur pour supprimer historique:"); if (code !== "SANA_CONCEPTEUR2026") { alert("Code incorrect"); return; } if (confirm("Vraiment supprimer tout l'historique du jour?")) { await remove(ref(db, 'historique_restaurant')); alert("Historique supprimé"); } };
+  </script>
 </body>
+
 </html>
