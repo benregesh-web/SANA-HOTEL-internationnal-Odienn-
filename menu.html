@@ -15,7 +15,6 @@
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
-      background-repeat: no-repeat
     }
 
     .grille-plats {
@@ -34,11 +33,29 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15)
     }
 
+
+    /* ... garde tout ton style ... */
     .item-plat img {
       width: 100%;
-      height: 180px;
-      object-fit: cover;
-      display: block
+      height: 200px;
+      object-fit: contain;
+      object-position: center;
+      background: #fff;
+      display: block;
+      padding: 5px;
+      box-sizing: border-box
+    }
+
+    .placeholder-img {
+      width: 100%;
+      height: 200px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      flex-direction: column;
+      color: #888
     }
 
     .info-plat {
@@ -88,15 +105,12 @@
 
 <body>
   <h2 style="text-align:center">🍽️ MENU SANA HOTEL - ODIENNÉ</h2>
-
   <div id="banner-jour" style="display:none">
     <b>✅ Plats du jour - <span id="date-jour-client"></span> par <span id="rec-jour"></span></b><br>
     <small id="info-jour-client" style="color:#2E8B57"></small>
   </div>
-
   <div id="loading">Chargement des plats du jour...</div>
   <div id="container-menu"></div>
-
   <div id="aucun-plat"
     style="display:none;background:white;padding:20px;border-radius:12px;text-align:center;margin:20px 0">
     <h3>😔 Aucun plat validé aujourd'hui</h3>
@@ -106,7 +120,16 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
     import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
-    const firebaseConfig = { apiKey: "AIzaSyD0_1oZblysKviAaknavtTZCoM68J9_GKY", authDomain: "sana-hotel-internationnal-odie.firebaseapp.com", databaseURL: "https://sana-hotel-internationnal-odie-default-rtdb.firebaseio.com", projectId: "sana-hotel-internationnal-odie", storageBucket: "sana-hotel-internationnal-odie.firebasestorage.app", messagingSenderId: "10660407067", appId: "1:10660407067:web:7e20b4ab80f4db542a55be" };
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD0_1oZblysKviAaknavtTZCoM68J9_GKY",
+      authDomain: "sana-hotel-internationnal-odie.firebaseapp.com",
+      databaseURL: "https://sana-hotel-internationnal-odie-default-rtdb.firebaseio.com",
+      projectId: "sana-hotel-internationnal-odie",
+      storageBucket: "sana-hotel-internationnal-odie.firebasestorage.app",
+      messagingSenderId: "10660407067",
+      appId: "1:10660407067:web:7e20b4ab80f4db542a55be"
+    };
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
@@ -120,33 +143,50 @@
           document.getElementById('aucun-plat').style.display = 'block';
           return;
         }
+
         let dataJour = snapJour.val();
         document.getElementById('banner-jour').style.display = 'block';
         document.getElementById('date-jour-client').innerText = dataJour.date;
         document.getElementById('rec-jour').innerText = dataJour.receptionniste;
-        document.getElementById('info-jour-client').innerText = dataJour.plats.length + " plats disponibles";
+        let sourceTxt = dataJour.source === 'auto-semaine' || dataJour.source === 'auto' ? ' (Programme Auto)' : '';
+        document.getElementById('info-jour-client').innerText = dataJour.plats.length + " plats disponibles" + sourceTxt;
 
-        // Si menu_items n'existe pas encore, on utilise l'ancien système
+        // Map des plats de la carte (peut être vide si page vierge)
         let tousPlatsMap = {};
         if (snapMenu.exists()) {
           snapMenu.forEach(c => { tousPlatsMap[c.val().nom] = c.val(); });
         }
 
         let container = document.getElementById('container-menu');
-        container.innerHTML = "";
         let html = "";
+
         dataJour.plats.forEach(nomPlat => {
           let item = tousPlatsMap[nomPlat];
-          let prix = item ? item.prix : 2500; // prix par défaut
-          let img = item ? item.photo : 'pouletalloco.png';
+          let prix = item ? item.prix : 2500;
+          let img = item && item.photo ? item.photo.trim() : '';
           let cat = item ? item.cat : 'africain';
-          html += `<div class="item-plat ${cat}" onclick="commanderPlat('${nomPlat.replace(/'/g, "\\'")}', ${prix})"><div class="badge-jour">✅ DU JOUR</div><img src="${img}"><div class="info-plat"><h4>${nomPlat}</h4><p>${prix.toLocaleString()} FCFA</p></div></div>`;
+
+          // NOUVEAU : Gestion image optionnelle - page vierge
+          let blocImage = "";
+          if (img) {
+            blocImage = `<img src="${img}" onerror="this.parentNode.innerHTML='<div class=\\'placeholder-img\\'><span>🍽️</span><small style=\\'font-size:12px\\'>${nomPlat}</small></div>'">`;
+          } else {
+            blocImage = `<div class="placeholder-img"><span>🍽️</span><small style="font-size:11px;margin-top:5px">${nomPlat}</small></div>`;
+          }
+
+          html += `<div class="item-plat ${cat}" onclick="commanderPlat('${nomPlat.replace(/'/g, "\\'")}', ${prix})"><div class="badge-jour">✅ DU JOUR</div>${blocImage}<div class="info-plat"><h4>${nomPlat}</h4><p>${prix.toLocaleString()} FCFA</p></div></div>`;
         });
+
         container.innerHTML = `<div class="grille-plats">${html}</div><p style="text-align:center;margin-top:20px"><a href="commande.html" style="background:#25D366;color:white;padding:12px 20px;border-radius:8px;text-decoration:none;font-weight:bold">Voir mon panier →</a></p>`;
         document.getElementById('loading').style.display = 'none';
-      } catch (e) { console.log(e); document.getElementById('loading').innerText = "Erreur: " + e.message; }
+
+      } catch (e) {
+        console.log(e);
+        document.getElementById('loading').innerText = "Erreur: " + e.message;
+      }
     }
     chargerMenu();
+
     window.commanderPlat = function (nom, prix) {
       let panier = JSON.parse(localStorage.getItem('panierSana')) || [];
       let exist = panier.find(i => i.nom === nom);
