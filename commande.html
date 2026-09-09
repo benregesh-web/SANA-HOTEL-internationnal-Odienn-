@@ -2,303 +2,390 @@
 <html lang="fr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Commander - SANA HOTEL</title>
-    <style>
-        * {
-            box-sizing: border-box
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Commander - SANA HOTEL</title>
+  <style>
+    * {
+      box-sizing: border-box
+    }
 
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            min-height: 100vh
-        }
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100vh
+    }
 
-        body {
-            font-family: Arial;
-            background: linear-gradient(rgba(245, 245, 245, 0.88), rgba(245, 245, 245, 0.88)), url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1974');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat
-        }
+    body {
+      font-family: Arial;
+      background: linear-gradient(rgba(245, 245, 245, 0.88), rgba(245, 245, 245, 0.88)), url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1974');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-repeat: no-repeat
+    }
 
-        .bande-noire {
-            background: #111827;
-            color: white;
-            padding: 12px 10px;
-            text-align: center;
-            font-weight: bold;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            font-size: 14px;
-            letter-spacing: 0.5px
-        }
+    .bande-noire {
+      background: #111827;
+      color: white;
+      padding: 12px 10px;
+      text-align: center;
+      font-weight: bold;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      font-size: 14px;
+      letter-spacing: 0.5px
+    }
 
-        .bande-noire a {
-            color: #facc15;
-            text-decoration: none
-        }
+    .bande-noire a {
+      color: #facc15;
+      text-decoration: none
+    }
 
-        .container-phone {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 15px;
-            width: 100%;
-            min-height: 100vh;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(2px);
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1)
-        }
+    .container-phone {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 15px;
+      width: 100%;
+      min-height: 100vh;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(2px);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1)
+    }
 
-        @media(max-width:600px) {
-            .container-phone {
-                max-width: 100%;
-                padding: 10px;
-                margin: 0;
-                min-height: 100dvh;
-                border-radius: 0
-            }
+    @media(max-width:600px) {
+      .container-phone {
+        max-width: 100%;
+        padding: 10px;
+        margin: 0;
+        min-height: 100dvh;
+        border-radius: 0
+      }
 
-            body {
-                padding: 0 !important
-            }
-        }
+      body {
+        padding: 0 !important
+      }
+    }
 
-        .panier-liste {
-            background: #fff8f0;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border: 2px dashed #c89b3c
-        }
+    .panier-liste {
+      background: #fff8f0;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border: 2px dashed #c89b3c
+    }
 
-        .article-panier {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid #ddd;
-            flex-wrap: wrap
-        }
+    .article-panier {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #ddd;
+      flex-wrap: wrap
+    }
 
-        .btn-qte {
-            background: #2E8B57;
-            color: white;
-            border: none;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-weight: bold
-        }
+    .btn-qte {
+      background: #2E8B57;
+      color: white;
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-weight: bold
+    }
 
-        .choix-paiement label {
-            display: block;
-            border: 2px solid #ddd;
-            padding: 14px;
-            border-radius: 10px;
-            margin: 8px 0;
-            cursor: pointer
-        }
+    .choix-paiement label {
+      display: block;
+      border: 2px solid #ddd;
+      padding: 14px;
+      border-radius: 10px;
+      margin: 8px 0;
+      cursor: pointer
+    }
 
-        .choix-paiement label.selected {
-            border-color: #2E8B57;
-            background: #e8f5e9
-        }
+    .choix-paiement label.selected {
+      border-color: #2E8B57;
+      background: #e8f5e9
+    }
 
-        .cache {
-            display: none
-        }
+    .cache {
+      display: none
+    }
 
-        .alerte-non-remboursable {
-            background: #ffdddd;
-            border: 2px solid red;
-            color: red;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-align: center
-        }
+    .alerte-non-remboursable {
+      background: #ffdddd;
+      border: 2px solid red;
+      color: red;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-align: center
+    }
 
-        .select-accompagnement {
-            width: 100%;
-            padding: 10px;
-            margin-top: 8px;
-            border: 2px solid #2E8B57;
-            border-radius: 8px;
-            background: #e8f5e9;
-            font-weight: bold
-        }
+    .select-accompagnement {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border: 2px solid #2E8B57;
+      border-radius: 8px;
+      background: #e8f5e9;
+      font-weight: bold
+    }
 
-        .select-cuisson {
-            width: 100%;
-            padding: 10px;
-            margin-top: 8px;
-            border: 2px solid #c89b3c;
-            border-radius: 8px;
-            background: #fff8e1;
-            font-weight: bold
-        }
+    .select-cuisson {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border: 2px solid #c89b3c;
+      border-radius: 8px;
+      background: #fff8e1;
+      font-weight: bold
+    }
 
-        .bloc-accompagnement {
-            width: 100%;
-            background: #e8f5e9;
-            padding: 8px;
-            border-radius: 8px;
-            margin-top: 8px;
-            border-left: 4px solid #2E8B57
-        }
+    .bloc-accompagnement {
+      width: 100%;
+      background: #e8f5e9;
+      padding: 8px;
+      border-radius: 8px;
+      margin-top: 8px;
+      border-left: 4px solid #2E8B57
+    }
 
-        .bloc-cuisson {
-            width: 100%;
-            background: #fff8e1;
-            padding: 8px;
-            border-radius: 8px;
-            margin-top: 8px;
-            border-left: 4px solid #c89b3c
-        }
-    </style>
+    .bloc-cuisson {
+      width: 100%;
+      background: #fff8e1;
+      padding: 8px;
+      border-radius: 8px;
+      margin-top: 8px;
+      border-left: 4px solid #c89b3c
+    }
+  </style>
 </head>
 
 <body>
-    <div class="bande-noire">SANA HOTEL INTERNATIONAL - ODIENNÉ - <a href="reception-restaurant.html">Réception</a>
+  <div class="bande-noire">SANA HOTEL INTERNATIONAL - ODIENNÉ - <a href="reception-restaurant.html">Réception</a></div>
+  <div class="container-phone">
+    <h3 style="text-align:center">📱 Commander avec Wave</h3>
+    <p class="alerte-non-remboursable">🚫 UNE FOIS VALIDÉE, AUCUN REMBOURSEMENT 🚫<br><small style="color:black">50% =
+        NON REMBOURSABLE - 100% = Payé total</small></p>
+    <div id="panier" class="panier-liste">
+      <h4>Votre Panier - Plats du Jour uniquement</h4>
+      <div id="liste-articles">Aucun article</div>
+      <h4 style="text-align:right;margin-top:15px;">Total: <span id="total-panier">0</span> FCFA</h4>
+      <div style="background:#fff3cd;padding:12px;border-radius:8px;margin-top:10px">
+        <span id="view-50"></span><br><span id="view-100"></span>
+        <hr>
+        <b>À payer Wave: <span id="apayer-view" style="font-size:20px;color:#2E8B57">0 FCFA</span></b><br>
+        <small id="reste-view" style="color:red;font-weight:bold"></small>
+      </div>
     </div>
-    <div class="container-phone">
-        <h3 style="text-align:center">📱 Commander avec Wave</h3>
-        <p class="alerte-non-remboursable">🚫 UNE FOIS VALIDÉE, AUCUN REMBOURSEMENT 🚫<br><small style="color:black">50%
-                = NON REMBOURSABLE - 100% = Payé total</small></p>
-        <div id="panier" class="panier-liste">
-            <h4>Votre Panier - Plats du Jour uniquement</h4>
-            <div id="liste-articles">Aucun article</div>
-            <h4 style="text-align:right;margin-top:15px;">Total: <span id="total-panier">0</span> FCFA</h4>
-            <div style="background:#fff3cd;padding:12px;border-radius:8px;margin-top:10px">
-                <span id="view-50"></span><br><span id="view-100"></span>
-                <hr>
-                <b>À payer Wave: <span id="apayer-view" style="font-size:20px;color:#2E8B57">0 FCFA</span></b><br>
-                <small id="reste-view" style="color:red;font-weight:bold"></small>
-            </div>
+    <form id="commande-form">
+      <div><label>Nom Complet *</label><input type="text" id="cmd-nom" required
+          style="width:100%;padding:12px;margin:5px 0;border-radius:6px;border:1px solid #ccc"></div>
+      <div><label>Téléphone *</label><input type="tel" id="cmd-tel" required
+          style="width:100%;padding:12px;margin:5px 0;border-radius:6px;border:1px solid #ccc"></div>
+      <div><label>Adresse / Table</label><input type="text" id="cmd-adresse"
+          style="width:100%;padding:12px;margin:5px 0;border-radius:6px;border:1px solid #ccc"></div>
+      <textarea id="cmd-details" style="display:none"></textarea>
+      <input type="number" id="cmd-montant" style="display:none">
+      <div><label>Mode Paiement *</label>
+        <div class="choix-paiement">
+          <label id="label-50" class="selected" onclick="choisirPaiement('50')"><input type="radio" name="cmd-paiement"
+              value="50" checked> <b>50% NON REMBOURSABLE</b><br><small id="label-desc-50"></small></label>
+          <label id="label-100" onclick="choisirPaiement('100')"><input type="radio" name="cmd-paiement" value="100">
+            <b>100% PAYÉ</b><br><small id="label-desc-100"></small></label>
         </div>
-        <form id="commande-form">
-            <div><label>Nom Complet *</label><input type="text" id="cmd-nom" required
-                    style="width:100%;padding:12px;margin:5px 0;border-radius:6px;border:1px solid #ccc"></div>
-            <div><label>Téléphone *</label><input type="tel" id="cmd-tel" required
-                    style="width:100%;padding:12px;margin:5px 0;border-radius:6px;border:1px solid #ccc"></div>
-            <div><label>Adresse / Table</label><input type="text" id="cmd-adresse"
-                    style="width:100%;padding:12px;margin:5px 0;border-radius:6px;border:1px solid #ccc"></div>
-            <textarea id="cmd-details" style="display:none"></textarea>
-            <input type="number" id="cmd-montant" style="display:none">
-            <div><label>Mode Paiement *</label>
-                <div class="choix-paiement">
-                    <label id="label-50" class="selected" onclick="choisirPaiement('50')"><input type="radio"
-                            name="cmd-paiement" value="50" checked> <b>50% NON REMBOURSABLE</b><br><small
-                            id="label-desc-50"></small></label>
-                    <label id="label-100" onclick="choisirPaiement('100')"><input type="radio" name="cmd-paiement"
-                            value="100"> <b>100% PAYÉ</b><br><small id="label-desc-100"></small></label>
-                </div>
-            </div>
-            <div
-                style="background:#ffdddd;border:2px solid red;padding:10px;border-radius:8px;margin:10px 0;text-align:center;color:red;font-weight:bold">
-                🚫 AUCUN REMBOURSEMENT</div>
-            <button type="button" onclick="ouvrirModalWave()"
-                style="background:#25D366;padding:14px;width:100%;color:white;border:none;border-radius:8px;font-weight:bold;font-size:16px;">PAYER
-                SUR WAVE</button>
-        </form>
-        <div id="cmd-confirme" class="cache"
-            style="background:#d4edda;padding:15px;border-radius:10px;border:2px solid green;margin-top:15px">
-            <h4>✅ Commande envoyée!</h4>
-            <p id="recap-envoi"></p>
-            <div style="background:white;border-left:4px solid #25D366;padding:12px;margin:12px 0;border-radius:6px">
-                <b style="color:#111827">📱 Attendez la confirmation WhatsApp</b><br>
-                <span style="font-size:14px">Le réceptionniste va vous confirmer sur WhatsApp que votre commande est
-                    validée. Restez connecté.</span>
-            </div>
-            <a href="menu.html"
-                style="background:#111;color:white;padding:10px 15px;border-radius:6px;text-decoration:none;display:inline-block">←
-                Retour Menu</a>
-        </div>
+      </div>
+      <div
+        style="background:#ffdddd;border:2px solid red;padding:10px;border-radius:8px;margin:10px 0;text-align:center;color:red;font-weight:bold">
+        🚫 AUCUN REMBOURSEMENT</div>
+      <button type="button" onclick="ouvrirModalWave()"
+        style="background:#25D366;padding:14px;width:100%;color:white;border:none;border-radius:8px;font-weight:bold;font-size:16px;">PAYER
+        SUR WAVE</button>
+    </form>
+    <div id="cmd-confirme" class="cache"
+      style="background:#d4edda;padding:15px;border-radius:10px;border:2px solid green;margin-top:15px">
+      <h4>✅ Commande envoyée!</h4>
+      <p id="recap-envoi"></p>
+      <div style="background:white;border-left:4px solid #25D366;padding:12px;margin:12px 0;border-radius:6px">
+        <b style="color:#111827">📱 Attendez la confirmation WhatsApp</b><br>
+        <span style="font-size:14px">Le réceptionniste va vous confirmer sur WhatsApp que votre commande est validée.
+          Restez connecté.</span>
+      </div>
+      <a href="menu.html"
+        style="background:#111;color:white;padding:10px 15px;border-radius:6px;text-decoration:none;display:inline-block">←
+        Retour Menu</a>
     </div>
-    <div id="modal-code"
-        style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);align-items:center;justify-content:center;z-index:1000">
-        <div style="background:white;padding:20px;border-radius:12px;max-width:400px;width:90%">
-            <h3>📱 Payer Wave 07071006132</h3>
-            <p>Montant: <b id="montant-wave" style="font-size:22px;color:green">0 FCFA</b><br><span
-                    id="detail-wave"></span><br>Code secret: <b id="code-cache-display"
-                    style="background:yellow;padding:3px 8px"></b></p>
-            <div
-                style="background:#e8f5e9;border:1px solid #2E8B57;padding:10px;border-radius:8px;margin:10px 0;font-size:13px;line-height:1.4">
-                <b>ℹ️ ID demandé :</b> C'est le reçu de votre paiement que vous venez de faire là, qu'on vous a envoyé
-                aussi par SMS. C'est cet ID qui est demandé ici.
-            </div>
-            <label>ID Wave (Reçu SMS) *</label><input id="input-wave-id" placeholder="Ex: ID reçu par SMS Wave"
-                style="width:100%;padding:10px;margin:5px 0;border-radius:6px;border:1px solid #ccc"><br>
-            <label>Code jaune *</label><input id="input-code-visible" placeholder="Code jaune"
-                style="width:100%;padding:10px;margin:5px 0;border-radius:6px;border:1px solid #ccc">
-            <p id="msg-erreur" style="color:red;font-weight:bold"></p>
-            <button onclick="verifierDoubleCode()"
-                style="width:100%;padding:12px;background:#25D366;color:white;border:none;border-radius:8px;font-weight:bold">J'ai
-                payé, Envoyer</button>
-            <button onclick="document.getElementById('modal-code').style.display='none'"
-                style="width:100%;background:gray;margin-top:8px;padding:10px;border:none;border-radius:8px;color:white">Annuler</button>
-        </div>
+  </div>
+  <div id="modal-code"
+    style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);align-items:center;justify-content:center;z-index:1000">
+    <div style="background:white;padding:20px;border-radius:12px;max-width:400px;width:90%">
+      <h3>📱 Payer Wave 07071006132</h3>
+      <p>Montant: <b id="montant-wave" style="font-size:22px;color:green">0 FCFA</b><br><span
+          id="detail-wave"></span><br>Code secret: <b id="code-cache-display"
+          style="background:yellow;padding:3px 8px"></b></p>
+      <div
+        style="background:#e8f5e9;border:1px solid #2E8B57;padding:10px;border-radius:8px;margin:10px 0;font-size:13px;line-height:1.4">
+        <b>ℹ️ ID demandé :</b> C'est le reçu de votre paiement que vous venez de faire là, qu'on vous a envoyé aussi par
+        SMS. C'est cet ID qui est demandé ici.
+      </div>
+      <label>ID Wave (Reçu SMS) *</label><input id="input-wave-id" placeholder="Ex: ID reçu par SMS Wave"
+        style="width:100%;padding:10px;margin:5px 0;border-radius:6px;border:1px solid #ccc"><br>
+      <label>Code jaune *</label><input id="input-code-visible" placeholder="Code jaune"
+        style="width:100%;padding:10px;margin:5px 0;border-radius:6px;border:1px solid #ccc">
+      <p id="msg-erreur" style="color:red;font-weight:bold"></p>
+      <button onclick="verifierDoubleCode()"
+        style="width:100%;padding:12px;background:#25D366;color:white;border:none;border-radius:8px;font-weight:bold">J'ai
+        payé, Envoyer</button>
+      <button onclick="document.getElementById('modal-code').style.display='none'"
+        style="width:100%;background:gray;margin-top:8px;padding:10px;border:none;border-radius:8px;color:white">Annuler</button>
     </div>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
-        const firebaseConfig = { apiKey: "AIzaSyD0_1oZblysKviAaknavtTZCoM68J9_GKY", authDomain: "sana-hotel-internationnal-odie.firebaseapp.com", databaseURL: "https://sana-hotel-internationnal-odie-default-rtdb.firebaseio.com", projectId: "sana-hotel-internationnal-odie", storageBucket: "sana-hotel-internationnal-odie.firebasestorage.app", messagingSenderId: "10660407067", appId: "1:10660407067:web:7e20b4ab80f4db542a55be" };
-        const app = initializeApp(firebaseConfig); const db = getDatabase(app);
-        let panier = JSON.parse(localStorage.getItem('panierSana')) || [];
-        let typePaiementActuel = "50";
-        let CODE_CACHE_SITE = "";
-        let dernierTransId = "";
-        let dataCommande = {};
-        const PLATS_ACCOMPAGNES = ["poulet de chair", "poulet africain", "pintade", "poisson carpe", "poisson capitaine", "capitaine eau douce", "agouti sauté", "soupe agouti", "soupe de poulet de chair", "soupe poulet de chair", "soupe de poulet", "agouti"];
-        function isPlatAvecAccompagnement(nom) { let n = (nom || "").toLowerCase(); return PLATS_ACCOMPAGNES.some(p => n.includes(p)); }
-        window.choisirAccompagnement = function (idx, val) { panier[idx].accompagnement = val; localStorage.setItem('panierSana', JSON.stringify(panier)); afficherPanier(); }
-        window.choisirCuisson = function (idx, val) { panier[idx].cuisson = val; localStorage.setItem('panierSana', JSON.stringify(panier)); afficherPanier(); }
-        window.afficherPanier = function () {
-            let liste = document.getElementById('liste-articles'); let total = 0;
-            if (panier.length === 0) { liste.innerHTML = "Aucun article - Retourne au <a href='menu.html'>menu du jour</a>"; }
-            else {
-                liste.innerHTML = panier.map((it, idx) => {
-                    total += it.prix * it.qte;
-                    let blocOptions = "";
-                    if (isPlatAvecAccompagnement(it.nom)) {
-                        let acc = it.accompagnement || "";
-                        let cuis = it.cuisson || "";
-                        // ORDRE RENVERSE: CUISSON AVANT ACCOMPAGNEMENT
-                        blocOptions = `<div class="bloc-cuisson"><small style="font-weight:bold;color:#111">🔥 1. Cuisson pour <b>${it.nom}</b> *</small><select class="select-cuisson" onchange="choisirCuisson(${idx},this.value)"><option value="">-- Grillé, Braisé ou Soupe? --</option><option value="Grillé" ${cuis === "Grillé" ? "selected" : ""}>Grillé</option><option value="Braisé" ${cuis === "Braisé" ? "selected" : ""}>Braisé</option><option value="En soupe" ${cuis === "En soupe" ? "selected" : ""}>En soupe</option></select>${cuis ? `<small style="color:green">✅ ${cuis}</small>` : `<small style="color:red">⚠️ Obligatoire</small>`}</div><div class="bloc-accompagnement"><small style="font-weight:bold;color:#111">🍚 2. Accompagnement pour <b>${it.nom}</b> *</small><select class="select-accompagnement" onchange="choisirAccompagnement(${idx},this.value)"><option value="">-- Choisir accompagnement --</option><option value="Riz" ${acc === "Riz" ? "selected" : ""}>Riz</option><option value="Frites" ${acc === "Frites" ? "selected" : ""}>Frites</option><option value="Alloco" ${acc === "Alloco" ? "selected" : ""}>Alloco</option><option value="Attiéké" ${acc === "Attiéké" ? "selected" : ""}>Attiéké</option></select>${acc ? `<small style="color:green">✅ ${acc}</small>` : `<small style="color:red">⚠️ Obligatoire</small>`}</div>`;
-                    }
-                    return `<div class="article-panier"><span>${it.qte}x ${it.nom} - ${it.prix.toLocaleString()} FCFA ${it.accompagnement ? ` <b style="color:#2E8B57">[${it.accompagnement}]</b>` : ""} ${it.cuisson ? ` <b style="color:#b7791f">[${it.cuisson}]</b>` : ""}</span><div><button type="button" class="btn-qte" onclick="changerQte(${idx},'moins')">-</button><b style="margin:0 8px;">${it.qte}</b><button type="button" class="btn-qte" onclick="changerQte(${idx},'plus')">+</button></div>${blocOptions}</div>`;
-                }).join('');
+  </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyD0_1oZblysKviAaknavtTZCoM68J9_GKY",
+      authDomain: "sana-hotel-internationnal-odie.firebaseapp.com",
+      databaseURL: "https://sana-hotel-internationnal-odie-default-rtdb.firebaseio.com",
+      projectId: "sana-hotel-internationnal-odie",
+      storageBucket: "sana-hotel-internationnal-odie.firebasestorage.app",
+      messagingSenderId: "10660407067",
+      appId: "1:10660407067:web:7e20b4ab80f4db542a55be"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    let panier = JSON.parse(localStorage.getItem('panierSana')) || [];
+    let typePaiementActuel = "50";
+    let CODE_CACHE_SITE = "";
+    let dernierTransId = "";
+    let dataCommande = {};
+    const PLATS_ACCOMPAGNES = ["poulet de chair", "poulet africain", "pintade", "poisson carpe", "poisson capitaine", "capitaine eau douce", "agouti sauté", "soupe agouti", "soupe de poulet de chair", "soupe de poulet", "agouti"];
+    const PLATS_SANS_CUISSON = ["agouti saute", "agouti sauté", "soupe agouti", "agouti"];
+    function isPlatAvecAccompagnement(nom) {
+      let n = (nom || "").toLowerCase();
+      return PLATS_ACCOMPAGNES.some(p => n.includes(p.toLowerCase()));
+    }
+    function isAgouti(nom) {
+      let n = (nom || "").toLowerCase();
+      return PLATS_SANS_CUISSON.some(p => n.includes(p.toLowerCase()));
+    }
+    function besoinCuisson(nom) {
+      return isPlatAvecAccompagnement(nom) && !isAgouti(nom);
+    }
+    window.choisirAccompagnement = function (idx, val) {
+      panier[idx].accompagnement = val;
+      localStorage.setItem('panierSana', JSON.stringify(panier));
+      afficherPanier();
+    }
+    window.choisirCuisson = function (idx, val) {
+      panier[idx].cuisson = val;
+      localStorage.setItem('panierSana', JSON.stringify(panier));
+      afficherPanier();
+    }
+    window.afficherPanier = function () {
+      let liste = document.getElementById('liste-articles');
+      let total = 0;
+      if (panier.length === 0) {
+        liste.innerHTML = "Aucun article - Retourne au <a href='menu.html'>menu du jour</a>";
+      } else {
+        liste.innerHTML = panier.map((it, idx) => {
+          total += it.prix * it.qte;
+          let blocOptions = "";
+          if (isPlatAvecAccompagnement(it.nom)) {
+            let acc = it.accompagnement || "";
+            let cuis = it.cuisson || "";
+            let htmlCuisson = "";
+            if (besoinCuisson(it.nom)) {
+              htmlCuisson = `<div class="bloc-cuisson"><small style="font-weight:bold;color:#111">🔥 1. Cuisson pour <b>${it.nom}</b> *</small><select class="select-cuisson" onchange="choisirCuisson(${idx},this.value)"><option value="">-- Grillé, Braisé ou Soupe? --</option><option value="Grillé" ${cuis === "Grillé" ? "selected" : ""}>Grillé</option><option value="Braisé" ${cuis === "Braisé" ? "selected" : ""}>Braisé</option><option value="En soupe" ${cuis === "En soupe" ? "selected" : ""}>En soupe</option></select>${cuis ? `<small style="color:green">✅ ${cuis}</small>` : `<small style="color:red">⚠️ Obligatoire</small>`}</div>`;
             }
-            document.getElementById('total-panier').innerText = total.toLocaleString(); let a50 = Math.round(total * 0.5); let a100 = total; let reste = total - a50; document.getElementById('view-50').innerHTML = `50% de <b>${total.toLocaleString()}</b> = <b style="color:red">${a50.toLocaleString()} FCFA</b> Non remboursable`; document.getElementById('view-100').innerHTML = `100% = <b style="color:green">${a100.toLocaleString()} FCFA</b>`; document.getElementById('label-desc-50').innerText = `Paye ${a50.toLocaleString()} maintenant, reste ${reste.toLocaleString()}`; document.getElementById('label-desc-100').innerText = `Paye tout ${a100.toLocaleString()}`; let aPayerFinal = typePaiementActuel === "50" ? a50 : a100; document.getElementById('apayer-view').innerText = aPayerFinal.toLocaleString() + ` FCFA (${typePaiementActuel}%)`; document.getElementById('reste-view').innerText = typePaiementActuel === "50" ? `Reste: ${reste.toLocaleString()} - 50% non remboursable` : `Payé 100%`; document.getElementById('cmd-details').value = panier.map(i => `${i.qte}x ${i.nom} ${i.cuisson ? `[${i.cuisson}]` : ""} ${i.accompagnement ? `[${i.accompagnement}]` : ""} = ${(i.prix * i.qte).toLocaleString()} FCFA`).join('\n'); document.getElementById('cmd-montant').value = total; return { total, aPayerFinal, reste, details: document.getElementById('cmd-details').value };
+            let numAcc = besoinCuisson(it.nom) ? "2" : "1";
+            blocOptions = `${htmlCuisson}<div class="bloc-accompagnement"><small style="font-weight:bold;color:#111">🍚 ${numAcc}. Accompagnement pour <b>${it.nom}</b> *</small><select class="select-accompagnement" onchange="choisirAccompagnement(${idx},this.value)"><option value="">-- Choisir accompagnement --</option><option value="Riz" ${acc === "Riz" ? "selected" : ""}>Riz</option><option value="Frites" ${acc === "Frites" ? "selected" : ""}>Frites</option><option value="Alloco" ${acc === "Alloco" ? "selected" : ""}>Alloco</option><option value="Attiéké" ${acc === "Attiéké" ? "selected" : ""}>Attiéké</option></select>${acc ? `<small style="color:green">✅ ${acc}</small>` : `<small style="color:red">⚠️ Obligatoire</small>`}</div>`;
+          }
+          return `<div class="article-panier"><span>${it.qte}x ${it.nom} - ${it.prix.toLocaleString()} FCFA ${it.accompagnement ? ` <b style="color:#2E8B57">[${it.accompagnement}]</b>` : ""} ${it.cuisson ? ` <b style="color:#b7791f">[${it.cuisson}]</b>` : ""}</span><div><button type="button" class="btn-qte" onclick="changerQte(${idx},'moins')">-</button><b style="margin:0 8px;">${it.qte}</b><button type="button" class="btn-qte" onclick="changerQte(${idx},'plus')">+</button></div>${blocOptions}</div>`;
+        }).join('');
+      }
+      document.getElementById('total-panier').innerText = total.toLocaleString();
+      let a50 = Math.round(total * 0.5);
+      let a100 = total;
+      let reste = total - a50;
+      document.getElementById('view-50').innerHTML = `50% de <b>${total.toLocaleString()}</b> = <b style="color:red">${a50.toLocaleString()} FCFA</b> Non remboursable`;
+      document.getElementById('view-100').innerHTML = `100% = <b style="color:green">${a100.toLocaleString()} FCFA</b>`;
+      document.getElementById('label-desc-50').innerText = `Paye ${a50.toLocaleString()} maintenant, reste ${reste.toLocaleString()}`;
+      document.getElementById('label-desc-100').innerText = `Paye tout ${a100.toLocaleString()}`;
+      let aPayerFinal = typePaiementActuel === "50" ? a50 : a100;
+      document.getElementById('apayer-view').innerText = aPayerFinal.toLocaleString() + ` FCFA (${typePaiementActuel}%)`;
+      document.getElementById('reste-view').innerText = typePaiementActuel === "50" ? `Reste: ${reste.toLocaleString()} - 50% non remboursable` : `Payé 100%`;
+      document.getElementById('cmd-details').value = panier.map(i => `${i.qte}x ${i.nom} ${i.cuisson ? `[${i.cuisson}]` : ""} ${i.accompagnement ? `[${i.accompagnement}]` : ""} = ${(i.prix * i.qte).toLocaleString()} FCFA`).join('\n');
+      document.getElementById('cmd-montant').value = total;
+      return { total, aPayerFinal, reste, details: document.getElementById('cmd-details').value };
+    }
+    window.changerQte = function (i, act) {
+      if (act === 'plus') panier[i].qte++;
+      if (act === 'moins') { panier[i].qte--; if (panier[i].qte <= 0) panier.splice(i, 1); }
+      localStorage.setItem('panierSana', JSON.stringify(panier));
+      afficherPanier();
+    }
+    window.choisirPaiement = function (val) {
+      typePaiementActuel = val;
+      document.querySelectorAll('.choix-paiement label').forEach(l => l.classList.remove('selected'));
+      document.getElementById('label-' + val).classList.add('selected');
+      document.querySelector(`input[value="${val}"]`).checked = true;
+      afficherPanier();
+    }
+    window.ouvrirModalWave = function () {
+      let nom = document.getElementById('cmd-nom').value.trim();
+      let tel = document.getElementById('cmd-tel').value.trim();
+      let { total, aPayerFinal, reste, details } = afficherPanier();
+      if (panier.length === 0) return alert("Panier vide");
+      if (!nom || !tel) return alert("Nom et téléphone obligatoires");
+      for (let i = 0; i < panier.length; i++) {
+        if (isPlatAvecAccompagnement(panier[i].nom)) {
+          if (besoinCuisson(panier[i].nom) && !panier[i].cuisson) {
+            alert(`Choisis la cuisson pour: ${panier[i].nom} (Grillé, Braisé ou En soupe)`);
+            return;
+          }
+          if (!panier[i].accompagnement) {
+            alert(`Choisis l'accompagnement pour: ${panier[i].nom} (Riz, Frites, Alloco ou Attiéké)`);
+            return;
+          }
         }
-        window.changerQte = function (i, act) { if (act === 'plus') panier[i].qte++; if (act === 'moins') { panier[i].qte--; if (panier[i].qte <= 0) panier.splice(i, 1); } localStorage.setItem('panierSana', JSON.stringify(panier)); afficherPanier(); }
-        window.choisirPaiement = function (val) { typePaiementActuel = val; document.querySelectorAll('.choix-paiement label').forEach(l => l.classList.remove('selected')); document.getElementById('label-' + val).classList.add('selected'); document.querySelector(`input[value="${val}"]`).checked = true; afficherPanier(); }
-        window.ouvrirModalWave = function () {
-            let nom = document.getElementById('cmd-nom').value.trim(); let tel = document.getElementById('cmd-tel').value.trim(); let { total, aPayerFinal, reste, details } = afficherPanier(); if (panier.length === 0) return alert("Panier vide"); if (!nom || !tel) return alert("Nom et téléphone obligatoires");
-            for (let i = 0; i < panier.length; i++) {
-                if (isPlatAvecAccompagnement(panier[i].nom)) {
-                    if (!panier[i].cuisson) { alert(`Choisis la cuisson pour: ${panier[i].nom} (Grillé, Braisé ou En soupe)`); return; }
-                    if (!panier[i].accompagnement) { alert(`Choisis l'accompagnement pour: ${panier[i].nom} (Riz, Frites, Alloco ou Attiéké)`); return; }
-                }
-            }
-            CODE_CACHE_SITE = "SANA" + Math.floor(1000 + Math.random() * 9000); dernierTransId = "CMD" + Date.now(); dataCommande = { nom, tel, adresse: document.getElementById('cmd-adresse').value, total, aPayer: aPayerFinal, reste, details, pourcentage: typePaiementActuel };
-            document.getElementById('montant-wave').innerText = aPayerFinal.toLocaleString() + ` FCFA (${typePaiementActuel}%)`; document.getElementById('detail-wave').innerText = typePaiementActuel === "50" ? `Total ${total.toLocaleString()} - 50% non remboursable` : `Total ${total.toLocaleString()} - 100%`; document.getElementById('code-cache-display').innerText = CODE_CACHE_SITE; document.getElementById('modal-code').style.display = 'flex';
-        }
-        window.verifierDoubleCode = async function () {
-            let codeEntre = document.getElementById('input-code-visible').value.trim(); let waveId = document.getElementById('input-wave-id').value.trim(); let err = document.getElementById('msg-erreur'); if (!waveId) { err.innerText = "ID Wave obligatoire"; return; } if (codeEntre !== CODE_CACHE_SITE) { err.innerText = "Code faux: " + CODE_CACHE_SITE; return; } err.innerText = "Envoi..."; let newCmd = { id: dernierTransId, codeCache: CODE_CACHE_SITE, waveId: waveId, nom: dataCommande.nom, tel: dataCommande.tel, adresse: dataCommande.adresse, details: dataCommande.details, total: dataCommande.total, montantPaye: dataCommande.aPayer, reste: dataCommande.reste, pourcentage: dataCommande.pourcentage, statut: dataCommande.pourcentage == 50 ? "50% NON REMBOURSABLE" : "100% PAYE", date: new Date().toLocaleString() }; try { await set(ref(db, 'commandes_restaurant/' + dernierTransId), newCmd); document.getElementById('modal-code').style.display = "none"; document.getElementById('recap-envoi').innerHTML = `${dataCommande.details}<br>Payé ${dataCommande.aPayer.toLocaleString()} FCFA (${dataCommande.pourcentage}%)<br>Total ${dataCommande.total.toLocaleString()}`; document.getElementById('cmd-confirme').classList.remove('cache'); document.getElementById('cmd-confirme').scrollIntoView({ behavior: 'smooth' }); let msg = `*NOUVELLE COMMANDE SANA*%0A👤 ${dataCommande.nom}%0A📞 ${dataCommande.tel}%0A📍 ${dataCommande.adresse}%0A🍽️ ${encodeURIComponent(dataCommande.details)}%0A💰 Total: ${dataCommande.total}%0A💳 Payé: ${dataCommande.aPayer} (${dataCommande.pourcentage}%)%0A🆔 Wave: ${waveId}%0A🚫 AUCUN REMBOURSEMENT`; window.open(`https://wa.me/2250710066132?text=${msg}`, '_blank'); panier = []; localStorage.removeItem('panierSana'); afficherPanier(); } catch (e) { err.innerText = e.message; }
-        }
-        afficherPanier();
-    </script>
+      }
+      CODE_CACHE_SITE = "SANA" + Math.floor(1000 + Math.random() * 9000);
+      dernierTransId = "CMD" + Date.now();
+      dataCommande = { nom, tel, adresse: document.getElementById('cmd-adresse').value, total, aPayer: aPayerFinal, reste, details, pourcentage: typePaiementActuel };
+      document.getElementById('montant-wave').innerText = aPayerFinal.toLocaleString() + ` FCFA (${typePaiementActuel}%)`;
+      document.getElementById('detail-wave').innerText = typePaiementActuel === "50" ? `Total ${total.toLocaleString()} - 50% non remboursable` : `Total ${total.toLocaleString()} - 100%`;
+      document.getElementById('code-cache-display').innerText = CODE_CACHE_SITE;
+      document.getElementById('modal-code').style.display = 'flex';
+    }
+    window.verifierDoubleCode = async function () {
+      let codeEntre = document.getElementById('input-code-visible').value.trim();
+      let waveId = document.getElementById('input-wave-id').value.trim();
+      let err = document.getElementById('msg-erreur');
+      if (!waveId) { err.innerText = "ID Wave obligatoire"; return; }
+      if (codeEntre !== CODE_CACHE_SITE) { err.innerText = "Code faux: " + CODE_CACHE_SITE; return; }
+      err.innerText = "Envoi...";
+      let newCmd = { id: dernierTransId, codeCache: CODE_CACHE_SITE, waveId: waveId, nom: dataCommande.nom, tel: dataCommande.tel, adresse: dataCommande.adresse, details: dataCommande.details, total: dataCommande.total, montantPaye: dataCommande.aPayer, reste: dataCommande.reste, pourcentage: dataCommande.pourcentage, statut: dataCommande.pourcentage == 50 ? "50% NON REMBOURSABLE" : "100% PAYE", date: new Date().toLocaleString() };
+      try {
+        await set(ref(db, 'commandes_restaurant/' + dernierTransId), newCmd);
+        document.getElementById('modal-code').style.display = "none";
+        document.getElementById('recap-envoi').innerHTML = `${dataCommande.details}<br>Payé ${dataCommande.aPayer.toLocaleString()} FCFA (${dataCommande.pourcentage}%)<br>Total ${dataCommande.total.toLocaleString()}`;
+        document.getElementById('cmd-confirme').classList.remove('cache');
+        document.getElementById('cmd-confirme').scrollIntoView({ behavior: 'smooth' });
+        let msg = `*NOUVELLE COMMANDE SANA*%0A👤 ${dataCommande.nom}%0A📞 ${dataCommande.tel}%0A📍 ${dataCommande.adresse}%0A🍽️ ${encodeURIComponent(dataCommande.details)}%0A💰 Total: ${dataCommande.total}%0A💳 Payé: ${dataCommande.aPayer} (${dataCommande.pourcentage}%)%0A🆔 Wave: ${waveId}%0A🚫 AUCUN REMBOURSEMENT`;
+        window.open(`https://wa.me/2250710066132?text=${msg}`, '_blank');
+        panier = []; localStorage.removeItem('panierSana'); afficherPanier();
+      } catch (e) { err.innerText = e.message; }
+    }
+    afficherPanier();
+  </script>
 </body>
 
 </html>
