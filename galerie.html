@@ -48,15 +48,15 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     const categories = [
-      { cat: "standard", label: "Standard", prix: 15000, imgs: ["simple1.JPG", "simple2.JPG"], type: "CHAMBRE" },
-      { cat: "classique", label: "Classique", prix: 20000, imgs: ["https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg", "https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg"], type: "CHAMBRE" },
-      { cat: "confort", label: "Confort", prix: 30000, imgs: ["https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg", "https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg"], type: "CHAMBRE" },
-      { cat: "vip", label: "VIP", prix: 50000, imgs: ["vp1.JPG", "vp1.JPG"], type: "CHAMBRE" },
-      { cat: "vvip", label: "VVIP", prix: 60000, imgs: ["suite1.JPG", "suite1.JPG"], type: "CHAMBRE" },
-      { cat: "suite", label: "Suite", prix: 60000, imgs: ["suite1.JPG", "suite1.JPG"], type: "CHAMBRE" },
-      { cat: "appartement", label: "Appartement", prix: 70000, imgs: ["vp1.JPG", "suite1.JPG"], type: "CHAMBRE" },
-      { cat: "sport", label: "Salle de Sport", prix: 10000, imgs: ["https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg", "https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg"], type: "SPORT", info: "Abo 10000F / Séance 1000F - Lun, Mar, Jeu, Ven 19h-20h30" },
-      { cat: "piscine", label: "Piscine", prix: 15000, imgs: ["https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg", "https://images.pexels.com/photos/261101/pexels-photo-261101.jpeg"], type: "PISCINE", info: "Abo Adulte 15000F Enfant 8000F - Séance 1500F/1000F - 9h à 18h" },
+      { cat: "standard", label: "Standard", prix: 15000, imgs: ["standard1.JPG", "standard2.JPG"], type: "CHAMBRE" },
+      { cat: "classique", label: "Classique", prix: 20000, imgs: ["classique3.JPG", "classique4.JPG"], type: "CHAMBRE" },
+      { cat: "confort", label: "Confort", prix: 30000, imgs: ["confort5.JPG", "confort6.JPG"], type: "CHAMBRE" },
+      { cat: "vip", label: "VIP", prix: 50000, imgs: ["vip7.JPG", "vip8.JPG"], type: "CHAMBRE" },
+      { cat: "vvip", label: "VVIP", prix: 60000, imgs: ["vvip11.JPG", "vvip12.JPG"], type: "CHAMBRE" },
+      { cat: "suite", label: "Suite", prix: 60000, imgs: ["suite9.JPG", "suite10.JPG"], type: "CHAMBRE" },
+      { cat: "appartement", label: "Appartement", prix: 70000, imgs: ["appartement1.JPG", "appartement2.JPG"], type: "CHAMBRE" },
+      { cat: "sport", label: "Salle de Sport", prix: 10000, imgs: ["sport15.JPG", "sport16.JPG"], type: "SPORT", info: "Abo 10000F / Séance 1000F - Lun, Mar, Jeu, Ven 19h-20h30" },
+      { cat: "piscine", label: "Piscine", prix: 15000, imgs: ["piscine13.JPG", "piscine14.JPG"], type: "PISCINE", info: "Abo Adulte 15000F Enfant 8000F - Séance 1500F/1000F - 9h à 18h" },
     ];
     const STOCK_INIT = { "STANDARD": 12, "CLASSIQUE": 24, "CONFORT": 12, "VIP": 6, "VVIP": 2, "SUITE": 4, "APPARTEMENT": 4 };
     let stockActuel = STOCK_INIT;
