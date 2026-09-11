@@ -1,1 +1,254 @@
-<!DOCTYPE html> <html lang="fr"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"> <title>Réservation - SANA</title> <style> * { box-sizing: border-box } html, body { width: 100%; min-height: 100%; margin: 0; padding: 0 } body { font-family: Arial; background: #f0f2f5 }.header { background: #0b1a33; color: white; padding: 14px; text-align: center; font-weight: bold; letter-spacing: 0.5px; cursor: pointer; width: 100% }.box { background: white; padding: 15px; border-radius: 12px; max-width: 500px; margin: 15px auto; width: 100% } input, select { width: 100%; padding: 12px; margin: 6px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 16px }.btn { padding: 14px; background: #25D366; color: white; border: none; border-radius: 8px; width: 100%; font-weight: bold; font-size: 17px; cursor: pointer }.card-option { border: 2px solid #eee; padding: 10px; border-radius: 8px; margin: 6px 0 } /* MOBILE FULL PAGE */ @media (max-width:600px) { body { background: white }.box { margin: 0; max-width: 100%; border-radius: 0; min-height: 100vh; padding: 15px; padding-bottom: 30px }.header { border-radius: 0 } } </style> </head> <body> <div class="header" onclick="window.location.href='reception.html'"> SANA HOTEL INTERNATIONAL - ODIENNÉ - Réception </div> <div class="box"> <h2 id="titre">Réservation</h2> <div id="info-chambre" style="background:#111;color:white;padding:10px;border-radius:8px;margin-bottom:10px"> </div> <label>Nom complet</label> <input id="nom" placeholder="Votre nom"> <label>Numéro WhatsApp</label> <input id="tel" placeholder="07..."> <div id="bloc-chambre" style="background:white;padding:10px;border-radius:8px;border:1px solid #eee"> <label style="font-size:14px;color:#555">Arrivée</label> <input id="arrivee" type="date" style="width:100%;padding:12px;border:none;border-bottom:1px solid #ddd"> <label style="font-size:14px;color:#555;margin-top:10px;display:block">Départ</label> <input id="depart" type="date" style="width:100%;padding:12px;border:none;border-bottom:1px solid #ddd"> <p id="nuits-calc" style="font-size:12px;color:#25D366;font-weight:bold;margin-top:8px"></p> <input type="hidden" id="nuits" value="1"> <input type="hidden" id="dates"> </div> <div style="background:#fff3e0;padding:10px;border-radius:8px;margin:10px 0;border-left:4px solid #ff9800"> <b>Ajouter en plus (facultatif - Combo)</b> <div class="card-option" id="opt-sport"> <label><input type="checkbox" id="chk-sport"> Ajouter Salle de Sport</label> <select id="sport-type"> <option value="">-- Choisir --</option> <option value="SPORT_ABO">Abonnement 10 000F</option> <option value="SPORT_SEANCE">Séance 1 000F</option> </select> </div> <div class="card-option" id="opt-piscine"> <label><input type="checkbox" id="chk-piscine"> Ajouter Piscine</label> <select id="piscine-type"> <option value="">-- Choisir --</option> <option value="PISCINE_ABO_ADULTE">Abo Adulte 15 000F</option> <option value="PISCINE_ABO_ENFANT">Abo Enfant 8 000F</option> <option value="PISCINE_SEANCE_ADULTE">Séance Adulte 1 500F</option> <option value="PISCINE_SEANCE_ENFANT">Séance Enfant 1 000F</option> </select> </div> </div> <div id="bloc-sport-seul" style="display:none;background:#fff3e0;padding:10px;border-radius:8px"> <label>Type Sport</label> <select id="sport-seul-type"> <option value="SPORT_ABO">Abonnement 10 000F</option> <option value="SPORT_SEANCE">Séance 1 000F</option> </select> </div> <div id="bloc-piscine-seule" style="display:none;background:#e1f5fe;padding:10px;border-radius:8px"> <label>Type Piscine</label> <select id="piscine-seule-type"> <option value="PISCINE_ABO_ADULTE">Abo Adulte 15 000F</option> <option value="PISCINE_ABO_ENFANT">Abo Enfant 8 000F</option> <option value="PISCINE_SEANCE_ADULTE">Séance Adulte 1 500F</option> <option value="PISCINE_SEANCE_ENFANT">Séance Enfant 1 000F</option> </select> </div> <label>Montant Wave (50% ou 100%)</label> <select id="pourcentage"> <option value="50">50%</option> <option value="100">100%</option> </select> <div style="background:#e8f5e9;border:2px solid #25D366;padding:12px;border-radius:10px;margin:12px 0"> <b style="color:#0b7a3e;font-size:14px">💳 DÉTAILS PAIEMENT WAVE</b> <div style="background:white;padding:10px;border-radius:8px;margin-top:8px;line-height:1.6;font-size:13px"> <div id="detail-chambre-pay">Chambre: -</div> <div id="detail-total-pay">Total: 0 FCFA</div> <div id="detail-a-payer-pay" style="font-weight:bold;color:#0b7a3e;font-size:15px">À payer maintenant (50%): 0 FCFA</div> <div id="detail-reste-pay" style="font-weight:bold;color:#d32f2f">Reste à payer à l'hôtel: 0 FCFA</div> <small id="detail-affiche" style="display:block;color:#666;margin-top:5px"></small> </div> <div style="background:white;border:1px dashed #25D366;padding:10px;border-radius:8px;text-align:center;margin-top:10px"> <span style="font-size:13px">Payez sur Wave:</span><br> <span style="font-size:18px;font-weight:bold;letter-spacing:1px">0710066132</span><br> <small style="color:#555">Nom: SANA HOTEL</small> </div> </div> <input id="waveId" placeholder="ID Wave (ex: QZ8F2K9L1M)"> <small style="color:#666;font-size:11px;display:block;margin-top:4px"> ℹ️ C'est quoi ID Wave? Après paiement Wave, copie l'ID de transaction dans ton reçu Wave (ex: QZ8F2K9L1M) et colle-le ici.<br>Tu le trouves dans Wave > Historique > Détails > ID transaction ou Reçu par SMS </small> <div style="background:#ffe6e6;border:2px solid red;padding:10px;border-radius:8px;margin:12px 0;text-align:center"> <p style="color:red;font-weight:bold;font-size:13px;margin:0">🚫 AUCUN REMBOURSEMENT</p> <p style="color:#111;font-weight:bold;font-size:12px;margin:5px 0 0 0">Une fois que la réservation est validée, si vous ne venez pas, ce n'est pas remboursable.</p> </div> <div id="successMsg" style="display:none;background:#d4edda;color:#155724;padding:14px;border-radius:8px;text-align:center;margin-bottom:12px;border:1px solid #c3e6cb;font-weight:bold"> ✅ Ton message a bien été envoyé.<br><small style="font-weight:normal">En attente de vérification, la réceptionniste va te confirmer sur WhatsApp.</small></div> <button class="btn" onclick="reserver()">📲 RÉSERVER MAINTENANT</button> </div> <script type="module"> import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"; import { getDatabase, ref, push, get } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"; const firebaseConfig = { apiKey: "AIzaSyD0_1oZblysKviAaknavtTZCoM68J9_GKY", authDomain: "sana-hotel-internationnal-odie.firebaseapp.com", databaseURL: "https://sana-hotel-internationnal-odie-default-rtdb.firebaseio.com", projectId: "sana-hotel-internationnal-odie", storageBucket: "sana-hotel-internationnal-odie.firebasestorage.app", messagingSenderId: "10660407067", appId: "1:10660407067:web:7e20b4ab80f4db542a55be" }; const app = initializeApp(firebaseConfig); const db = getDatabase(app); const urlParams = new URLSearchParams(window.location.search); let chambreLabel = urlParams.get('chambre') || "Standard"; let prixBase = parseInt(urlParams.get('prix')) || 15000; let catBase = (urlParams.get('cat') || "standard").toUpperCase(); let typeBase = (urlParams.get('type') || "CHAMBRE").toUpperCase(); const PRIX = { "SPORT_ABO": 10000, "SPORT_SEANCE": 1000, "PISCINE_ABO_ADULTE": 15000, "PISCINE_ABO_ENFANT": 8000, "PISCINE_SEANCE_ADULTE": 1500, "PISCINE_SEANCE_ENFANT": 1000 }; document.getElementById('titre').innerText = "Réservation - " + chambreLabel; document.getElementById('info-chambre').innerText = chambreLabel + " | Base " + prixBase.toLocaleString() + " FCFA"; let elBlocChambre = document.getElementById('bloc-chambre'); let elBlocSport = document.getElementById('bloc-sport-seul'); let elBlocPiscine = document.getElementById('bloc-piscine-seule'); let elOptSport = document.getElementById('opt-sport'); let elOptPiscine = document.getElementById('opt-piscine'); if (typeBase === "SPORT") { elBlocChambre.style.display = "none"; elBlocSport.style.display = "block"; elOptSport.style.display = "none"; elOptPiscine.style.display = "none"; } else if (typeBase === "PISCINE") { elBlocChambre.style.display = "none"; elBlocPiscine.style.display = "block"; elOptSport.style.display = "none"; elOptPiscine.style.display = "none"; } function calculNuits() { let arr = document.getElementById('arrivee').value; let dep = document.getElementById('depart').value; if (arr && dep) { let d1 = new Date(arr); let d2 = new Date(dep); let diff = Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24)); if (diff <= 0) diff = 1; document.getElementById('nuits').value = diff; document.getElementById('nuits-calc').innerText = diff + " Nuit(s) calculée(s)"; document.getElementById('dates').value = arr + " au " + dep; return diff; } return parseInt(document.getElementById('nuits').value) || 1; } function calculerTotal() { let total = 0; let details = []; let catFinal = catBase; let typeService = "CHAMBRE"; if (typeBase === "CHAMBRE") { let nuits = calculNuits(); let prixChambre = prixBase * nuits; total += prixChambre; details.push(`${catBase} x ${nuits}N = ${prixChambre}F`); if (document.getElementById('chk-sport').checked) { let sType = document.getElementById('sport-type').value; if (sType) { total += PRIX[sType]; details.push(`${sType} = ${PRIX[sType]}F`); catFinal += ` + ${sType}`; } } if (document.getElementById('chk-piscine').checked) { let pType = document.getElementById('piscine-type').value; if (pType) { total += PRIX[pType]; details.push(`${pType} = ${PRIX[pType]}F`); catFinal += ` + ${pType}`; } } if (details.length > 1) typeService = "COMBO"; } else if (typeBase === "SPORT") { let sType = document.getElementById('sport-seul-type').value; total = PRIX[sType] || 10000; details = [`${sType} = ${total}F`]; catFinal = sType; typeService = "SPORT"; } else if (typeBase === "PISCINE") { let pType = document.getElementById('piscine-seule-type').value; total = PRIX[pType] || 15000; details = [`${pType} = ${total}F`]; catFinal = pType; typeService = "PISCINE"; } let pourcentage = parseInt(document.getElementById('pourcentage').value) || 50; let montantPayer = Math.round(total * pourcentage / 100); let reste = total - montantPayer; document.getElementById('detail-chambre-pay').innerHTML = `<b>Chambre:</b> ${chambreLabel} (${prixBase.toLocaleString()}F / nuit) - <b>${catFinal}</b>`; document.getElementById('detail-total-pay').innerHTML = `<b>Total séjour:</b> ${total.toLocaleString()} FCFA`; document.getElementById('detail-a-payer-pay').innerText = `À payer maintenant Wave (${pourcentage}%): ${montantPayer.toLocaleString()} FCFA`; document.getElementById('detail-reste-pay').innerText = pourcentage == 50? `Reste à payer à l'hôtel: ${reste.toLocaleString()} FCFA` : `Reste à payer: 0 FCFA - Tout payé`; document.getElementById('detail-affiche').innerText = details.join(' | '); return { total, details: details.join(' | '), catFinal, typeService, montantPayer, reste }; } document.getElementById('arrivee').addEventListener('change', calculerTotal); document.getElementById('depart').addEventListener('change', calculerTotal); document.querySelectorAll('select,input').forEach(e => e.addEventListener('change', calculerTotal)); calculerTotal(); window.reserver = async function () { let nom = document.getElementById('nom').value.trim(); let tel = document.getElementById('tel').value.trim(); let dates = document.getElementById('dates').value.trim(); let nuits = parseInt(document.getElementById('nuits').value) || 1; if (typeBase === "CHAMBRE" &&!dates) { alert("Choisis Arrivée et Départ"); return; } let pourcentage = parseInt(document.getElementById('pourcentage').value) || 50; let waveId = document.getElementById('waveId').value.trim(); if (!nom ||!tel ||!waveId) { alert("Remplis nom, tel, ID Wave"); return; } let waveIdCheck = waveId.toUpperCase().replace(/\s/g, ''); try { let resSnap = await get(ref(db, 'reservations')); if (resSnap.exists()) { let found = false; resSnap.forEach(c => { let r = c.val(); if (r.waveId && r.waveId.toUpperCase().replace(/\s/g, '') === waveIdCheck) found = true; }); if (found) { alert("❌ ID Wave DÉJÀ UTILISÉ\n\nCet ID " + waveId + " a déjà été mis. Vérifie ton reçu Wave.\nUn paiement = une seule réservation."); return; } } let histSnap = await get(ref(db, 'historique')); if (histSnap.exists()) { let foundH = false; histSnap.forEach(day => { day.forEach(h => { let hv = h.val(); if (hv.waveId && hv.waveId.toUpperCase().replace(/\s/g, '') === waveIdCheck) foundH = true; }); }); if (foundH) { alert("❌ ID Wave DÉJÀ UTILISÉ\n\nCet ID " + waveId + " a déjà été validé dans l'historique.\nImpossible de le réutiliser."); return; } } } catch (e) { console.log("Erreur check WaveID", e); } let calc = calculerTotal(); let total = calc.total; let montant = calc.montantPayer; if (typeBase === "CHAMBRE") { let stockSnap = await get(ref(db, 'stock/' + catBase)); let stockVal = stockSnap.exists()? stockSnap.val() : 1; if (stockVal <= 0) { alert(catBase + " COMPLET - Choisis une autre catégorie"); return; } } let msg = `*NOUVELLE RESERVATION SANA HOTEL*%0A` + `Nom: ${nom}%0A` + `Tel: ${tel}%0A` + `Chambre: ${calc.catFinal}%0A` + `Dates: ${dates} (${nuits}N)%0A` + `Details: ${calc.details}%0A` + `Total: ${total}F | Payé: ${montant}F (${pourcentage}%) | Reste: ${calc.reste}F%0A` + `ID Wave: ${waveId}%0A` + `Non remboursable si client ne vient pas.`; let waUrl = `https://wa.me/2250710066132?text=${msg}`; window.open(waUrl, '_blank'); await push(ref(db, 'reservations'), { nom, tel, dates: dates || "Non précisé", nuits, cat: calc.catFinal, typeService: calc.typeService, detailCombo: calc.details, prixBase, total, montant, pourcentage, waveId, timestamp: Date.now() }); document.getElementById('successMsg').style.display = "block"; window.scrollTo(0, document.body.scrollHeight); } </script> </body> </html>
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Réservation - SANA</title>
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            font-family: Arial;
+            background: #f0f2f5
+        }
+
+        .header {
+            background: #0b1a33;
+            color: white;
+            padding: 14px;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            width: 100%
+        }
+
+        .box {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            max-width: 500px;
+            margin: 15px auto;
+            width: 100%
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin: 6px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px
+        }
+
+        .btn {
+            padding: 14px;
+            background: #25D366;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            font-weight: bold;
+            font-size: 17px;
+            cursor: pointer
+        }
+
+        .card-option {
+            border: 2px solid #eee;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 6px 0
+        }
+
+        /* MOBILE FULL PAGE */
+        @media (max-width:600px) {
+            body {
+                background: white
+            }
+
+            .box {
+                margin: 0;
+                max-width: 100%;
+                border-radius: 0;
+                min-height: 100vh;
+                padding: 15px;
+                padding-bottom: 30px
+            }
+
+            .header {
+                border-radius: 0
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header" onclick="window.location.href='reception.html'"> SANA HOTEL INTERNATIONAL - ODIENNÉ - Réception
+    </div>
+    <div class="box">
+        <h2 id="titre">Réservation</h2>
+        <div id="info-chambre" style="background:#111;color:white;padding:10px;border-radius:8px;margin-bottom:10px">
+        </div> <label>Nom complet</label> <input id="nom" placeholder="Votre nom"> <label>Numéro WhatsApp</label> <input
+            id="tel" placeholder="07...">
+        <div id="bloc-chambre" style="background:white;padding:10px;border-radius:8px;border:1px solid #eee"> <label
+                style="font-size:14px;color:#555">Arrivée</label> <input id="arrivee" type="date"
+                style="width:100%;padding:12px;border:none;border-bottom:1px solid #ddd"> <label
+                style="font-size:14px;color:#555;margin-top:10px;display:block">Départ</label> <input id="depart"
+                type="date" style="width:100%;padding:12px;border:none;border-bottom:1px solid #ddd">
+            <p id="nuits-calc" style="font-size:12px;color:#25D366;font-weight:bold;margin-top:8px"></p> <input
+                type="hidden" id="nuits" value="1"> <input type="hidden" id="dates">
+        </div>
+        <div style="background:#fff3e0;padding:10px;border-radius:8px;margin:10px 0;border-left:4px solid #ff9800">
+            <b>Ajouter en plus (facultatif - Combo)</b>
+            <div class="card-option" id="opt-sport"> <label><input type="checkbox" id="chk-sport"> Ajouter Salle de
+                    Sport</label> <select id="sport-type">
+                    <option value="">-- Choisir --</option>
+                    <option value="SPORT_ABO">Abonnement 15 000F</option>
+                    <option value="SPORT_SEANCE">Séance 1 500F</option>
+                </select> </div>
+            <div class="card-option" id="opt-piscine"> <label><input type="checkbox" id="chk-piscine"> Ajouter
+                    Piscine</label> <select id="piscine-type">
+                    <option value="">-- Choisir --</option>
+                    <option value="PISCINE_ABO_ADULTE">Abo Adulte 15 000F</option>
+                    <option value="PISCINE_ABO_ENFANT">Abo Enfant 8 000F</option>
+                    <option value="PISCINE_SEANCE_ADULTE">Séance Adulte 1 500F</option>
+                    <option value="PISCINE_SEANCE_ENFANT">Séance Enfant 1 000F</option>
+                </select> </div>
+        </div>
+        <div id="bloc-sport-seul" style="display:none;background:#fff3e0;padding:10px;border-radius:8px"> <label>Type
+                Sport</label> <select id="sport-seul-type">
+                <option value="SPORT_ABO">Abonnement 15 000F</option>
+                <option value="SPORT_SEANCE">Séance 1 500F</option>
+            </select> </div>
+        <div id="bloc-piscine-seule" style="display:none;background:#e1f5fe;padding:10px;border-radius:8px"> <label>Type
+                Piscine</label> <select id="piscine-seule-type">
+                <option value="PISCINE_ABO_ADULTE">Abo Adulte 15 000F</option>
+                <option value="PISCINE_ABO_ENFANT">Abo Enfant 8 000F</option>
+                <option value="PISCINE_SEANCE_ADULTE">Séance Adulte 1 500F</option>
+                <option value="PISCINE_SEANCE_ENFANT">Séance Enfant 1 000F</option>
+            </select> </div> <label>Montant Wave (50% ou 100%)</label> <select id="pourcentage">
+            <option value="50">50%</option>
+            <option value="100">100%</option>
+        </select>
+        <div style="background:#e8f5e9;border:2px solid #25D366;padding:12px;border-radius:10px;margin:12px 0"> <b
+                style="color:#0b7a3e;font-size:14px">💳 DÉTAILS PAIEMENT WAVE</b>
+            <div style="background:white;padding:10px;border-radius:8px;margin-top:8px;line-height:1.6;font-size:13px">
+                <div id="detail-chambre-pay">Chambre: -</div>
+                <div id="detail-total-pay">Total: 0 FCFA</div>
+                <div id="detail-a-payer-pay" style="font-weight:bold;color:#0b7a3e;font-size:15px">À payer maintenant
+                    (50%): 0 FCFA</div>
+                <div id="detail-reste-pay" style="font-weight:bold;color:#d32f2f">Reste à payer à l'hôtel: 0 FCFA</div>
+                <small id="detail-affiche" style="display:block;color:#666;margin-top:5px"></small>
+            </div>
+            <div
+                style="background:white;border:1px dashed #25D366;padding:10px;border-radius:8px;text-align:center;margin-top:10px">
+                <span style="font-size:13px">Payez sur Wave:</span><br> <span
+                    style="font-size:18px;font-weight:bold;letter-spacing:1px">0709035532</span><br> <small
+                    style="color:#555">Nom: SANA HOTEL</small>
+            </div>
+        </div> <input id="waveId" placeholder="ID Wave (ex: QZ8F2K9L1M)"> <small
+            style="color:#666;font-size:11px;display:block;margin-top:4px"> ℹ️ C'est quoi ID Wave? Après paiement Wave,
+            copie l'ID de transaction dans ton reçu Wave (ex: QZ8F2K9L1M) et colle-le ici.<br>Tu le trouves dans Wave >
+            Historique > Détails > ID transaction ou Reçu par SMS </small>
+        <div
+            style="background:#ffe6e6;border:2px solid red;padding:10px;border-radius:8px;margin:12px 0;text-align:center">
+            <p style="color:red;font-weight:bold;font-size:13px;margin:0">🚫 AUCUN REMBOURSEMENT</p>
+            <p style="color:#111;font-weight:bold;font-size:12px;margin:5px 0 0 0">Une fois que la réservation est
+                validée, si vous ne venez pas, ce n'est pas remboursable.</p>
+        </div>
+        <div id="successMsg"
+            style="display:none;background:#d4edda;color:#155724;padding:14px;border-radius:8px;text-align:center;margin-bottom:12px;border:1px solid #c3e6cb;font-weight:bold">
+            ✅ Ton message a bien été envoyé.<br><small style="font-weight:normal">En attente de vérification, la
+                réceptionniste va te confirmer sur WhatsApp.</small></div> <button class="btn" onclick="reserver()">📲
+            RÉSERVER MAINTENANT</button>
+    </div>
+    <script
+        type="module"> import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"; import { getDatabase, ref, push, get } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"; 
+        const firebaseConfig = { apiKey: "AIzaSyD0_1oZblysKviAaknavtTZCoM68J9_GKY", authDomain: "sana-hotel-internationnal-odie.firebaseapp.com", databaseURL: "https://sana-hotel-internationnal-odie-default-rtdb.firebaseio.com", projectId: "sana-hotel-internationnal-odie", storageBucket: "sana-hotel-internationnal-odie.firebasestorage.app", messagingSenderId: "10660407067", appId: "1:10660407067:web:7e20b4ab80f4db542a55be" }; 
+        const app = initializeApp(firebaseConfig); 
+        const db = getDatabase(app); 
+        const urlParams = new URLSearchParams(window.location.search); 
+        let chambreLabel = urlParams.get('chambre') || "Standard"; 
+        let prixBase = parseInt(urlParams.get('prix')) || 15000; 
+        let catBase = (urlParams.get('cat') || "standard").toUpperCase(); 
+        let typeBase = (urlParams.get('type') || "CHAMBRE").toUpperCase(); 
+        const PRIX = { "SPORT_ABO": 15000, "SPORT_SEANCE": 1500, "PISCINE_ABO_ADULTE": 15000, "PISCINE_ABO_ENFANT": 8000, "PISCINE_SEANCE_ADULTE": 1500, "PISCINE_SEANCE_ENFANT": 1000 }; 
+        document.getElementById('titre').innerText = "Réservation - " + chambreLabel; 
+        document.getElementById('info-chambre').innerText = chambreLabel + " | Base " + prixBase.toLocaleString() + " FCFA"; 
+        let elBlocChambre = document.getElementById('bloc-chambre'); 
+        let elBlocSport = document.getElementById('bloc-sport-seul'); 
+        let elBlocPiscine = document.getElementById('bloc-piscine-seule'); 
+        let elOptSport = document.getElementById('opt-sport'); 
+        let elOptPiscine = document.getElementById('opt-piscine'); 
+        if (typeBase === "SPORT") { elBlocChambre.style.display = "none"; 
+        elBlocSport.style.display = "block"; elOptSport.style.display = "none"; 
+        elOptPiscine.style.display = "none"; } else if (typeBase === "PISCINE") { elBlocChambre.style.display = "none"; 
+        elBlocPiscine.style.display = "block"; elOptSport.style.display = "none"; 
+        elOptPiscine.style.display = "none"; } function calculNuits() { let arr = document.getElementById('arrivee').value;
+        let dep = document.getElementById('depart').value; if (arr && dep) { let d1 = new Date(arr); 
+        let d2 = new Date(dep); 
+        let diff = Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24)); if (diff <= 0) diff = 1; 
+        document.getElementById('nuits').value = diff; document.getElementById('nuits-calc').innerText = diff + " Nuit(s) calculée(s)"; 
+        document.getElementById('dates').value = arr + " au " + dep; 
+        return diff; 
+        } return parseInt(document.getElementById('nuits').value) || 1; } function calculerTotal() { let total = 0; 
+        let details = []; let catFinal = catBase; let typeService = "CHAMBRE"; 
+        if (typeBase === "CHAMBRE") { let nuits = calculNuits(); 
+        let prixChambre = prixBase * nuits; total += prixChambre; 
+        details.push(`${catBase} x ${nuits}N = ${prixChambre}F`); 
+        if (document.getElementById('chk-sport').checked) { let sType = document.getElementById('sport-type').value; 
+        if (sType) { total += PRIX[sType]; details.push(`${sType} = ${PRIX[sType]}F`); catFinal += ` + ${sType}`; } } if (document.getElementById('chk-piscine').checked) { let pType = document.getElementById('piscine-type').value; 
+        if (pType) { total += PRIX[pType]; details.push(`${pType} = ${PRIX[pType]}F`); 
+        catFinal += ` + ${pType}`; } } if (details.length > 1) typeService = "COMBO"; } else if (typeBase === "SPORT") { let sType = document.getElementById('sport-seul-type').value; total = PRIX[sType] || 15000; details = [`${sType} = ${total}F`];
+        catFinal = sType; typeService = "SPORT"; 
+        } else if (typeBase === "PISCINE") { let pType = document.getElementById('piscine-seule-type').value; total = PRIX[pType] || 15000; 
+        details = [`${pType} = ${total}F`]; catFinal = pType; typeService = "PISCINE";
+        } let pourcentage = parseInt(document.getElementById('pourcentage').value) || 50; let montantPayer = Math.round(total * pourcentage / 100); let reste = total - montantPayer; 
+        document.getElementById('detail-chambre-pay').innerHTML = `<b>Chambre:</b> ${chambreLabel} (${prixBase.toLocaleString()}F / nuit) - <b>${catFinal}</b>`; 
+        document.getElementById('detail-total-pay').innerHTML = `<b>Total séjour:</b> ${total.toLocaleString()} FCFA`;
+        document.getElementById('detail-a-payer-pay').innerText = `À payer maintenant Wave (${pourcentage}%): ${montantPayer.toLocaleString()} FCFA`; 
+        document.getElementById('detail-reste-pay').innerText = pourcentage == 50 ? `Reste à payer à l'hôtel: ${reste.toLocaleString()} FCFA` : `Reste à payer: 0 FCFA - Tout payé`; 
+        document.getElementById('detail-affiche').innerText = details.join(' | '); 
+        return { total, details: details.join(' | '), catFinal, typeService, montantPayer, reste }; 
+        } document.getElementById('arrivee').addEventListener('change', calculerTotal); document.getElementById('depart').addEventListener('change', calculerTotal); 
+        document.querySelectorAll('select,input').forEach(e => e.addEventListener('change', calculerTotal)); 
+        calculerTotal(); window.reserver = async function () { let nom = document.getElementById('nom').value.trim(); 
+        let tel = document.getElementById('tel').value.trim(); let dates = document.getElementById('dates').value.trim();
+        let nuits = parseInt(document.getElementById('nuits').value) || 1; 
+        if (typeBase === "CHAMBRE" && !dates) { alert("Choisis Arrivée et Départ"); 
+        return; } let pourcentage = parseInt(document.getElementById('pourcentage').value) || 50; 
+        let waveId = document.getElementById('waveId').value.trim(); 
+        if (!nom || !tel || !waveId) { alert("Remplis nom, tel, ID Wave");
+         return; } let waveIdCheck = waveId.toUpperCase().replace(/\s/g, ''); try { let resSnap = await get(ref(db, 'reservations')); 
+         if (resSnap.exists()) { let found = false; resSnap.forEach(c => { let r = c.val(); 
+         if (r.waveId && r.waveId.toUpperCase().replace(/\s/g, '') === waveIdCheck) found = true; });
+          if (found) { alert("❌ ID Wave DÉJÀ UTILISÉ\n\nCet ID " + waveId + " a déjà été mis. Vérifie ton reçu Wave.\nUn paiement = une seule réservation."); 
+          return; } } let histSnap = await get(ref(db, 'historique')); 
+          if (histSnap.exists()) { let foundH = false; histSnap.forEach(day => { day.forEach(h => { let hv = h.val(); 
+          if (hv.waveId && hv.waveId.toUpperCase().replace(/\s/g, '') === waveIdCheck) foundH = true; 
+          }); }); if (foundH) { alert("❌ ID Wave DÉJÀ UTILISÉ\n\nCet ID " + waveId + " a déjà été validé dans l'historique.\nImpossible de le réutiliser."); return; 
+          } } } catch (e) { console.log("Erreur check WaveID", e); } let calc = calculerTotal(); let total = calc.total;
+           let montant = calc.montantPayer; if (typeBase === "CHAMBRE") { let stockSnap = await get(ref(db, 'stock/' + catBase)); 
+           let stockVal = stockSnap.exists() ? stockSnap.val() : 1; 
+           if (stockVal <= 0) { alert(catBase + " COMPLET - Choisis une autre catégorie"); return;
+            } } let msg = `*NOUVELLE RESERVATION SANA HOTEL*%0A` + `Nom: ${nom}%0A` + `Tel: ${tel}%0A` + `Chambre: ${calc.catFinal}%0A` + `Dates: ${dates} (${nuits}N)%0A` + `Details: ${calc.details}%0A` + `Total: ${total}F | Payé: ${montant}F (${pourcentage}%) | Reste: ${calc.reste}F%0A` + `ID Wave: ${waveId}%0A` + `Non remboursable si client ne vient pas.`;
+             let waUrl = `https://wa.me/2250709035532?text=${msg}`; window.open(waUrl, '_blank'); 
+             await push(ref(db, 'reservations'), { nom, tel, dates: dates || "Non précisé", nuits, cat: calc.catFinal, typeService: calc.typeService, detailCombo: calc.details, prixBase, total, montant, pourcentage, waveId, timestamp: Date.now() }); 
+             document.getElementById('successMsg').style.display = "block"; 
+             window.scrollTo(0, document.body.scrollHeight); } 
+    </script>
+</body>
+
+</html>
