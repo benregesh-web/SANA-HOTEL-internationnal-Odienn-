@@ -155,7 +155,7 @@
             <div
                 style="background:white;border:1px dashed #25D366;padding:10px;border-radius:8px;text-align:center;margin-top:10px">
                 <span style="font-size:13px">Payez sur Wave:</span><br> <span
-                    style="font-size:18px;font-weight:bold;letter-spacing:1px">0709035532</span><br> <small
+                    style="font-size:18px;font-weight:bold;letter-spacing:1px">0757338010</span><br> <small
                     style="color:#555">Nom: SANA HOTEL</small>
             </div>
         </div> <input id="waveId" placeholder="ID Wave (ex: QZ8F2K9L1M)"> <small
@@ -171,7 +171,7 @@
         <div id="successMsg"
             style="display:none;background:#d4edda;color:#155724;padding:14px;border-radius:8px;text-align:center;margin-bottom:12px;border:1px solid #c3e6cb;font-weight:bold">
             ✅ Ton message a bien été envoyé.<br><small style="font-weight:normal">En attente de vérification, la
-                réceptionniste va te confirmer sur WhatsApp.</small></div> <button class="btn" onclick="reserver()">📲
+                réceptionn va vous confirmer sur WhatsApp.</small></div> <button class="btn" onclick="reserver()">📲
             RÉSERVER MAINTENANT</button>
     </div>
     <script
@@ -244,7 +244,7 @@
            let stockVal = stockSnap.exists() ? stockSnap.val() : 1; 
            if (stockVal <= 0) { alert(catBase + " COMPLET - Choisis une autre catégorie"); return;
             } } let msg = `*NOUVELLE RESERVATION SANA HOTEL*%0A` + `Nom: ${nom}%0A` + `Tel: ${tel}%0A` + `Chambre: ${calc.catFinal}%0A` + `Dates: ${dates} (${nuits}N)%0A` + `Details: ${calc.details}%0A` + `Total: ${total}F | Payé: ${montant}F (${pourcentage}%) | Reste: ${calc.reste}F%0A` + `ID Wave: ${waveId}%0A` + `Non remboursable si client ne vient pas.`;
-             let waUrl = `https://wa.me/2250709035532?text=${msg}`; window.open(waUrl, '_blank'); 
+             let waUrl = `https://wa.me/2250757338010?text=${msg}`; window.open(waUrl, '_blank'); 
              await push(ref(db, 'reservations'), { nom, tel, dates: dates || "Non précisé", nuits, cat: calc.catFinal, typeService: calc.typeService, detailCombo: calc.details, prixBase, total, montant, pourcentage, waveId, timestamp: Date.now() }); 
              document.getElementById('successMsg').style.display = "block"; 
              window.scrollTo(0, document.body.scrollHeight); } 

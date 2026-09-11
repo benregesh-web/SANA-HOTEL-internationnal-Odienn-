@@ -226,7 +226,7 @@
   <div id="modal-code"
     style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);align-items:center;justify-content:center;z-index:1000">
     <div style="background:white;padding:20px;border-radius:12px;max-width:400px;width:90%">
-      <h3>📱 Payer Wave 07071006132</h3>
+      <h3>📱 Payer Wave 0757978785</h3>
       <p>Montant: <b id="montant-wave" style="font-size:22px;color:green">0 FCFA</b><br><span
           id="detail-wave"></span><br>Code secret: <b id="code-cache-display"
           style="background:yellow;padding:3px 8px"></b></p>
@@ -380,7 +380,7 @@
         document.getElementById('cmd-confirme').classList.remove('cache');
         document.getElementById('cmd-confirme').scrollIntoView({ behavior: 'smooth' });
         let msg = `*NOUVELLE COMMANDE SANA*%0A👤 ${dataCommande.nom}%0A📞 ${dataCommande.tel}%0A📍 ${dataCommande.adresse}%0A🍽️ ${encodeURIComponent(dataCommande.details)}%0A💰 Total: ${dataCommande.total}%0A💳 Payé: ${dataCommande.aPayer} (${dataCommande.pourcentage}%)%0A🆔 Wave: ${waveId}%0A🚫 AUCUN REMBOURSEMENT`;
-        window.open(`https://wa.me/2250710066132?text=${msg}`, '_blank');
+        window.open(`https://wa.me/2250757978785?text=${msg}`, '_blank');
         panier = []; localStorage.removeItem('panierSana'); afficherPanier();
       } catch (e) { err.innerText = e.message; }
     }
