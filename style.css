@@ -935,7 +935,7 @@ body {
 
 .banniere {
   height: 90vh;
-  background: url('couverture2.jpg') center/cover no-repeat;
+  background: url('couverture2.webp') center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1051,17 +1051,20 @@ body {
 
 .item-galerie {
   width: 100%;
-  max-width: 520px; /* chaque image prend presque la moitié */
-  flex: 1 1 450px; /* si 2 images = elles prennent 50% chacune */
+  max-width: 520px;
+  /* chaque image prend presque la moitié */
+  flex: 1 1 450px;
+  /* si 2 images = elles prennent 50% chacune */
   border-radius: 14px;
   overflow: hidden;
   background: white;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
 }
 
 .item-galerie img {
   width: 100%;
-  height: 340px; /* plus haut pour bien voir la chambre */
+  height: 340px;
+  /* plus haut pour bien voir la chambre */
   object-fit: cover;
   object-position: center;
   display: block;
@@ -1076,11 +1079,12 @@ body {
 }
 
 /* Sur téléphone, 1 image par ligne */
-@media(max-width: 768px){
+@media(max-width: 768px) {
   .item-galerie {
     max-width: 100%;
     flex: 1 1 100%;
   }
+
   .item-galerie img {
     height: 260px;
   }
