@@ -4,17 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <!-- Logo pour Google -->
-  <link rel="icon" type="image/png" href="/logo.png">
-  <link rel="apple-touch-icon" href="/logo.png">
+  <link rel="icon" type="image/webp" href="/logo.webp">
+  <link rel="apple-touch-icon" href="/logo.webp">
 
   <!-- Pour que Google affiche ton logo -->
-  <meta property="og:image" content="https://sana-hotel-internationnal-odienne.netlify.app/logo.png">
+  <meta property="og:image" content="https://sana-hotel-internationnal-odienne.netlify.app/logo.webp">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Hotel",
   "name": "SANA HOTEL Internationnal Odienné",
-  "logo": "https://sana-hotel-internationnal-odienne.netlify.app/logo.png",
+  "logo": "https://sana-hotel-internationnal-odienne.netlify.app/logo.webp",
   "url": "https://sana-hotel-internationnal-odienne.netlify.app"
 }
 </script>
@@ -46,10 +46,14 @@
 </head>
 
 <body>
-
-  <!-- HEADER -->
+  <!-- HEADER AVEC LOGO VISIBLE -->
   <header class="navbar">
-    <div class="logo">SANA HOTEL International Odienné</div>
+    <div class="logo" style="display:flex;align-items:center;gap:10px">
+      <img src="/logo.webp" alt="Logo SANA HOTEL International Odienné"
+        style="height:50px;width:50px;object-fit:contain;background:white;border-radius:8px;padding:3px"
+        onerror="this.style.display='none'">
+      <span>SANA HOTEL International Odienné</span>
+    </div>
     <button class="btn-menu" onclick="toggleMenu()">☰</button>
     <nav id="menu-nav">
       <a href="index.html">Accueil</a>
