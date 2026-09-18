@@ -4,196 +4,369 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Menu Restaurant - SANA</title>
+  <title>MENU - SANA HOTEL INTERNATIONAL</title>
   <style>
-    body {
-      font-family: Arial;
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@400;600;800&display=swap');
+
+    * {
+      box-sizing: border-box;
       margin: 0;
-      padding: 10px;
-      min-height: 100vh;
-      background: linear-gradient(rgba(245, 245, 245, 0.88), rgba(245, 245, 245, 0.88)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
+      padding: 0
     }
 
-    .grille-plats {
+    body {
+      background: #0a0a0a;
+      font-family: 'Poppins', Arial;
+      color: #fff;
+      min-height: 100vh
+    }
+
+    .header-menu {
+      background: linear-gradient(135deg, #1a0f0f 0%, #000 100%);
+      border-bottom: 3px solid #c89b3c;
+      padding: 15px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10
+    }
+
+    .logo-sh {
+      font-family: 'Cinzel', serif;
+      font-size: 70px;
+      line-height: 1;
+      color: #7a1010;
+      text-shadow: 2px 2px 0 #d4af37;
+      font-weight: 900
+    }
+
+    .logo-sh span {
+      color: #d4af37
+    }
+
+    .header-menu h1 {
+      font-family: 'Cinzel', serif;
+      color: #d4af37;
+      letter-spacing: 6px;
+      font-size: 32px;
+      margin-top: 5px
+    }
+
+    .header-menu p {
+      letter-spacing: 2px;
+      font-size: 11px;
+      color: #f5e6c8
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px
+      gap: 0;
+      background: #000;
+      border: 3px solid #c89b3c;
+      border-top: 0
     }
 
-    .item-plat {
-      background: rgba(255, 255, 255, 0.96);
-      border-radius: 12px;
-      overflow: hidden;
-      border: 2px solid #2E8B57;
-      cursor: pointer;
-      position: relative;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15)
+    .col {
+      padding: 12px;
+      min-height: 300px
     }
 
-
-    /* ... garde tout ton style ... */
-    .item-plat img {
-      width: 100%;
-      height: 200px;
-      object-fit: contain;
-      object-position: center;
-      background: #fff;
-      display: block;
-      padding: 5px;
-      box-sizing: border-box
+    .col-left {
+      background: linear-gradient(180deg, #0f0f0f 0%, #1a0f0f 100%);
+      border-right: 2px solid #c89b3c
     }
 
-    .placeholder-img {
-      width: 100%;
-      height: 200px;
-      background: #fff;
+    .col-right {
+      background: #f5e6c8;
+      color: #1a0f0f
+    }
+
+    .col-full {
+      grid-column: 1 / -1;
+      background: linear-gradient(90deg, #1a0f0f 0%, #2a1a0f 50%, #1a0f0f 100%);
+      border-top: 3px solid #c89b3c;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #3d0f0f;
+      color: #f5e6c8;
+      padding: 6px 12px;
+      border-radius: 20px;
+      margin: 14px 0 8px 0;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      border: 1px solid #c89b3c
+    }
+
+    .col-full .section-title {
+      background: #c89b3c;
+      color: #000;
+      border: none;
+      justify-content: center;
+      font-size: 14px;
+      letter-spacing: 2px
+    }
+
+    .icon-circle {
+      width: 28px;
+      height: 28px;
+      background: #f5e6c8;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 40px;
-      flex-direction: column;
-      color: #888
+      font-size: 14px
     }
 
-    .info-plat {
-      padding: 8px;
-      text-align: center
+    .item {
+      padding: 7px 10px 7px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.2s;
+      border-radius: 8px;
+      margin: 3px 0;
+      border: 1px solid transparent;
+      position: relative;
+      display: flex;
+      justify-content: space-between
     }
 
-    .info-plat h4 {
-      margin: 5px 0;
-      font-size: 13px
+    .item:hover {
+      background: rgba(200, 155, 60, 0.25);
+      transform: translateX(4px);
+      border-color: #c89b3c
     }
 
-    .info-plat p {
-      margin: 0;
-      color: #25D366;
-      font-weight: bold
+    .item b {
+      color: #d4af37
+    }
+
+    .col-right .item b {
+      color: #7a1010
+    }
+
+    .col-full .item b {
+      color: #facc15
+    }
+
+    .item.jour {
+      border: 2px solid #25D366;
+      background: rgba(37, 211, 102, .15)
     }
 
     .badge-jour {
-      position: absolute;
-      top: 5px;
-      left: 5px;
       background: #25D366;
       color: white;
-      padding: 3px 8px;
+      font-size: 9px;
+      padding: 2px 6px;
       border-radius: 10px;
-      font-size: 10px;
-      font-weight: bold;
-      z-index: 2
+      margin-left: 6px
+    }
+
+    .badge-fast {
+      background: #ff0000;
+      color: white;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 6px;
+      margin-left: 6px
+    }
+
+    .footer-bar {
+      background: #1a0f0f;
+      border-top: 3px solid #c89b3c;
+      padding: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      position: sticky;
+      bottom: 0
+    }
+
+    .btn-panier {
+      background: #25D366;
+      color: white;
+      padding: 12px 22px;
+      border-radius: 30px;
+      font-weight: 900;
+      text-decoration: none;
+      display: inline-flex;
+      gap: 8px
     }
 
     #banner-jour {
-      background: #e8f5e9;
-      border: 2px solid #2E8B57;
+      background: linear-gradient(90deg, #e8f5e9, #fff3cd);
+      border: 3px solid #25D366;
+      color: #000;
       padding: 12px;
-      border-radius: 10px;
       text-align: center;
-      margin: 10px 0
+      margin: 10px auto;
+      max-width: 1000px;
+      border-radius: 12px
     }
 
-    #loading {
-      text-align: center;
-      padding: 30px
+    @media(max-width:700px) {
+      .container {
+        grid-template-columns: 1fr
+      }
+
+      .col-full {
+        grid-template-columns: 1fr
+      }
+
+      .col-left {
+        border-right: 0;
+        border-bottom: 2px solid #c89b3c
+      }
     }
   </style>
 </head>
 
 <body>
-  <h2 style="text-align:center">🍽️ MENU SANA HOTEL - ODIENNÉ</h2>
-  <div id="banner-jour" style="display:none">
-    <b>✅ Plats du jour - <span id="date-jour-client"></span> par <span id="rec-jour"></span></b><br>
-    <small id="info-jour-client" style="color:#2E8B57"></small>
+
+  <div class="header-menu">
+    <div class="logo-sh">S<span>H</span></div>
+    <h1>MENU</h1>
+    <p>SANA HOTEL INTERNATIONAL - ODIENNÉ - 0757338010 / 0709999695</p>
+    <div style="margin-top:8px"><a href="commande.html" style="color:#25D366;font-weight:800;text-decoration:none">🛒
+        Voir mon panier (<span id="count-panier">0</span>)</a></div>
   </div>
-  <div id="loading">Chargement des plats du jour...</div>
-  <div id="container-menu"></div>
-  <div id="aucun-plat"
-    style="display:none;background:white;padding:20px;border-radius:12px;text-align:center;margin:20px 0">
-    <h3>😔 Aucun plat validé aujourd'hui</h3>
-    <p>La réception n'a pas encore validé les plats du jour.<br>Appelez : 0757338010</p>
+
+  <div id="banner-jour" style="display:none">
+    <b style="font-size:16px">✅ MENU DU JOUR - <span id="date-jour-client"></span></b><br>
+    <small id="info-jour-client"></small><br>
+    <small style="color:#2E8B57;font-weight:bold">Programmé par la réception - Seulement ces plats disponibles
+      aujourd'hui</small>
+  </div>
+
+  <div id="loading" style="text-align:center;padding:30px;color:#c89b3c">Chargement menu...</div>
+
+  <div class="container" id="menu-container" style="display:none">
+    <div class="col col-left" id="col-left"></div>
+    <div class="col col-right" id="col-right"></div>
+    <div class="col-full" id="col-full"></div>
+  </div>
+
+  <div class="footer-bar">
+    <div style="color:#f5e6c8;font-size:12px">📞 0757338010 / 0709999695 / 0555577255<br>Odienné - Livraison disponible
+    </div>
+    <a href="commande.html" class="btn-panier">🛒 COMMANDER (<span id="count-panier2">0</span>)</a>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
     import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+    const firebaseConfig = { apiKey: "AIzaSyD0_1oZblysKviAaknavtTZCoM68J9_GKY", authDomain: "sana-hotel-internationnal-odie.firebaseapp.com", databaseURL: "https://sana-hotel-internationnal-odie-default-rtdb.firebaseio.com", projectId: "sana-hotel-internationnal-odie", storageBucket: "sana-hotel-internationnal-odie.firebasestorage.app", messagingSenderId: "10660407067", appId: "1:10660407067:web:7e20b4ab80f4db542a55be" };
+    const app = initializeApp(firebaseConfig); const db = getDatabase(app);
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyD0_1oZblysKviAaknavtTZCoM68J9_GKY",
-      authDomain: "sana-hotel-internationnal-odie.firebaseapp.com",
-      databaseURL: "https://sana-hotel-internationnal-odie-default-rtdb.firebaseio.com",
-      projectId: "sana-hotel-internationnal-odie",
-      storageBucket: "sana-hotel-internationnal-odie.firebasestorage.app",
-      messagingSenderId: "10660407067",
-      appId: "1:10660407067:web:7e20b4ab80f4db542a55be"
-    };
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+    let platsBase = []; let platsDuJour = null;
 
-    async function chargerMenu() {
+    async function load() {
       try {
-        let snapMenu = await get(child(ref(db), 'menu_items'));
+        let snapItems = await get(child(ref(db), 'menu_items'));
+        if (snapItems.exists()) { snapItems.forEach(c => { let v = c.val(); v.key = c.key; platsBase.push(v); }); }
+        // Si vide, on met ton menu par défaut
+        if (platsBase.length === 0) {
+          platsBase = [
+            { nom: 'Soupe de poulet de chair', prix: 3500, cat: 'africain' },
+            { nom: '1/4 Poulet de chair', prix: 2000, cat: 'poulet' },
+            { nom: '1/2 Poulet de chair', prix: 3500, cat: 'poulet' },
+            { nom: 'Poulet de chair Plat', prix: 7000, cat: 'poulet' },
+            { nom: '1/2 Poulet africain', prix: 6000, cat: 'poulet' },
+            { nom: 'Poulet africain Plat', prix: 12000, cat: 'poulet' },
+            { nom: 'Agouti sauté', prix: 6000, cat: 'agouti' },
+            { nom: 'Soupe Agouti', prix: 6000, cat: 'agouti' },
+            { nom: '1/2 Pintade', prix: 7000, cat: 'poulet' },
+            { nom: 'Pintade Plat', prix: 14000, cat: 'poulet' },
+            { nom: 'Poisson Carpe', prix: 6000, cat: 'poisson' },
+            { nom: 'Poisson Capitaine', prix: 6000, cat: 'poisson' },
+            { nom: 'Salade poulet 1/4 poulet', prix: 2500, cat: 'crudite' },
+            { nom: 'Salade au oeuf', prix: 2000, cat: 'crudite' },
+            { nom: 'Chawarma Viande ou Poulet', prix: 1000, cat: 'fastfood' },
+            { nom: 'Hamburger Frites', prix: 1500, cat: 'fastfood' },
+            { nom: 'Sandwich Viande ou Poulet', prix: 1000, cat: 'fastfood' },
+            { nom: 'Pizza Grande', prix: 5000, cat: 'fastfood' },
+            { nom: 'Pizza Moyen', prix: 3000, cat: 'fastfood' },
+            { nom: 'Mini Pizza Mixte', prix: 1000, cat: 'fastfood' },
+            { nom: 'Quiche au Thon Grande', prix: 5000, cat: 'fastfood' },
+            { nom: 'Mini Quiche au Thon', prix: 1000, cat: 'fastfood' },
+          ];
+        }
         let snapJour = await get(child(ref(db), 'plats_du_jour_actuels'));
+        if (snapJour.exists()) { platsDuJour = snapJour.val(); }
 
-        if (!snapJour.exists()) {
-          document.getElementById('loading').style.display = 'none';
-          document.getElementById('aucun-plat').style.display = 'block';
-          return;
+        render();
+      } catch (e) { console.log(e); document.getElementById('loading').innerText = "Erreur chargement"; }
+    }
+
+    function render() {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('menu-container').style.display = 'grid';
+      let listeAffichage = platsBase;
+      let isJourMode = false;
+      if (platsDuJour && platsDuJour.plats && platsDuJour.plats.length > 0) {
+        listeAffichage = platsBase.filter(p => platsDuJour.plats.includes(p.nom));
+        if (listeAffichage.length > 0) {
+          isJourMode = true;
+          document.getElementById('banner-jour').style.display = 'block';
+          document.getElementById('date-jour-client').innerText = platsDuJour.date;
+          document.getElementById('info-jour-client').innerText = platsDuJour.plats.length + " plats - par " + platsDuJour.receptionniste;
         }
-
-        let dataJour = snapJour.val();
-        document.getElementById('banner-jour').style.display = 'block';
-        document.getElementById('date-jour-client').innerText = dataJour.date;
-        document.getElementById('rec-jour').innerText = dataJour.receptionniste;
-        let sourceTxt = dataJour.source === 'auto-semaine' || dataJour.source === 'auto' ? ' (Programme Auto)' : '';
-        document.getElementById('info-jour-client').innerText = dataJour.plats.length + " plats disponibles" + sourceTxt;
-
-        // Map des plats de la carte (peut être vide si page vierge)
-        let tousPlatsMap = {};
-        if (snapMenu.exists()) {
-          snapMenu.forEach(c => { tousPlatsMap[c.val().nom] = c.val(); });
-        }
-
-        let container = document.getElementById('container-menu');
-        let html = "";
-
-        dataJour.plats.forEach(nomPlat => {
-          let item = tousPlatsMap[nomPlat];
-          let prix = item ? item.prix : 2500;
-          let img = item && item.photo ? item.photo.trim() : '';
-          let cat = item ? item.cat : 'africain';
-
-          // NOUVEAU : Gestion image optionnelle - page vierge
-          let blocImage = "";
-          if (img) {
-            blocImage = `<img src="${img}" onerror="this.parentNode.innerHTML='<div class=\\'placeholder-img\\'><span>🍽️</span><small style=\\'font-size:12px\\'>${nomPlat}</small></div>'">`;
-          } else {
-            blocImage = `<div class="placeholder-img"><span>🍽️</span><small style="font-size:11px;margin-top:5px">${nomPlat}</small></div>`;
-          }
-
-          html += `<div class="item-plat ${cat}" onclick="commanderPlat('${nomPlat.replace(/'/g, "\\'")}', ${prix})"><div class="badge-jour">✅ DU JOUR</div>${blocImage}<div class="info-plat"><h4>${nomPlat}</h4><p>${prix.toLocaleString()} FCFA</p></div></div>`;
-        });
-
-        container.innerHTML = `<div class="grille-plats">${html}</div><p style="text-align:center;margin-top:20px"><a href="commande.html" style="background:#25D366;color:white;padding:12px 20px;border-radius:8px;text-decoration:none;font-weight:bold">Voir mon panier →</a></p>`;
-        document.getElementById('loading').style.display = 'none';
-
-      } catch (e) {
-        console.log(e);
-        document.getElementById('loading').innerText = "Erreur: " + e.message;
       }
-    }
-    chargerMenu();
 
-    window.commanderPlat = function (nom, prix) {
-      let panier = JSON.parse(localStorage.getItem('panierSana')) || [];
-      let exist = panier.find(i => i.nom === nom);
-      if (exist) exist.qte += 1; else panier.push({ nom: nom, prix: prix, qte: 1 });
-      localStorage.setItem('panierSana', JSON.stringify(panier));
-      window.location.href = 'commande.html?plat=' + encodeURIComponent(nom) + '&prix=' + prix;
+      let colLeft = document.getElementById('col-left');
+      let colRight = document.getElementById('col-right');
+      let colFull = document.getElementById('col-full');
+      colLeft.innerHTML = ""; colRight.innerHTML = ""; colFull.innerHTML = "";
+
+      function createSection(title, icon) { return `<div class="section-title"><div class="icon-circle">${icon}</div> ${title}</div>`; }
+      function createItem(p) {
+        let isFast = p.cat === 'fastfood';
+        let isJour = isJourMode;
+        return `<div class="item ${isJour ? 'jour' : ''}" onclick="commander('${p.nom.replace(/'/g, "\\'")}',${p.prix})"><span>${p.nom.toUpperCase()} ${isFast ? '<span class="badge-fast">FAST</span>' : ''} ${isJour ? '<span class="badge-jour">JOUR</span>' : ''}</span><b>${p.prix.toLocaleString()}F</b></div>`;
+      }
+
+      // GROUPES
+      let africains = listeAffichage.filter(p => p.cat === 'africain');
+      let poulets = listeAffichage.filter(p => p.cat === 'poulet');
+      let agoutis = listeAffichage.filter(p => p.cat === 'agouti');
+      let poissons = listeAffichage.filter(p => p.cat === 'poisson');
+      let crudites = listeAffichage.filter(p => p.cat === 'crudite');
+      let fastfoods = listeAffichage.filter(p => p.cat === 'fastfood');
+
+      if (africains.length) colLeft.innerHTML += createSection('PLATS SPÉCIAUX', '🍲') + africains.map(createItem).join('');
+      if (poulets.length) colLeft.innerHTML += createSection('POULET / PINTADE', '🐔') + poulets.map(createItem).join('') + `<div style="background:#c89b3c;color:#000;padding:6px 10px;border-radius:8px;font-weight:700;font-size:11px;margin:10px 0;text-align:center">🍽️ ACCOMPAGNEMENTS : Riz, Frites, Alloco, Attiéké<br><small>Grillé, Braisé ou En soupe (sauf soupes)</small></div>`;
+      if (agoutis.length) colLeft.innerHTML += createSection('AGOUTI', '🦌') + agoutis.map(createItem).join('');
+      if (poissons.length) colRight.innerHTML += createSection('POISSONS', '🐟') + poissons.map(createItem).join('');
+      if (crudites.length) colRight.innerHTML += createSection('CRUDITÉS / BOISSONS', '🥗') + crudites.map(createItem).join('');
+
+      if (fastfoods.length) {
+        colFull.innerHTML = `<div style="grid-column:1 / -1">${createSection('MENU FASTFOOD - SANA HOTEL', '🍔')}</div><div>${fastfoods.slice(0, Math.ceil(fastfoods.length / 2)).map(createItem).join('')}</div><div style="border-left:1px solid #c89b3c;padding-left:10px">${fastfoods.slice(Math.ceil(fastfoods.length / 2)).map(createItem).join('')}</div>`;
+      } else if (!isJourMode) {
+        // si pas de fastfood filtré mais mode normal, afficher quand meme vide?
+      }
+
+      updateCount();
     }
+
+    function updateCount() { let p = JSON.parse(localStorage.getItem('panierSana')) || []; let c = p.reduce((a, b) => a + b.qte, 0); document.getElementById('count-panier').innerText = c; document.getElementById('count-panier2').innerText = c; }
+
+    window.commander = function (nom, prix) { let panier = JSON.parse(localStorage.getItem('panierSana')) || []; let ex = panier.find(i => i.nom === nom); if (ex) ex.qte += 1; else panier.push({ nom, prix, qte: 1 }); localStorage.setItem('panierSana', JSON.stringify(panier)); updateCount(); window.location.href = 'commande.html?plat=' + encodeURIComponent(nom) + '&prix=' + prix; }
+
+    load();
   </script>
 </body>
 

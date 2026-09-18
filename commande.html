@@ -36,8 +36,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      font-size: 14px;
-      letter-spacing: 0.5px
+      font-size: 14px
     }
 
     .bande-noire a {
@@ -52,9 +51,7 @@
       width: 100%;
       min-height: 100vh;
       background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(2px);
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1)
+      border-radius: 12px
     }
 
     @media(max-width:600px) {
@@ -148,6 +145,16 @@
       font-weight: bold
     }
 
+    .select-vp {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border: 2px solid #111827;
+      border-radius: 8px;
+      background: #e0e7ff;
+      font-weight: bold
+    }
+
     .bloc-accompagnement {
       width: 100%;
       background: #e8f5e9;
@@ -165,6 +172,15 @@
       margin-top: 8px;
       border-left: 4px solid #c89b3c
     }
+
+    .bloc-vp {
+      width: 100%;
+      background: #e0e7ff;
+      padding: 8px;
+      border-radius: 8px;
+      margin-top: 8px;
+      border-left: 4px solid #111827
+    }
   </style>
 </head>
 
@@ -175,7 +191,7 @@
     <p class="alerte-non-remboursable">🚫 UNE FOIS VALIDÉE, AUCUN REMBOURSEMENT 🚫<br><small style="color:black">50% =
         NON REMBOURSABLE - 100% = Payé total</small></p>
     <div id="panier" class="panier-liste">
-      <h4>Votre Panier - Plats du Jour uniquement</h4>
+      <h4>Votre Panier</h4>
       <div id="liste-articles">Aucun article</div>
       <h4 style="text-align:right;margin-top:15px;">Total: <span id="total-panier">0</span> FCFA</h4>
       <div style="background:#fff3cd;padding:12px;border-radius:8px;margin-top:10px">
@@ -215,8 +231,7 @@
       <p id="recap-envoi"></p>
       <div style="background:white;border-left:4px solid #25D366;padding:12px;margin:12px 0;border-radius:6px">
         <b style="color:#111827">📱 Attendez la confirmation WhatsApp</b><br>
-        <span style="font-size:14px">Le réceptionniste va vous confirmer sur WhatsApp que votre commande est validée.
-          Restez connecté.</span>
+        <span style="font-size:14px">Le réceptionniste va vous confirmer sur WhatsApp.</span>
       </div>
       <a href="menu.html"
         style="background:#111;color:white;padding:10px 15px;border-radius:6px;text-decoration:none;display:inline-block">←
@@ -231,11 +246,9 @@
           id="detail-wave"></span><br>Code secret: <b id="code-cache-display"
           style="background:yellow;padding:3px 8px"></b></p>
       <div
-        style="background:#e8f5e9;border:1px solid #2E8B57;padding:10px;border-radius:8px;margin:10px 0;font-size:13px;line-height:1.4">
-        <b>ℹ️ ID demandé :</b> C'est le reçu de votre paiement que vous venez de faire là, qu'on vous a envoyé aussi par
-        SMS. C'est cet ID qui est demandé ici.
-      </div>
-      <label>ID Wave (Reçu SMS) *</label><input id="input-wave-id" placeholder="Ex: ID reçu par SMS Wave"
+        style="background:#e8f5e9;border:1px solid #2E8B57;padding:10px;border-radius:8px;margin:10px 0;font-size:13px">
+        <b>ℹ️ ID demandé :</b> C'est le reçu SMS Wave.</div>
+      <label>ID Wave (Reçu SMS) *</label><input id="input-wave-id" placeholder="ID reçu par SMS Wave"
         style="width:100%;padding:10px;margin:5px 0;border-radius:6px;border:1px solid #ccc"><br>
       <label>Code jaune *</label><input id="input-code-visible" placeholder="Code jaune"
         style="width:100%;padding:10px;margin:5px 0;border-radius:6px;border:1px solid #ccc">
@@ -250,15 +263,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
     import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
-    const firebaseConfig = {
-      apiKey: "AIzaSyD0_1oZblysKviAaknavtTZCoM68J9_GKY",
-      authDomain: "sana-hotel-internationnal-odie.firebaseapp.com",
-      databaseURL: "https://sana-hotel-internationnal-odie-default-rtdb.firebaseio.com",
-      projectId: "sana-hotel-internationnal-odie",
-      storageBucket: "sana-hotel-internationnal-odie.firebasestorage.app",
-      messagingSenderId: "10660407067",
-      appId: "1:10660407067:web:7e20b4ab80f4db542a55be"
-    };
+    const firebaseConfig = { apiKey: "AIzaSyD0_1oZblysKviAaknavtTZCoM68J9_GKY", authDomain: "sana-hotel-internationnal-odie.firebaseapp.com", databaseURL: "https://sana-hotel-internationnal-odie-default-rtdb.firebaseio.com", projectId: "sana-hotel-internationnal-odie", storageBucket: "sana-hotel-internationnal-odie.firebasestorage.app", messagingSenderId: "10660407067", appId: "1:10660407067:web:7e20b4ab80f4db542a55be" };
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     let panier = JSON.parse(localStorage.getItem('panierSana')) || [];
@@ -268,53 +273,41 @@
     let dataCommande = {};
     const PLATS_ACCOMPAGNES = ["poulet de chair", "poulet africain", "pintade", "poisson carpe", "poisson capitaine", "capitaine eau douce", "agouti sauté", "soupe agouti", "soupe de poulet de chair", "soupe de poulet", "agouti"];
     const PLATS_SANS_CUISSON = ["agouti saute", "agouti sauté", "soupe agouti", "agouti"];
-    function isPlatAvecAccompagnement(nom) {
-      let n = (nom || "").toLowerCase();
-      return PLATS_ACCOMPAGNES.some(p => n.includes(p.toLowerCase()));
-    }
-    function isAgouti(nom) {
-      let n = (nom || "").toLowerCase();
-      return PLATS_SANS_CUISSON.some(p => n.includes(p.toLowerCase()));
-    }
-    function besoinCuisson(nom) {
-      return isPlatAvecAccompagnement(nom) && !isAgouti(nom);
-    }
-    window.choisirAccompagnement = function (idx, val) {
-      panier[idx].accompagnement = val;
-      localStorage.setItem('panierSana', JSON.stringify(panier));
-      afficherPanier();
-    }
-    window.choisirCuisson = function (idx, val) {
-      panier[idx].cuisson = val;
-      localStorage.setItem('panierSana', JSON.stringify(panier));
-      afficherPanier();
-    }
+    const PLATS_VIANDE_POULET = ["chawarma", "sandwich"]; // <-- NOUVEAU
+
+    function isPlatAvecAccompagnement(nom) { let n = (nom || "").toLowerCase(); return PLATS_ACCOMPAGNES.some(p => n.includes(p.toLowerCase())); }
+    function isAgouti(nom) { let n = (nom || "").toLowerCase(); return PLATS_SANS_CUISSON.some(p => n.includes(p.toLowerCase())); }
+    function besoinCuisson(nom) { let n = (nom || "").toLowerCase(); if (n.includes("soupe")) return false; return isPlatAvecAccompagnement(nom) && !isAgouti(nom); }
+    function besoinChoixVP(nom) { let n = (nom || "").toLowerCase(); return PLATS_VIANDE_POULET.some(p => n.includes(p)); } // <-- NOUVEAU
+
+    window.choisirAccompagnement = function (idx, val) { panier[idx].accompagnement = val; localStorage.setItem('panierSana', JSON.stringify(panier)); afficherPanier(); }
+    window.choisirCuisson = function (idx, val) { panier[idx].cuisson = val; localStorage.setItem('panierSana', JSON.stringify(panier)); afficherPanier(); }
+    window.choisirTypeVP = function (idx, val) { panier[idx].typeVP = val; localStorage.setItem('panierSana', JSON.stringify(panier)); afficherPanier(); } // <-- NOUVEAU
+
     window.afficherPanier = function () {
       let liste = document.getElementById('liste-articles');
       let total = 0;
-      if (panier.length === 0) {
-        liste.innerHTML = "Aucun article - Retourne au <a href='menu.html'>menu du jour</a>";
-      } else {
+      if (panier.length === 0) { liste.innerHTML = "Aucun article - <a href='menu.html'>menu</a>"; }
+      else {
         liste.innerHTML = panier.map((it, idx) => {
           total += it.prix * it.qte;
           let blocOptions = "";
-          if (isPlatAvecAccompagnement(it.nom)) {
-            let acc = it.accompagnement || "";
-            let cuis = it.cuisson || "";
-            let htmlCuisson = "";
-            if (besoinCuisson(it.nom)) {
-              htmlCuisson = `<div class="bloc-cuisson"><small style="font-weight:bold;color:#111">🔥 1. Cuisson pour <b>${it.nom}</b> *</small><select class="select-cuisson" onchange="choisirCuisson(${idx},this.value)"><option value="">-- Grillé, Braisé ou Soupe? --</option><option value="Grillé" ${cuis === "Grillé" ? "selected" : ""}>Grillé</option><option value="Braisé" ${cuis === "Braisé" ? "selected" : ""}>Braisé</option><option value="En soupe" ${cuis === "En soupe" ? "selected" : ""}>En soupe</option></select>${cuis ? `<small style="color:green">✅ ${cuis}</small>` : `<small style="color:red">⚠️ Obligatoire</small>`}</div>`;
-            }
-            let numAcc = besoinCuisson(it.nom) ? "2" : "1";
-            blocOptions = `${htmlCuisson}<div class="bloc-accompagnement"><small style="font-weight:bold;color:#111">🍚 ${numAcc}. Accompagnement pour <b>${it.nom}</b> *</small><select class="select-accompagnement" onchange="choisirAccompagnement(${idx},this.value)"><option value="">-- Choisir accompagnement --</option><option value="Riz" ${acc === "Riz" ? "selected" : ""}>Riz</option><option value="Frites" ${acc === "Frites" ? "selected" : ""}>Frites</option><option value="Alloco" ${acc === "Alloco" ? "selected" : ""}>Alloco</option><option value="Attiéké" ${acc === "Attiéké" ? "selected" : ""}>Attiéké</option></select>${acc ? `<small style="color:green">✅ ${acc}</small>` : `<small style="color:red">⚠️ Obligatoire</small>`}</div>`;
+          // BLOC VIANDE/POULET POUR CHAWARMA ET SANDWICH
+          if (besoinChoixVP(it.nom)) {
+            let vp = it.typeVP || "";
+            blocOptions += `<div class="bloc-vp"><small style="font-weight:bold;color:#111">🥙 Choix pour <b>${it.nom}</b> *</small><select class="select-vp" onchange="choisirTypeVP(${idx},this.value)"><option value="">-- Viande ou Poulet? --</option><option value="Viande" ${vp === "Viande" ? "selected" : ""}>Viande</option><option value="Poulet" ${vp === "Poulet" ? "selected" : ""}>Poulet</option></select>${vp ? `<small style="color:green">✅ ${vp}</small>` : `<small style="color:red">⚠️ Obligatoire - Viande ou Poulet?</small>`}</div>`;
           }
-          return `<div class="article-panier"><span>${it.qte}x ${it.nom} - ${it.prix.toLocaleString()} FCFA ${it.accompagnement ? ` <b style="color:#2E8B57">[${it.accompagnement}]</b>` : ""} ${it.cuisson ? ` <b style="color:#b7791f">[${it.cuisson}]</b>` : ""}</span><div><button type="button" class="btn-qte" onclick="changerQte(${idx},'moins')">-</button><b style="margin:0 8px;">${it.qte}</b><button type="button" class="btn-qte" onclick="changerQte(${idx},'plus')">+</button></div>${blocOptions}</div>`;
+          if (isPlatAvecAccompagnement(it.nom)) {
+            let acc = it.accompagnement || ""; let cuis = it.cuisson || ""; let htmlCuisson = "";
+            if (besoinCuisson(it.nom)) { htmlCuisson = `<div class="bloc-cuisson"><small style="font-weight:bold;color:#111">🔥 1. Cuisson pour <b>${it.nom}</b> *</small><select class="select-cuisson" onchange="choisirCuisson(${idx},this.value)"><option value="">-- Grillé, Braisé ou Soupe? --</option><option value="Grillé" ${cuis === "Grillé" ? "selected" : ""}>Grillé</option><option value="Braisé" ${cuis === "Braisé" ? "selected" : ""}>Braisé</option><option value="En soupe" ${cuis === "En soupe" ? "selected" : ""}>En soupe</option></select>${cuis ? `<small style="color:green">✅ ${cuis}</small>` : `<small style="color:red">⚠️ Obligatoire</small>`}</div>`; }
+            let numAcc = besoinCuisson(it.nom) ? "2" : "1";
+            blocOptions += `${htmlCuisson}<div class="bloc-accompagnement"><small style="font-weight:bold;color:#111">🍚 ${numAcc}. Accompagnement pour <b>${it.nom}</b> *</small><select class="select-accompagnement" onchange="choisirAccompagnement(${idx},this.value)"><option value="">-- Choisir accompagnement --</option><option value="Riz" ${acc === "Riz" ? "selected" : ""}>Riz</option><option value="Frites" ${acc === "Frites" ? "selected" : ""}>Frites</option><option value="Alloco" ${acc === "Alloco" ? "selected" : ""}>Alloco</option><option value="Attiéké" ${acc === "Attiéké" ? "selected" : ""}>Attiéké</option></select>${acc ? `<small style="color:green">✅ ${acc}</small>` : `<small style="color:red">⚠️ Obligatoire</small>`}</div>`;
+          }
+          return `<div class="article-panier"><span>${it.qte}x ${it.nom} - ${it.prix.toLocaleString()} FCFA ${it.typeVP ? ` <b style="color:#111827">[${it.typeVP}]</b>` : ""} ${it.accompagnement ? ` <b style="color:#2E8B57">[${it.accompagnement}]</b>` : ""} ${it.cuisson ? ` <b style="color:#b7791f">[${it.cuisson}]</b>` : ""}</span><div><button type="button" class="btn-qte" onclick="changerQte(${idx},'moins')">-</button><b style="margin:0 8px;">${it.qte}</b><button type="button" class="btn-qte" onclick="changerQte(${idx},'plus')">+</button></div>${blocOptions}</div>`;
         }).join('');
       }
       document.getElementById('total-panier').innerText = total.toLocaleString();
-      let a50 = Math.round(total * 0.5);
-      let a100 = total;
-      let reste = total - a50;
+      let a50 = Math.round(total * 0.5); let a100 = total; let reste = total - a50;
       document.getElementById('view-50').innerHTML = `50% de <b>${total.toLocaleString()}</b> = <b style="color:red">${a50.toLocaleString()} FCFA</b> Non remboursable`;
       document.getElementById('view-100').innerHTML = `100% = <b style="color:green">${a100.toLocaleString()} FCFA</b>`;
       document.getElementById('label-desc-50').innerText = `Paye ${a50.toLocaleString()} maintenant, reste ${reste.toLocaleString()}`;
@@ -322,67 +315,35 @@
       let aPayerFinal = typePaiementActuel === "50" ? a50 : a100;
       document.getElementById('apayer-view').innerText = aPayerFinal.toLocaleString() + ` FCFA (${typePaiementActuel}%)`;
       document.getElementById('reste-view').innerText = typePaiementActuel === "50" ? `Reste: ${reste.toLocaleString()} - 50% non remboursable` : `Payé 100%`;
-      document.getElementById('cmd-details').value = panier.map(i => `${i.qte}x ${i.nom} ${i.cuisson ? `[${i.cuisson}]` : ""} ${i.accompagnement ? `[${i.accompagnement}]` : ""} = ${(i.prix * i.qte).toLocaleString()} FCFA`).join('\n');
+      document.getElementById('cmd-details').value = panier.map(i => `${i.qte}x ${i.nom} ${i.typeVP ? `[${i.typeVP}]` : ""} ${i.cuisson ? `[${i.cuisson}]` : ""} ${i.accompagnement ? `[${i.accompagnement}]` : ""} = ${(i.prix * i.qte).toLocaleString()} FCFA`).join('\n');
       document.getElementById('cmd-montant').value = total;
       return { total, aPayerFinal, reste, details: document.getElementById('cmd-details').value };
     }
-    window.changerQte = function (i, act) {
-      if (act === 'plus') panier[i].qte++;
-      if (act === 'moins') { panier[i].qte--; if (panier[i].qte <= 0) panier.splice(i, 1); }
-      localStorage.setItem('panierSana', JSON.stringify(panier));
-      afficherPanier();
-    }
-    window.choisirPaiement = function (val) {
-      typePaiementActuel = val;
-      document.querySelectorAll('.choix-paiement label').forEach(l => l.classList.remove('selected'));
-      document.getElementById('label-' + val).classList.add('selected');
-      document.querySelector(`input[value="${val}"]`).checked = true;
-      afficherPanier();
-    }
+    window.changerQte = function (i, act) { if (act === 'plus') panier[i].qte++; if (act === 'moins') { panier[i].qte--; if (panier[i].qte <= 0) panier.splice(i, 1); } localStorage.setItem('panierSana', JSON.stringify(panier)); afficherPanier(); }
+    window.choisirPaiement = function (val) { typePaiementActuel = val; document.querySelectorAll('.choix-paiement label').forEach(l => l.classList.remove('selected')); document.getElementById('label-' + val).classList.add('selected'); document.querySelector(`input[value="${val}"]`).checked = true; afficherPanier(); }
     window.ouvrirModalWave = function () {
-      let nom = document.getElementById('cmd-nom').value.trim();
-      let tel = document.getElementById('cmd-tel').value.trim();
+      let nom = document.getElementById('cmd-nom').value.trim(); let tel = document.getElementById('cmd-tel').value.trim();
       let { total, aPayerFinal, reste, details } = afficherPanier();
-      if (panier.length === 0) return alert("Panier vide");
-      if (!nom || !tel) return alert("Nom et téléphone obligatoires");
+      if (panier.length === 0) return alert("Panier vide"); if (!nom || !tel) return alert("Nom et téléphone obligatoires");
       for (let i = 0; i < panier.length; i++) {
+        if (besoinChoixVP(panier[i].nom) && !panier[i].typeVP) { alert(`Précise Viande ou Poulet pour: ${panier[i].nom}`); return; }
         if (isPlatAvecAccompagnement(panier[i].nom)) {
-          if (besoinCuisson(panier[i].nom) && !panier[i].cuisson) {
-            alert(`Choisis la cuisson pour: ${panier[i].nom} (Grillé, Braisé ou En soupe)`);
-            return;
-          }
-          if (!panier[i].accompagnement) {
-            alert(`Choisis l'accompagnement pour: ${panier[i].nom} (Riz, Frites, Alloco ou Attiéké)`);
-            return;
-          }
+          if (besoinCuisson(panier[i].nom) && !panier[i].cuisson) { alert(`Choisis la cuisson pour: ${panier[i].nom}`); return; }
+          if (!panier[i].accompagnement) { alert(`Choisis l'accompagnement pour: ${panier[i].nom}`); return; }
         }
       }
-      CODE_CACHE_SITE = "SANA" + Math.floor(1000 + Math.random() * 9000);
-      dernierTransId = "CMD" + Date.now();
+      CODE_CACHE_SITE = "SANA" + Math.floor(1000 + Math.random() * 9000); dernierTransId = "CMD" + Date.now();
       dataCommande = { nom, tel, adresse: document.getElementById('cmd-adresse').value, total, aPayer: aPayerFinal, reste, details, pourcentage: typePaiementActuel };
       document.getElementById('montant-wave').innerText = aPayerFinal.toLocaleString() + ` FCFA (${typePaiementActuel}%)`;
       document.getElementById('detail-wave').innerText = typePaiementActuel === "50" ? `Total ${total.toLocaleString()} - 50% non remboursable` : `Total ${total.toLocaleString()} - 100%`;
-      document.getElementById('code-cache-display').innerText = CODE_CACHE_SITE;
-      document.getElementById('modal-code').style.display = 'flex';
+      document.getElementById('code-cache-display').innerText = CODE_CACHE_SITE; document.getElementById('modal-code').style.display = 'flex';
     }
     window.verifierDoubleCode = async function () {
-      let codeEntre = document.getElementById('input-code-visible').value.trim();
-      let waveId = document.getElementById('input-wave-id').value.trim();
-      let err = document.getElementById('msg-erreur');
-      if (!waveId) { err.innerText = "ID Wave obligatoire"; return; }
-      if (codeEntre !== CODE_CACHE_SITE) { err.innerText = "Code faux: " + CODE_CACHE_SITE; return; }
+      let codeEntre = document.getElementById('input-code-visible').value.trim(); let waveId = document.getElementById('input-wave-id').value.trim(); let err = document.getElementById('msg-erreur');
+      if (!waveId) { err.innerText = "ID Wave obligatoire"; return; } if (codeEntre !== CODE_CACHE_SITE) { err.innerText = "Code faux: " + CODE_CACHE_SITE; return; }
       err.innerText = "Envoi...";
       let newCmd = { id: dernierTransId, codeCache: CODE_CACHE_SITE, waveId: waveId, nom: dataCommande.nom, tel: dataCommande.tel, adresse: dataCommande.adresse, details: dataCommande.details, total: dataCommande.total, montantPaye: dataCommande.aPayer, reste: dataCommande.reste, pourcentage: dataCommande.pourcentage, statut: dataCommande.pourcentage == 50 ? "50% NON REMBOURSABLE" : "100% PAYE", date: new Date().toLocaleString() };
-      try {
-        await set(ref(db, 'commandes_restaurant/' + dernierTransId), newCmd);
-        document.getElementById('modal-code').style.display = "none";
-        document.getElementById('recap-envoi').innerHTML = `${dataCommande.details}<br>Payé ${dataCommande.aPayer.toLocaleString()} FCFA (${dataCommande.pourcentage}%)<br>Total ${dataCommande.total.toLocaleString()}`;
-        document.getElementById('cmd-confirme').classList.remove('cache');
-        document.getElementById('cmd-confirme').scrollIntoView({ behavior: 'smooth' });
-        let msg = `*NOUVELLE COMMANDE SANA*%0A👤 ${dataCommande.nom}%0A📞 ${dataCommande.tel}%0A📍 ${dataCommande.adresse}%0A🍽️ ${encodeURIComponent(dataCommande.details)}%0A💰 Total: ${dataCommande.total}%0A💳 Payé: ${dataCommande.aPayer} (${dataCommande.pourcentage}%)%0A🆔 Wave: ${waveId}%0A🚫 AUCUN REMBOURSEMENT`;
-        window.open(`https://wa.me/2250757978785?text=${msg}`, '_blank');
-        panier = []; localStorage.removeItem('panierSana'); afficherPanier();
-      } catch (e) { err.innerText = e.message; }
+      try { await set(ref(db, 'commandes_restaurant/' + dernierTransId), newCmd); document.getElementById('modal-code').style.display = "none"; document.getElementById('recap-envoi').innerHTML = `${dataCommande.details}<br>Payé ${dataCommande.aPayer.toLocaleString()} FCFA (${dataCommande.pourcentage}%)<br>Total ${dataCommande.total.toLocaleString()}`; document.getElementById('cmd-confirme').classList.remove('cache'); document.getElementById('cmd-confirme').scrollIntoView({ behavior: 'smooth' }); let msg = `*NOUVELLE COMMANDE SANA*%0A👤 ${dataCommande.nom}%0A📞 ${dataCommande.tel}%0A📍 ${dataCommande.adresse}%0A🍽️ ${encodeURIComponent(dataCommande.details)}%0A💰 Total: ${dataCommande.total}%0A💳 Payé: ${dataCommande.aPayer} (${dataCommande.pourcentage}%)%0A🆔 Wave: ${waveId}%0A🚫 AUCUN REMBOURSEMENT`; window.open(`https://wa.me/2250757978785?text=${msg}`, '_blank'); panier = []; localStorage.removeItem('panierSana'); afficherPanier(); } catch (e) { err.innerText = e.message; }
     }
     afficherPanier();
   </script>
