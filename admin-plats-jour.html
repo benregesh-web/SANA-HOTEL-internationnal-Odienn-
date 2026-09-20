@@ -320,20 +320,20 @@
             </div>
         </details>
 
-        <!-- 6. FASTFOOD -->
+        <!-- 6. DELICES -->
         <details>
-            <summary>🍔 MENU FASTFOOD <span>▼</span></summary>
+            <summary>🍔 MENU DELICES <span>▼</span></summary>
             <div class="details-contenu">
                 <div class="section-admin">
-                    <b>Ajouter - Fastfood (Chawarma, Hamburger, Pizza...)</b>
+                    <b>Ajouter - Delices (Chawarma, Hamburger, Pizza...)</b>
                     <div class="add-row">
-                        <input id="nom-fastfood" placeholder="Nom ex: Chawarma Viande">
-                        <input id="prix-fastfood" type="number" placeholder="Prix">
+                        <input id="nom-delice" placeholder="Nom ex: Chawarma Viande">
+                        <input id="prix-delice" type="number" placeholder="Prix">
                     </div>
-                    <button class="btn" style="background:#ff0000" onclick="ajouterPlatCat('fastfood')">+ AJOUTER DANS
-                        FASTFOOD</button>
+                    <button class="btn" style="background:#ff0000" onclick="ajouterPlatCat('delice')">+ AJOUTER DANS
+                        DELICES</button>
                 </div>
-                <div id="list-fastfood"></div>
+                <div id="list-delice"></div>
             </div>
         </details>
 
@@ -349,7 +349,7 @@
                 <div id="check-agouti"></div>
                 <div id="check-poisson"></div>
                 <div id="check-crudite"></div>
-                <div id="check-fastfood"></div>
+                <div id="check-delice"></div>
                 <button class="btn" style="background:#25D366;font-size:18px;padding:16px" onclick="validerJour()">✅
                     VALIDER AUJOURD'HUI → MENU CLIENT</button>
             </div>
@@ -400,21 +400,21 @@
             let snap = await get(child(ref(db), 'menu_items')); plats = [];
             if (snap.exists()) { snap.forEach(c => { let v = c.val(); v.key = c.key; plats.push(v); }); }
             if (plats.length === 0) {
-                plats = [{ nom: 'Soupe de poulet de chair', prix: 3500, cat: 'africain' }, { nom: '1/4 Poulet de chair', prix: 2000, cat: 'poulet' }, { nom: '1/2 Poulet de chair', prix: 3500, cat: 'poulet' }, { nom: 'Poulet de chair Plat', prix: 7000, cat: 'poulet' }, { nom: 'Agouti sauté', prix: 6000, cat: 'agouti' }, { nom: 'Poisson Carpe', prix: 6000, cat: 'poisson' }, { nom: 'Salade poulet 1/4 poulet', prix: 2500, cat: 'crudite' }, { nom: 'Chawarma Viande ou Poulet', prix: 1000, cat: 'fastfood' }, { nom: 'Hamburger Frites', prix: 1500, cat: 'fastfood' }];
+                plats = [{ nom: 'Soupe de poulet de chair', prix: 3500, cat: 'africain' }, { nom: '1/4 Poulet de chair', prix: 2000, cat: 'poulet' }, { nom: '1/2 Poulet de chair', prix: 3500, cat: 'poulet' }, { nom: 'Poulet de chair Plat', prix: 7000, cat: 'poulet' }, { nom: 'Agouti sauté', prix: 6000, cat: 'agouti' }, { nom: 'Poisson Carpe', prix: 6000, cat: 'poisson' }, { nom: 'Salade poulet 1/4 poulet', prix: 2500, cat: 'crudite' }, { nom: 'Chawarma Viande ou Poulet', prix: 1000, cat: 'delice' }, { nom: 'Hamburger Frites', prix: 1500, cat: 'delice' }];
             }
             renderListes(); renderChecks();
         }
         function renderListes() {
-            ['africain', 'poulet', 'agouti', 'poisson', 'crudite', 'fastfood'].forEach(cat => {
+            ['africain', 'poulet', 'agouti', 'poisson', 'crudite', 'delice'].forEach(cat => {
                 let list = plats.filter(p => p.cat === cat);
                 document.getElementById('list-' + cat).innerHTML = list.map(p => `<div class="plat-line"><span><b>${p.nom.toUpperCase()}</b> - ${p.prix}F</span><button class="btn-del" onclick="suppr('${p.key || ''}','${p.nom}')">🗑️</button></div>`).join('') || '<small style="color:#999">Aucun plat dans cette section</small>';
             });
         }
         function renderChecks() {
-            ['africain', 'poulet', 'agouti', 'poisson', 'crudite', 'fastfood'].forEach(cat => {
+            ['africain', 'poulet', 'agouti', 'poisson', 'crudite', 'delice'].forEach(cat => {
                 let list = plats.filter(p => p.cat === cat);
                 if (list.length === 0) { document.getElementById('check-' + cat).innerHTML = ''; return; }
-                let titre = { africain: '🍲 PLATS SPÉCIAUX', poulet: '🐔 POULET / PINTADE', agouti: '🦌 AGOUTI', poisson: '🐟 POISSONS', crudite: '🥗 CRUDITÉS', fastfood: '🍔 FASTFOOD' }[cat];
+                let titre = { africain: '🍲 PLATS SPÉCIAUX', poulet: '🐔 POULET / PINTADE', agouti: '🦌 AGOUTI', poisson: '🐟 POISSONS', crudite: '🥗 CRUDITÉS', delice: '🍔 DELICES' }[cat];
                 document.getElementById('check-' + cat).innerHTML = `<b style="display:block;margin:10px 0 5px 0;font-size:12px">${titre}</b>` + list.map(p => `<label class="check-line ${coches.has(p.nom) ? 'jour-sel' : ''}"><input type="checkbox" ${coches.has(p.nom) ? 'checked' : ''} onchange="toggleCheck('${p.nom.replace(/'/g, "\\'")}')"> ${p.nom} - <b>${p.prix}F</b></label>`).join('');
             });
             document.getElementById('check-mois').innerHTML = plats.map(p => `<label class="check-line"><input type="checkbox" value="${p.nom}" class="cm"> ${p.nom} - ${p.prix}F <small>(${p.cat})</small></label>`).join('');

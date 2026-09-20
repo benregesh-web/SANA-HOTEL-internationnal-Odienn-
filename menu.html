@@ -295,14 +295,9 @@
             { nom: 'Poisson Capitaine', prix: 6000, cat: 'poisson' },
             { nom: 'Salade poulet 1/4 poulet', prix: 2500, cat: 'crudite' },
             { nom: 'Salade au oeuf', prix: 2000, cat: 'crudite' },
-            { nom: 'Chawarma Viande ou Poulet', prix: 1000, cat: 'fastfood' },
-            { nom: 'Hamburger Frites', prix: 1500, cat: 'fastfood' },
-            { nom: 'Sandwich Viande ou Poulet', prix: 1000, cat: 'fastfood' },
-            { nom: 'Pizza Grande', prix: 5000, cat: 'fastfood' },
-            { nom: 'Pizza Moyen', prix: 3000, cat: 'fastfood' },
-            { nom: 'Mini Pizza Mixte', prix: 1000, cat: 'fastfood' },
-            { nom: 'Quiche au Thon Grande', prix: 5000, cat: 'fastfood' },
-            { nom: 'Mini Quiche au Thon', prix: 1000, cat: 'fastfood' },
+            { nom: 'Chawarma Viande ou Poulet', prix: 1500, cat: 'delice' },
+            { nom: 'Sandwich Viande ou Poulet', prix: 1500, cat: 'delice' },
+           
           ];
         }
         let snapJour = await get(child(ref(db), 'plats_du_jour_actuels'));
@@ -334,7 +329,7 @@
 
       function createSection(title, icon) { return `<div class="section-title"><div class="icon-circle">${icon}</div> ${title}</div>`; }
       function createItem(p) {
-        let isFast = p.cat === 'fastfood';
+        let isFast = p.cat === 'delice';
         let isJour = isJourMode;
         return `<div class="item ${isJour ? 'jour' : ''}" onclick="commander('${p.nom.replace(/'/g, "\\'")}',${p.prix})"><span>${p.nom.toUpperCase()} ${isFast ? '<span class="badge-fast">FAST</span>' : ''} ${isJour ? '<span class="badge-jour">JOUR</span>' : ''}</span><b>${p.prix.toLocaleString()}F</b></div>`;
       }
@@ -345,7 +340,7 @@
       let agoutis = listeAffichage.filter(p => p.cat === 'agouti');
       let poissons = listeAffichage.filter(p => p.cat === 'poisson');
       let crudites = listeAffichage.filter(p => p.cat === 'crudite');
-      let fastfoods = listeAffichage.filter(p => p.cat === 'fastfood');
+      let delices = listeAffichage.filter(p => p.cat === 'delice');
 
       if (africains.length) colLeft.innerHTML += createSection('PLATS SPÉCIAUX', '🍲') + africains.map(createItem).join('');
       if (poulets.length) colLeft.innerHTML += createSection('POULET / PINTADE', '🐔') + poulets.map(createItem).join('') + `<div style="background:#c89b3c;color:#000;padding:6px 10px;border-radius:8px;font-weight:700;font-size:11px;margin:10px 0;text-align:center">🍽️ ACCOMPAGNEMENTS : Riz, Frites, Alloco, Attiéké<br><small>Grillé, Braisé ou En soupe (sauf soupes)</small></div>`;
@@ -353,10 +348,10 @@
       if (poissons.length) colRight.innerHTML += createSection('POISSONS', '🐟') + poissons.map(createItem).join('');
       if (crudites.length) colRight.innerHTML += createSection('CRUDITÉS / BOISSONS', '🥗') + crudites.map(createItem).join('');
 
-      if (fastfoods.length) {
-        colFull.innerHTML = `<div style="grid-column:1 / -1">${createSection('MENU FASTFOOD - SANA HOTEL', '🍔')}</div><div>${fastfoods.slice(0, Math.ceil(fastfoods.length / 2)).map(createItem).join('')}</div><div style="border-left:1px solid #c89b3c;padding-left:10px">${fastfoods.slice(Math.ceil(fastfoods.length / 2)).map(createItem).join('')}</div>`;
+      if (delices.length) {
+        colFull.innerHTML = `<div style="grid-column:1 / -1">${createSection('MENU DELICES - SANA HOTEL', '🍔')}</div><div>${delices.slice(0, Math.ceil(delices.length / 2)).map(createItem).join('')}</div><div style="border-left:1px solid #c89b3c;padding-left:10px">${delices.slice(Math.ceil(delices.length / 2)).map(createItem).join('')}</div>`;
       } else if (!isJourMode) {
-        // si pas de fastfood filtré mais mode normal, afficher quand meme vide?
+        // si pas de delice filtré mais mode normal, afficher quand meme vide?
       }
 
       updateCount();
